@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Schedules - CSS SIT-IN MONITORING SYSTEM</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-image: url('/static/uc.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: rgba(0, 0, 0, 0.5);
+            background-blend-mode: overlay;
+            min-height: 100vh;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #003366;
+        }
+
+        .back-btn {
+            background-color: #003366;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .back-btn:hover {
+            background-color: #002244;
+        }
+
+        .logout-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+
+        /* Content styles */
+        .content-section {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-section h2 {
+            color: #003366;
+            margin-top: 0;
+            border-bottom: 2px solid #003366;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Schedule table */
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .schedule-table th, .schedule-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .schedule-table th {
+            background-color: #003366;
+            color: white;
+            font-weight: 600;
+        }
+
+        .schedule-table tr:hover {
+            background-color: rgba(0, 51, 102, 0.05);
+        }
+
+        .schedule-table tr:nth-child(even) {
+            background-color: rgba(0, 51, 102, 0.03);
+        }
+
+        /* Form styles */
+        .form-container {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 4px solid #003366;
+        }
+
+        .form-container h3 {
+            color: #003366;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #003366;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            font-size: 14px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-col {
+            flex: 1;
+        }
+
+        .btn-primary {
+            background-color: #003366;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #004d99;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .btn-edit {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-edit:hover {
+            background-color: #218838;
+        }
+
+        /* Flash message styles */
+        .flash-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .flash-message {
+            background-color: #ffffff;
+            border-left: 4px solid;
+            padding: 15px 25px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: opacity 0.3s ease;
+        }
+
+        .flash-success {
+            border-left-color: #28a745;
+        }
+
+        .flash-error {
+            border-left-color: #dc3545;
+        }
+
+        .flash-warning {
+            border-left-color: #ffc107;
+        }
+
+        .flash-info {
+            border-left-color: #17a2b8;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 60%;
+            max-width: 600px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Flash Messages Container -->
+    <div class="flash-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <div class="dashboard-container">
+        <div class="header">
+            <div class="logo-section">
+                <img src="/static/CSS.png" alt="CSS Logo" class="logo">
+                <h1>Laboratory Room Schedules</h1>
+            </div>
+            <div>
+                <a href="{{ url_for('admin_dashboard') }}"><button class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</button></a>
+                <a href="{{ url_for('logout') }}"><button class="logout-btn">Logout</button></a>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2><i class="fas fa-calendar-alt"></i> Manage Laboratory Room Schedules</h2>
+            
+            <!-- Add Schedule Form -->
+            <div class="form-container">
+                <h3>Add New Schedule</h3>
+                <form action="{{ url_for('add_lab_schedule') }}" method="POST">
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="lab_room">Laboratory Room</label>
+                                <select id="lab_room" name="lab_room" class="form-control" required>
+                                    <option value="">Select Lab Room</option>
+                                    <option value="Lab 524">Lab 524</option>
+                                    <option value="Lab 526">Lab 526</option>
+                                    <option value="Lab 528">Lab 528</option>
+                                    <option value="Lab 530">Lab 530</option>
+                                    <option value="Lab 532">Lab 532</option>
+                                    <option value="Lab 534">Lab 534</option>
+                                    <option value="Lab 536">Lab 536</option>
+                                    <option value="Lab 538">Lab 538</option>
+                                    <option value="Lab 540">Lab 540</option>
+                                    <option value="Lab 542">Lab 542</option>
+                                    <option value="Lab 544">Lab 544</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="day_of_week">Day of Week</label>
+                                <select id="day_of_week" name="day_of_week" class="form-control" required>
+                                    <option value="">Select Day</option>
+                                    <option value="Monday">Monday</option>
+                                    <option value="Tuesday">Tuesday</option>
+                                    <option value="Wednesday">Wednesday</option>
+                                    <option value="Thursday">Thursday</option>
+                                    <option value="Friday">Friday</option>
+                                    <option value="Saturday">Saturday</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="start_time">Start Time</label>
+                                <input type="time" id="start_time" name="start_time" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="end_time">End Time</label>
+                                <input type="time" id="end_time" name="end_time" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="subject">Subject</label>
+                                <input type="text" id="subject" name="subject" class="form-control" placeholder="e.g. Programming 1">
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="section">Section</label>
+                                <input type="text" id="section" name="section" class="form-control" placeholder="e.g. BSIT 1A">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="instructor">Instructor</label>
+                        <input type="text" id="instructor" name="instructor" class="form-control" placeholder="Full name of instructor">
+                    </div>
+
+                    <button type="submit" class="btn-primary"><i class="fas fa-plus"></i> Add Schedule</button>
+                </form>
+            </div>
+
+            <!-- Schedule Table -->
+            <h3>Current Laboratory Schedules</h3>
+            {% if lab_schedules %}
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>Lab Room</th>
+                            <th>Day</th>
+                            <th>Time</th>
+                            <th>Subject</th>
+                            <th>Section</th>
+                            <th>Instructor</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for schedule in lab_schedules %}
+                            <tr>
+                                <td>{{ schedule.lab_room|lab_room }}</td>
+                                <td>{{ schedule.day_of_week }}</td>
+                                <td>{{ schedule.start_time.strftime('%I:%M %p') }} - {{ schedule.end_time.strftime('%I:%M %p') }}</td>
+                                <td>{{ schedule.subject }}</td>
+                                <td>{{ schedule.section }}</td>
+                                <td>{{ schedule.instructor }}</td>
+                                <td>
+                                    <button onclick="editSchedule('{{ schedule.id }}')" class="btn-edit"><i class="fas fa-edit"></i></button>
+                                    <form action="{{ url_for('delete_lab_schedule', schedule_id=schedule.id) }}" method="POST" style="display: inline;">
+                                        <button type="submit" class="btn-danger" onclick="return confirm('Are you sure you want to delete this schedule?')"><i class="fas fa-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No laboratory schedules have been added yet.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Edit Schedule Modal -->
+    <div id="editScheduleModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h2>Edit Schedule</h2>
+            <form id="editScheduleForm" action="{{ url_for('edit_lab_schedule') }}" method="POST">
+                <input type="hidden" id="schedule_id" name="schedule_id">
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="edit_lab_room">Laboratory Room</label>
+                            <select id="edit_lab_room" name="lab_room" class="form-control" required>
+                                <option value="">Select Lab Room</option>
+                                <option value="Lab 524">Lab 524</option>
+                                <option value="Lab 526">Lab 526</option>
+                                <option value="Lab 528">Lab 528</option>
+                                <option value="Lab 530">Lab 530</option>
+                                <option value="Lab 532">Lab 532</option>
+                                <option value="Lab 534">Lab 534</option>
+                                <option value="Lab 536">Lab 536</option>
+                                <option value="Lab 538">Lab 538</option>
+                                <option value="Lab 540">Lab 540</option>
+                                <option value="Lab 542">Lab 542</option>
+                                <option value="Lab 544">Lab 544</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="edit_day_of_week">Day of Week</label>
+                            <select id="edit_day_of_week" name="day_of_week" class="form-control" required>
+                                <option value="">Select Day</option>
+                                <option value="Monday">Monday</option>
+                                <option value="Tuesday">Tuesday</option>
+                                <option value="Wednesday">Wednesday</option>
+                                <option value="Thursday">Thursday</option>
+                                <option value="Friday">Friday</option>
+                                <option value="Saturday">Saturday</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="edit_start_time">Start Time</label>
+                            <input type="time" id="edit_start_time" name="start_time" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="edit_end_time">End Time</label>
+                            <input type="time" id="edit_end_time" name="end_time" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="edit_subject">Subject</label>
+                            <input type="text" id="edit_subject" name="subject" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="edit_section">Section</label>
+                            <input type="text" id="edit_section" name="section" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_instructor">Instructor</label>
+                    <input type="text" id="edit_instructor" name="instructor" class="form-control">
+                </div>
+
+                <button type="submit" class="btn-primary">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Auto-hide flash messages after 5 seconds
+        setTimeout(function() {
+            var flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(function(message) {
+                message.style.opacity = '0';
+                setTimeout(function() {
+                    message.style.display = 'none';
+                }, 500);
+            });
+        }, 5000);
+
+        // Open edit modal and populate form
+        function editSchedule(scheduleId) {
+            // Here you'd typically fetch the schedule data for the given ID
+            // For simplicity, let's assume you have JavaScript data of schedules
+            var scheduleData = {
+                // This would come from your backend, for now it's placeholder
+                lab_room: "Lab 524",
+                day_of_week: "Monday",
+                start_time: "09:00",
+                end_time: "10:30",
+                subject: "Programming 1",
+                section: "BSIT 1A",
+                instructor: "John Doe"
+            };
+            
+            // Populate the form fields
+            document.getElementById('schedule_id').value = scheduleId;
+            document.getElementById('edit_lab_room').value = scheduleData.lab_room;
+            document.getElementById('edit_day_of_week').value = scheduleData.day_of_week;
+            document.getElementById('edit_start_time').value = scheduleData.start_time;
+            document.getElementById('edit_end_time').value = scheduleData.end_time;
+            document.getElementById('edit_subject').value = scheduleData.subject;
+            document.getElementById('edit_section').value = scheduleData.section;
+            document.getElementById('edit_instructor').value = scheduleData.instructor;
+            
+            // Show the modal
+            document.getElementById('editScheduleModal').style.display = 'block';
+        }
+
+        // Close edit modal
+        function closeEditModal() {
+            document.getElementById('editScheduleModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            var modal = document.getElementById('editScheduleModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html> 

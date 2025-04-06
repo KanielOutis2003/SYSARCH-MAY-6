@@ -1,0 +1,3240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - CSS SIT-IN MONITORING SYSTEM</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-image: url('/static/uc.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: rgba(0, 0, 0, 0.5);
+            background-blend-mode: overlay;
+            min-height: 100vh;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #003366;
+        }
+
+        .user-info {
+            text-align: right;
+            color: #003366;
+        }
+
+        .content-section {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #003366;
+            margin-top: 0;
+            border-bottom: 2px solid #003366;
+            padding-bottom: 10px;
+        }
+
+        .student-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .student-table th, .student-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .student-table th {
+            background-color: #003366;
+            color: white;
+            font-weight: 600;
+        }
+
+        .student-table tr:hover {
+            background-color: rgba(0, 51, 102, 0.05);
+        }
+
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .view-btn {
+            background-color: #003366;
+            color: white;
+        }
+
+        .edit-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .action-btn:hover {
+            opacity: 0.8;
+            transform: translateY(-2px);
+        }
+
+        .logout-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+
+        .flash-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .flash-message {
+            padding: 15px 25px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.3s ease;
+            transition: opacity 0.5s ease;
+        }
+
+        .flash-success {
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        .flash-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        .flash-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        /* Search results styling */
+        .search-results {
+            position: absolute;
+            width: 100%;
+            max-height: 200px;
+            overflow-y: auto;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            z-index: 1000;
+            margin-top: 5px;
+        }
+        
+        .search-result-item {
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .search-result-item:hover {
+            background-color: #f0f7ff;
+        }
+        
+        .no-results {
+            padding: 10px 15px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .search-student-container {
+            position: relative;
+        }
+        
+        .selected-student-info {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .selected-student-header {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #003366;
+        }
+        
+        .selected-student-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .student-id, .student-name, .student-course {
+            padding: 5px 10px;
+            background-color: #e9ecef;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+
+        .search-btn {
+            padding: 10px 20px;
+            background-color: #003366;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background-color: #004d99;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+
+        .page-btn {
+            padding: 8px 15px;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .page-btn.active {
+            background-color: #003366;
+            color: white;
+            border-color: #003366;
+        }
+
+        .page-btn:hover:not(.active) {
+            background-color: #e0e0e0;
+        }
+
+        /* Admin Dashboard Header */
+        .admin-header {
+            background-color: #003366;
+            color: white;
+            padding: 15px 0;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .admin-nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-item {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-item i {
+            display: block;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        /* Dashboard Stats */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-card i {
+            font-size: 36px;
+            color: #003366;
+            margin-bottom: 10px;
+        }
+
+        .stat-card h3 {
+            margin: 0;
+            font-size: 28px;
+            color: #003366;
+        }
+
+        .stat-card p {
+            margin: 5px 0 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #003366;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background-color: #003366;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #004d99;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 70%;
+            max-width: 800px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-btn:hover {
+            color: black;
+        }
+
+        /* Export Buttons */
+        .export-buttons {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .export-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .export-btn i {
+            font-size: 16px;
+        }
+
+        .export-btn.csv {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .export-btn.pdf {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .export-btn.excel {
+            background-color: #217346;
+            color: white;
+        }
+
+        .export-btn.print {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .export-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* Student Details */
+        .student-details {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+        }
+
+        .student-photo {
+            text-align: center;
+        }
+
+        .student-photo img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #003366;
+            margin-bottom: 15px;
+        }
+
+        .student-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .info-item {
+            margin-bottom: 10px;
+        }
+
+        .info-item label {
+            font-weight: 600;
+            color: #003366;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .info-item span {
+            display: block;
+            padding: 8px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        /* Programming Languages */
+        .language-selector {
+            margin-top: 20px;
+        }
+
+        .language-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .language-option {
+            padding: 8px 15px;
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .language-option.selected {
+            background-color: #003366;
+            color: white;
+        }
+
+        .language-option:hover {
+            background-color: #e0e0e0;
+        }
+
+        .language-option.selected:hover {
+            background-color: #004d99;
+        }
+
+        /* Language Stats */
+        .language-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .language-stat {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .language-stat h4 {
+            margin: 0 0 10px 0;
+            color: #003366;
+        }
+
+        .language-stat p {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+            color: #003366;
+        }
+
+        /* Reports Tab */
+        .chart-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .chart-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .chart-title {
+            color: #003366;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .pie-chart {
+            width: 100%;
+            height: 300px;
+        }
+
+        .export-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .export-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .export-btn i {
+            font-size: 16px;
+        }
+
+        .export-btn.csv {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .export-btn.pdf {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .export-btn.excel {
+            background-color: #217346;
+            color: white;
+        }
+
+        .export-btn.print {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .export-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* Welcome Card */
+        .welcome-card {
+            background: linear-gradient(135deg, #4a89dc, #6a5acd);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            color: white;
+            text-align: center;
+        }
+        
+        .welcome-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        
+        .welcome-card p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #4a89dc;
+        }
+        
+        .stat-card h3 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .stat-card p {
+            font-size: 1rem;
+            color: #666;
+            margin: 0;
+        }
+        
+        .stat-card:nth-child(1) i { color: #4a89dc; }
+        .stat-card:nth-child(2) i { color: #2ecc71; }
+        .stat-card:nth-child(3) i { color: #f39c12; }
+        .stat-card:nth-child(4) i { color: #e74c3c; }
+        
+        .recent-activity {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .recent-activity h3 {
+            color: #333;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4a89dc;
+        }
+        
+        .language-summary {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .language-summary h3 {
+            color: #333;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4a89dc;
+        }
+        
+        /* Sessions tabs styling */
+        #sessions {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        #sessions h2 {
+            color: #333;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4a89dc;
+        }
+        
+        #sessions .student-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        #sessions .student-table th {
+            background-color: #4a89dc;
+            color: white;
+        }
+
+        /* Enhanced dashboard styling */
+        .welcome-card {
+            background: linear-gradient(135deg, #4a89dc, #6a5acd);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            color: white;
+            text-align: center;
+        }
+        
+        .welcome-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        
+        .welcome-card p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #4a89dc;
+        }
+        
+        .stat-card h3 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .stat-card p {
+            font-size: 1rem;
+            color: #666;
+            margin: 0;
+        }
+        
+        .stat-card:nth-child(1) i { color: #4a89dc; }
+        .stat-card:nth-child(2) i { color: #2ecc71; }
+        .stat-card:nth-child(3) i { color: #f39c12; }
+        .stat-card:nth-child(4) i { color: #e74c3c; }
+        
+        .recent-activity {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .recent-activity h3 {
+            color: #333;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4a89dc;
+        }
+        
+        .language-summary {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .language-summary h3 {
+            color: #333;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4a89dc;
+        }
+        
+        /* Sessions tabs styling */
+        #sessions {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        #sessions h2 {
+            color: #333;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4a89dc;
+        }
+        
+        #sessions .student-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        #sessions .student-table th {
+            background-color: #4a89dc;
+            color: white;
+        }
+
+        /* Ensure consistent background across tabs */
+        #forms, #dashboard, #students, #sessions, #pending, #feedback, #announcements, #reports, #settings {
+            background-color: #fff;
+        }
+
+        /* Profile picture in modal */
+        .profile-picture img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #3498db;
+        }
+        
+        /* Student profile layout in modal */
+        .student-profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .profile-details {
+            margin-left: 20px;
+        }
+        
+        .profile-details h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .profile-details p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        /* Enhanced Student Modal Styles */
+        .modal-title {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 24px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .student-info-container {
+            padding: 10px;
+        }
+        
+        /* Student Profile Card */
+        .student-profile-card {
+            display: flex;
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid #3498db;
+        }
+        
+        .profile-picture-container {
+            flex: 0 0 100px;
+        }
+        
+        .profile-picture-container img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid #3498db;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-details-container {
+            flex: 1;
+            margin-left: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .profile-details-container h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .detail-item {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            color: #555;
+        }
+        
+        .detail-item i {
+            width: 20px;
+            margin-right: 10px;
+            color: #3498db;
+        }
+        
+        /* Session Details Card */
+        .session-details-card {
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid #e74c3c;
+        }
+        
+        .card-title {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-title i {
+            margin-right: 10px;
+            color: #e74c3c;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+        
+        .form-control:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        .btn-update {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+        }
+        
+        .btn-update i {
+            margin-right: 8px;
+        }
+        
+        .btn-update:hover {
+            background-color: #2980b9;
+        }
+        
+        /* Action Buttons */
+        .action-buttons-container, 
+        .approval-buttons-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .action-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            width: 48%;
+        }
+        
+        .action-btn i {
+            margin-right: 8px;
+        }
+        
+        .check-btn {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .check-btn:hover {
+            background-color: #27ae60;
+        }
+        
+        .end-btn {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .end-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .approve-btn {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .approve-btn:hover {
+            background-color: #27ae60;
+        }
+        
+        .reject-btn {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .reject-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .btn-edit:hover {
+            background-color: #218838;
+        }
+        
+        .reset-semester-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .reset-semester-btn:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+        
+        .reset-semester-btn i {
+            font-size: 18px;
+        }
+        
+        /* Flash message styles */
+    </style>
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Flash Messages Container -->
+    <div class="flash-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <div class="dashboard-container">
+        <div class="header">
+            <div class="logo-section">
+                <img src="/static/CSS.png" alt="CSS Logo" class="logo">
+                <h1>Admin Dashboard</h1>
+            </div>
+            <div class="user-info">
+                <h3>Welcome, Admin</h3>
+                <a href="{{ url_for('logout') }}"><button class="logout-btn">Logout</button></a>
+            </div>
+        </div>
+
+        <!-- Admin Navigation Header -->
+        <div class="admin-header">
+            <div class="admin-nav">
+                <div class="nav-item active" onclick="showTab('dashboard')">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </div>
+                <div class="nav-item" onclick="showTab('sessions')">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Current Sessions</span>
+                </div>
+                <div class="nav-item" onclick="showTab('pending')">
+                    <i class="fas fa-clock"></i>
+                    <span>Pending Requests</span>
+                </div>
+                <div class="nav-item" onclick="showTab('forms')">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Forms</span>
+                </div>
+                <div class="nav-item" onclick="showTab('students')">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>Students</span>
+                </div>
+                <div class="nav-item" onclick="showTab('feedback')">
+                    <i class="fas fa-comment-alt"></i>
+                    <span>Feedback</span>
+                </div>
+                <div class="nav-item" onclick="showTab('announcements')">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Announcements</span>
+                </div>
+                <div class="nav-item" onclick="showTab('reports')">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reports</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_leaderboard') }}'">
+                    <i class="fas fa-trophy"></i>
+                    <span>Leaderboard</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_lab_schedules') }}'">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Lab Schedules</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('sit_in_history') }}'">
+                    <i class="fas fa-history"></i>
+                    <span>Sit-In History</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('todays_sit_ins') }}'">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Today's Sit-ins</span>
+                </div>
+                <div class="nav-item" onclick="showTab('settings')">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Dashboard Content -->
+        <div id="dashboard" class="tab-content active">
+            <!-- Welcome Card - Enhanced design -->
+            <div class="welcome-card">
+                <h3>Welcome to Your Admin Dashboard</h3>
+                <p>{{ today_date }}</p>
+            </div>
+            
+            <!-- Dashboard Stats Cards - Renamed Active Sessions to Active Forms -->
+            <div class="stats-cards">
+                <div class="stat-card">
+                    <i class="fas fa-user-graduate"></i>
+                    <h3>{{ students|length }}</h3>
+                    <p>Total Students</p>
+                </div>
+                
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <h3>{{ current_sit_ins|length|default(0) }}</h3>
+                    <p>Current Sit-ins</p>
+                </div>
+                
+                <div class="stat-card">
+                    <i class="fas fa-calendar-check"></i>
+                    <h3>{{ active_sessions|length }}</h3>
+                    <p>Active Forms</p>
+                </div>
+                
+                <div class="stat-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>{{ pending_sessions|length }}</h3>
+                    <p>Pending Requests</p>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="recent-activity">
+                <h3>Recent Activity</h3>
+                <table class="student-table">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Lab Room</th>
+                            <th>Action</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for activity in recent_activity %}
+                            <tr>
+                                <td>{{ activity.firstname }} {{ activity.lastname }}</td>
+                                <td>{{ activity.lab_room|lab_room }}</td>
+                                <td>{{ activity.action }}</td>
+                                <td>{{ activity.timestamp_date }}</td>
+                                <td>{{ activity.timestamp_time }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Top Programming Languages -->
+            <div class="language-summary">
+                <h3>Top Programming Languages</h3>
+                <div class="language-tags">
+                    {% for lang in language_stats|sort(attribute='count', reverse=True) %}
+                        {% if loop.index <= 6 %}
+                            {% if lang.count > 0 %}
+                                <div class="language-tag">
+                                    <span>{{ lang.programming_language }}</span>
+                                    <span class="lang-count">{{ lang.count }}</span>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Sessions Tab: Current Sessions - Only show checked-in students -->
+        <div id="sessions" class="tab-content">
+            <h2>Current Sessions</h2>
+            
+            <div class="search-bar">
+                <input type="text" id="dashboardSearchInput" class="search-input" placeholder="Search by name, ID, or lab room...">
+                <button class="search-btn" onclick="searchDashboard()">Search</button>
+                <button class="search-btn" style="background-color: #28a745;" onclick="showDirectSitInModal()">Direct Sit In</button>
+            </div>
+            
+                <table class="student-table">
+                    <thead>
+                        <tr>
+                        <th>Student ID</th>
+                        <th>Name</th>
+                        <th>Course</th>
+                            <th>Lab Room</th>
+                            <th>Date & Time</th>
+                        <th>Purpose</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% if current_sit_ins|length > 0 %}
+                        {% for session in current_sit_ins %}
+                            <tr>
+                                <td>{{ session.idno }}</td>
+                                <td>{{ session.lastname }}, {{ session.firstname }}</td>
+                                <td>
+                                    {% if session.course == '1' %}
+                                        BSIT
+                                    {% elif session.course == '2' %}
+                                        BSCS
+                                    {% elif session.course == '3' %}
+                                        BSCE
+                                    {% else %}
+                                        {{ session.course }}
+                                    {% endif %}
+                                </td>
+                                <td>{{ session.lab_room|lab_room }}</td>
+                                <td>{{ session.date_time_formatted }}</td>
+                                <td>{{ session.purpose|default('N/A')|truncate(30) }}</td>
+                                <td>
+                                    <span class="status-active">Checked In</span>
+                                </td>
+                                <td class="action-buttons">
+                                    <form action="{{ url_for('check_out_student', session_id=session.id) }}" method="POST" style="display:inline;">
+                                        <button type="submit" class="action-btn delete-btn">Check Out</button>
+                                    </form>
+                                </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                            <td colspan="8" style="text-align: center;">No students currently checked in</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+        </div>
+
+        <!-- Forms Tab for managing pending/approved forms -->
+        <div id="forms" class="tab-content">
+            <h2>Form Management</h2>
+                
+                <div class="search-bar">
+                <input type="text" id="formsSearchInput" class="search-input" placeholder="Search by name, ID, or status...">
+                <button class="search-btn" onclick="searchForms()">Search</button>
+                </div>
+                
+                <table class="student-table">
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>Course</th>
+                            <th>Lab Room</th>
+                            <th>Date & Time</th>
+                            <th>Purpose</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% set has_approved = false %}
+                            {% for session in active_sessions %}
+                        {% if session.approval_status == 'approved' and not session.check_in_time %}
+                            {% set has_approved = true %}
+                                <tr>
+                                    <td>{{ session.idno }}</td>
+                                    <td>{{ session.lastname }}, {{ session.firstname }}</td>
+                                    <td>
+                                        {% if session.course == '1' %}
+                                            BSIT
+                                        {% elif session.course == '2' %}
+                                            BSCS
+                                        {% elif session.course == '3' %}
+                                            BSCE
+                                        {% else %}
+                                            {{ session.course }}
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ session.lab_room|lab_room }}</td>
+                                    <td>{{ session.date_time_formatted }}</td>
+                                <td>{{ session.purpose|default('N/A')|truncate(30) }}</td>
+                                <td><span class="status-active">Approved</span></td>
+                                    <td class="action-buttons">
+                                    <form action="{{ url_for('check_in_student', session_id=session.id) }}" method="POST" style="display:inline;">
+                                                <button type="submit" class="action-btn view-btn">Check In</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                        {% endif %}
+                            {% endfor %}
+                    {% if not has_approved %}
+                            <tr>
+                            <td colspan="8" style="text-align: center;">No approved forms waiting for check-in</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+        </div>
+
+        <!-- Pending Requests Tab -->
+        <div id="pending" class="tab-content">
+            <h2>Pending Requests</h2>
+                
+                <div class="search-bar">
+                    <input type="text" id="pendingSearchInput" class="search-input" placeholder="Search by name, ID, or lab room...">
+                    <button class="search-btn" onclick="searchPending()">Search</button>
+                </div>
+                
+                <table class="student-table">
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>Course</th>
+                            <th>Lab Room</th>
+                            <th>Date & Time</th>
+                            <th>Purpose</th>
+                        <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% if pending_sessions|length > 0 %}
+                            {% for session in pending_sessions %}
+                                <tr>
+                                    <td>{{ session.idno }}</td>
+                                    <td>{{ session.lastname }}, {{ session.firstname }}</td>
+                                    <td>
+                                        {% if session.course == '1' %}
+                                            BSIT
+                                        {% elif session.course == '2' %}
+                                            BSCS
+                                        {% elif session.course == '3' %}
+                                            BSCE
+                                        {% else %}
+                                            {{ session.course }}
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ session.lab_room|lab_room }}</td>
+                                    <td>{{ session.date_time_formatted }}</td>
+                                <td>{{ session.purpose|default('N/A')|truncate(30) }}</td>
+                                <td><span class="status-pending">Pending</span></td>
+                                    <td class="action-buttons">
+                                    <button class="action-btn view-btn" onclick="viewPendingRequest('{{ session.student_id }}', '{{ session.id }}')">View SIT IN FORM</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                            <td colspan="8" style="text-align: center;">No pending requests</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+        </div>
+
+        <!-- Reports Tab -->
+        <div id="reports" class="tab-content">
+            <div class="content-section">
+                <h2>Usage Reports</h2>
+                
+                <div class="search-bar">
+                    <select id="reportType" class="search-input">
+                        <option value="daily">Daily Report</option>
+                        <option value="weekly">Weekly Report</option>
+                        <option value="monthly">Monthly Report</option>
+                    </select>
+                    <input type="date" id="reportDate" class="search-input" value="{{ today_date }}">
+                    <button class="search-btn" onclick="generateReport()">Generate Report</button>
+                </div>
+                
+                <!-- Export Buttons -->
+                <div class="export-buttons">
+                    <button class="export-btn csv" onclick="exportReport('csv')">
+                        <i class="fas fa-file-csv"></i> Export CSV
+                    </button>
+                    <button class="export-btn pdf" onclick="exportReport('pdf')">
+                        <i class="fas fa-file-pdf"></i> Export PDF
+                    </button>
+                    <button class="export-btn excel" onclick="exportReport('excel')">
+                        <i class="fas fa-file-excel"></i> Export Excel
+                    </button>
+                    <button class="export-btn print" onclick="printReport()">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                    <a href="{{ url_for('todays_sit_ins') }}" class="export-btn" style="background-color: #17a2b8; color: white;">
+                        <i class="fas fa-clipboard-list"></i> Today's Sit-ins
+                    </a>
+                </div>
+                
+                <!-- Charts -->
+                <div class="chart-container">
+                    <div class="chart-card">
+                        <div class="chart-title">Lab Room Usage</div>
+                        <canvas id="labRoomChart" class="pie-chart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-title">Reports Statistics</div>
+                        <canvas id="reportStatsChart" class="pie-chart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-card">
+                        <div class="chart-title">Student Course Distribution</div>
+                        <canvas id="courseChart" class="pie-chart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-title">Session Status</div>
+                        <canvas id="statusChart" class="pie-chart"></canvas>
+                    </div>
+                </div>
+                
+                <div id="reportContent">
+                    <h3>Laboratory Usage Statistics</h3>
+                    
+                    <table class="student-table">
+                        <thead>
+                            <tr>
+                                <th>Lab Room</th>
+                                <th>Total Sessions</th>
+                                <th>Total Hours</th>
+                                <th>Percentage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if lab_stats %}
+                                {% for lab in lab_stats %}
+                                    <tr>
+                                        <td>
+                                            {% if lab.lab_room == 'Lab 1' %}
+                                                Lab 524
+                                            {% elif lab.lab_room == 'Lab 2' %}
+                                                Lab 526
+                                            {% elif lab.lab_room == 'Lab 3' %}
+                                                Lab 528
+                                            {% elif lab.lab_room == 'Lab 4' %}
+                                                Lab 530
+                                            {% elif lab.lab_room == 'Lab 5' %}
+                                                Lab 532
+                                            {% elif lab.lab_room == 'Lab 6' %}
+                                                Lab 534
+                                            {% elif lab.lab_room == 'Lab 7' %}
+                                                Lab 536
+                                            {% elif lab.lab_room == 'Lab 8' %}
+                                                Lab 538
+                                            {% elif lab.lab_room == 'Lab 9' %}
+                                                Lab 540
+                                            {% elif lab.lab_room == 'Lab 10' %}
+                                                Lab 542
+                                            {% elif lab.lab_room == 'Lab 11' %}
+                                                Lab 544
+                                            {% else %}
+                                                {{ lab.lab_room }}
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ lab.count }}</td>
+                                        <td>{{ lab.total_hours }}</td>
+                                        <td>{{ "%.2f"|format(lab.percentage) }}%</td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="4" style="text-align: center;">No lab usage data available</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                    
+                    <h3>Sit In History</h3>
+                    
+                    <table class="student-table">
+                        <thead>
+                            <tr>
+                                <th>ID Number</th>
+                                <th>Name</th>
+                                <th>Purpose</th>
+                                <th>Laboratory</th>
+                                <th>Login Time</th>
+                                <th>Logout Time</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if active_sessions %}
+                                {% for session in active_sessions %}
+                                    <tr>
+                                        <td>{{ session.idno }}</td>
+                                        <td>{{ session.lastname }}, {{ session.firstname }}</td>
+                                        <td>
+                                            {% if session.purpose %}
+                                                {{ session.purpose }}
+                                            {% else %}
+                                                {{ session.programming_language|default('Not specified') }} Programming
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ session.lab_room|lab_room }}</td>
+                                        <td>{{ session.check_in_time.strftime('%H:%M') if session.check_in_time else '-' }}</td>
+                                        <td>{{ session.check_out_time.strftime('%H:%M') if session.check_out_time else '-' }}</td>
+                                        <td>{{ session.date_time.strftime('%Y-%m-%d') }}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="7" style="text-align: center;">No session data available</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div id="settings" class="tab-content">
+            <div class="content-section">
+                <h2>System Settings</h2>
+                
+                <form id="settingsForm">
+                    <div class="form-group">
+                        <label for="maxSessionsBSIT">Maximum Sessions for BSIT Students</label>
+                        <input type="number" id="maxSessionsBSIT" class="form-control" value="30">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="maxSessionsBSCS">Maximum Sessions for BSCS Students</label>
+                        <input type="number" id="maxSessionsBSCS" class="form-control" value="30">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="maxSessionsBSCE">Maximum Sessions for BSCE Students</label>
+                        <input type="number" id="maxSessionsBSCE" class="form-control" value="30">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="maxSessionsOther">Maximum Sessions for Other Students</label>
+                        <input type="number" id="maxSessionsOther" class="form-control" value="25">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="adminPassword">Change Admin Password</label>
+                        <input type="password" id="adminPassword" class="form-control" placeholder="Enter new password">
+                    </div>
+                    
+                    <button type="button" class="btn-primary" onclick="saveSettings()">Save Settings</button>
+                </form>
+                
+                <hr class="my-4">
+                
+                <h3>Semester Management</h3>
+                <div class="alert alert-warning">
+                    <strong>Warning:</strong> Resetting the semester will reset session counts for all students to zero. This action cannot be undone.
+                </div>
+                <form action="{{ url_for('reset_semester') }}" method="POST">
+                    <button type="submit" class="reset-semester-btn" onclick="return confirm('WARNING: This will reset session counts for ALL students back to zero. This action cannot be undone. Are you sure you want to proceed?')">
+                        <i class="fas fa-redo"></i> RESET SEMESTER
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Feedback Tab -->
+        <div id="feedback" class="tab-content">
+            <div class="content-section">
+                <h2>Student Feedback</h2>
+                
+                <div class="search-bar">
+                    <input type="text" id="feedbackSearchInput" class="search-input" placeholder="Search by student name, ID, or comments...">
+                    <button class="search-btn" onclick="searchFeedback()">Search</button>
+                </div>
+                
+                <!-- Feedback Statistics -->
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <i class="fas fa-star"></i>
+                        <h3>{{ feedback_stats.average_rating|default('0.0') }}</h3>
+                        <p>Average Rating</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-comment"></i>
+                        <h3>{{ feedback_stats.total_feedback|default(0) }}</h3>
+                        <p>Total Feedback</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-thumbs-up"></i>
+                        <h3>{{ feedback_stats.positive_feedback|default(0) }}</h3>
+                        <p>Positive Feedback</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-thumbs-down"></i>
+                        <h3>{{ feedback_stats.negative_feedback|default(0) }}</h3>
+                        <p>Negative Feedback</p>
+                    </div>
+                </div>
+                
+                <table class="student-table">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Lab Room</th>
+                            <th>Date</th>
+                            <th>Rating</th>
+                            <th>Comments</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if feedback_list %}
+                            {% for feedback in feedback_list %}
+                                <tr>
+                                    <td>{{ feedback.lastname }}, {{ feedback.firstname }}</td>
+                                    <td>{{ feedback.lab_room|lab_room }}</td>
+                                    <td>{{ feedback.created_at.strftime('%Y-%m-%d') }}</td>
+                                    <td>
+                                        {% for i in range(1, 6) %}
+                                            {% if i <= feedback.rating %}
+                                                <i class="fas fa-star" style="color: gold;"></i>
+                                            {% else %}
+                                                <i class="far fa-star" style="color: #ccc;"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </td>
+                                    <td>{{ feedback.comments }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="5" style="text-align: center;">No feedback submitted yet</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Announcements Tab -->
+        <div id="announcements" class="tab-content">
+            <div class="content-section">
+                <h2>Announcements</h2>
+                
+                <!-- Add Announcement Form -->
+                <div class="add-announcement-form" style="margin-bottom: 30px;">
+                    <h3>Add New Announcement</h3>
+                    <form action="{{ url_for('add_announcement') }}" method="POST">
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" name="title" id="title" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="content">Content</label>
+                            <textarea name="content" id="content" class="form-control" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary">Post Announcement</button>
+                    </form>
+                </div>
+                
+                <!-- Announcements List -->
+                <h3>Current Announcements</h3>
+                <table class="student-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Content</th>
+                            <th>Date Posted</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if announcements %}
+                            {% for announcement in announcements %}
+                                <tr>
+                                    <td>{{ announcement.title }}</td>
+                                    <td>{{ announcement.content|truncate(100) }}</td>
+                                    <td>{{ announcement.created_at.strftime('%Y-%m-%d') }}</td>
+                                    <td>
+                                        {% if announcement.is_active %}
+                                            <span class="status-active">Active</span>
+                                        {% else %}
+                                            <span class="status-inactive">Inactive</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="action-buttons">
+                                        <button type="button" class="action-btn view-btn" onclick="editAnnouncement({{ announcement.id }})">
+                                            Edit
+                                        </button>
+                                        <form action="{{ url_for('toggle_announcement', announcement_id=announcement.id) }}" method="POST" style="display: inline;">
+                                            <button type="submit" class="action-btn edit-btn">
+                                                {% if announcement.is_active %}
+                                                    Deactivate
+                                                {% else %}
+                                                    Activate
+                                                {% endif %}
+                                            </button>
+                                        </form>
+                                        <form action="{{ url_for('delete_announcement', announcement_id=announcement.id) }}" method="POST" style="display: inline;">
+                                            <button type="submit" class="action-btn delete-btn" onclick="return confirm('Are you sure you want to delete this announcement?')">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="5" style="text-align: center;">No announcements yet</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Students Tab -->
+        <div id="students" class="tab-content">
+            <div class="content-section">
+                <h2>Student Management</h2>
+                
+                <div class="search-bar">
+                    <input type="text" id="studentSearchInput" class="search-input" placeholder="Search by name, ID, or course...">
+                    <button class="search-btn" onclick="searchStudents()">Search</button>
+                </div>
+                
+                <table class="student-table">
+                    <thead>
+                        <tr>
+                            <th>Profile</th>
+                            <th>ID Number</th>
+                            <th>Name</th>
+                            <th>Course</th>
+                            <th>Sessions Used</th>
+                            <th>Max Sessions</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if students %}
+                            {% for student in students %}
+                                <tr>
+                                    <td>
+                                        <img src="/static/profile_pictures/{{ student.profile_picture }}" alt="Profile" class="profile-pic">
+                                    </td>
+                                    <td>{{ student.idno }}</td>
+                                    <td>{{ student.lastname }}, {{ student.firstname }} {% if student.middlename %}{{ student.middlename[0] }}.{% endif %}</td>
+                                    <td>
+                                        {% if student.course == '1' %}
+                                            BSIT
+                                        {% elif student.course == '2' %}
+                                            BSCS
+                                        {% elif student.course == '3' %}
+                                            BSCE
+                                        {% else %}
+                                            {{ student.course }}
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ student.sessions_used|default(0) }} / {{ student.max_sessions|default(25) }}</td>
+                                    <td>{{ student.max_sessions|default(25) }}</td>
+                                    <td class="action-buttons">
+                                        <button class="action-btn view-btn" onclick="viewStudent('{{ student.id }}')">View</button>
+                                        <button class="action-btn edit-btn" onclick="editStudent('{{ student.id }}')">Edit</button>
+                                        <button class="action-btn delete-btn" onclick="deleteStudent('{{ student.id }}')">Delete</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="7" style="text-align: center;">No students found</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+                
+                <div class="pagination">
+                    <button class="page-btn">Previous</button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student View Modal - Enhanced design -->
+    <div id="studentModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeStudentModal()">&times;</span>
+            <h2 class="modal-title">Student Information</h2>
+            <div id="studentInfo" class="student-info-container">
+                <div class="student-profile-card">
+                    <div class="profile-picture-container">
+                        <img id="modalProfilePic" src="/static/profile_pictures/default.jpg" alt="Profile Picture">
+                    </div>
+                    <div class="profile-details-container">
+                    <h3 id="modalStudentName">Student Name</h3>
+                        <div class="detail-item">
+                            <i class="fas fa-id-card"></i>
+                            <span id="modalStudentID">ID: </span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span id="modalStudentCourse">Course: </span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-user-graduate"></i>
+                            <span id="modalStudentYear">Year: </span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-calendar-check"></i>
+                            <span id="modalSessionsUsed">Sessions Used: </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="session-details-card">
+                    <h3 class="card-title"><i class="fas fa-clipboard-list"></i> Session Details</h3>
+                    <form id="sessionDetailsForm">
+                        <input type="hidden" id="sessionId" name="session_id">
+                        <input type="hidden" id="currentStudentId" name="student_id">
+                        
+                        <div class="form-group">
+                            <label for="labRoom">Lab Room</label>
+                            <select id="labRoom" name="lab_room" class="form-control">
+                                <option value="Lab 1">Lab 524</option>
+                                <option value="Lab 2">Lab 526</option>
+                                <option value="Lab 3">Lab 528</option>
+                                <option value="Lab 4">Lab 530</option>
+                                <option value="Lab 5">Lab 532</option>
+                                <option value="Lab 6">Lab 534</option>
+                                <option value="Lab 7">Lab 536</option>
+                                <option value="Lab 8">Lab 538</option>
+                                <option value="Lab 9">Lab 540</option>
+                                <option value="Lab 10">Lab 542</option>
+                                <option value="Lab 11">Lab 544</option>
+                            </select>
+                    </div>
+                        
+                        <div class="form-group">
+                            <label for="purposeSelect">Purpose</label>
+                            <select id="purposeSelect" name="purpose_select" class="form-control" onchange="togglePurposeField()">
+                                <option value="PHP Programming">PHP Programming</option>
+                                <option value="Java Programming">Java Programming</option>
+                                <option value="Python Programming">Python Programming</option>
+                                <option value="JavaScript Programming">JavaScript Programming</option>
+                                <option value="C++ Programming">C++ Programming</option>
+                                <option value="C# Programming">C# Programming</option>
+                                <option value="Ruby Programming">Ruby Programming</option>
+                                <option value="Swift Programming">Swift Programming</option>
+                                <option value="Other">Other Purpose</option>
+                            </select>
+                    </div>
+                        
+                        <div id="otherPurposeDiv" class="form-group" style="display: none;">
+                            <label for="otherPurposeField">Specify Purpose</label>
+                            <textarea id="otherPurposeField" name="purpose" class="form-control" rows="3" 
+                                placeholder="Please specify the purpose..."></textarea>
+                    </div>
+                        
+                        <button type="button" class="btn-primary" onclick="directSitInStudent()">
+                            <i class="fas fa-sign-in-alt"></i> Direct Sit In
+                        </button>
+                    </form>
+                    </div>
+                
+                <div class="action-buttons-container">
+                    <button id="checkInOutBtn" class="action-btn check-btn" style="display: none;">
+                        <i class="fas fa-sign-in-alt"></i> Check-In Student
+                    </button>
+                    <button id="endSessionBtn" class="action-btn end-btn" style="display: none;">
+                        <i class="fas fa-times-circle"></i> End All Sessions
+                    </button>
+                    </div>
+                
+                <!-- Pending Request Approval Buttons -->
+                <div id="pendingRequestButtons" class="approval-buttons-container" style="display: none;">
+                    <form id="approveForm" action="" method="POST" style="display: inline;">
+                        <button type="submit" class="action-btn approve-btn">
+                            <i class="fas fa-check-circle"></i> Approve Request
+                        </button>
+                    </form>
+                    <form id="rejectForm" action="" method="POST" style="display: inline;">
+                        <button type="submit" class="action-btn reject-btn">
+                            <i class="fas fa-times-circle"></i> Reject Request
+                        </button>
+                    </form>
+                </div>
+                    </div>
+                </div>
+            </div>
+            
+    <!-- Direct Sit In Modal -->
+    <div id="directSitInModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDirectSitInModal()">&times;</span>
+            <h2>Direct Sit In</h2>
+            <form action="{{ url_for('direct_sit_in') }}" method="post">
+                <div class="form-group">
+                    <label for="student_search">Search Student by ID:</label>
+                    <div class="search-student-container">
+                        <input type="text" id="student_search" class="form-control" placeholder="Enter student ID...">
+                        <input type="hidden" id="student_id" name="student_id" required>
+                        <div id="student_search_results" class="search-results"></div>
+                    </div>
+                    <div id="selected_student_info" class="selected-student-info"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="lab_room">Lab Room:</label>
+                    <select id="lab_room" name="lab_room" class="form-control" required>
+                        <option value="">Select Lab Room</option>
+                        <option value="Lab 524">Lab 524</option>
+                        <option value="Lab 525">Lab 525</option>
+                        <option value="Lab 526">Lab 526</option>
+                        <option value="Lab 527">Lab 527</option>
+                        <option value="Lab 528">Lab 528</option>
+                        <option value="Lab 529">Lab 529</option>
+                        <option value="Lab 530">Lab 530</option>
+                        <option value="Lab 531">Lab 531</option>
+                        <option value="Lab 532">Lab 532</option>
+                        <option value="Lab 533">Lab 533</option>
+                        <option value="Lab 534">Lab 534</option>
+                        <option value="Lab 535">Lab 535</option>
+                        <option value="Lab 536">Lab 536</option>
+                        <option value="Lab 537">Lab 537</option>
+                        <option value="Lab 538">Lab 538</option>
+                        <option value="Lab 539">Lab 539</option>
+                        <option value="Lab 540">Lab 540</option>
+                        <option value="Lab 541">Lab 541</option>
+                        <option value="Lab 542">Lab 542</option>
+                        <option value="Lab 543">Lab 543</option>
+                        <option value="Lab 544">Lab 544</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="purpose_select">Purpose:</label>
+                    <select id="purpose_select" name="purpose_select" class="form-control" onchange="togglePurposeField()" required>
+                        <option value="">Select Purpose</option>
+                        <option value="Project">Project</option>
+                        <option value="Assignment">Assignment</option>
+                        <option value="Research">Research</option>
+                        <option value="Python">Python</option>
+                        <option value="Java">Java</option>
+                        <option value="C#">C#</option>
+                        <option value="C++">C++</option>
+                        <option value="JavaScript">JavaScript</option>
+                        <option value="PHP">PHP</option>
+                        <option value="HTML/CSS">HTML/CSS</option>
+                        <option value="SQL">SQL</option>
+                        <option value="Other">Other</option>
+                    </select>
+            </div>
+                
+                <div class="form-group" id="purpose_field" style="display: none;">
+                    <label for="purpose">Specify Purpose:</label>
+                    <textarea id="purpose" name="purpose" class="form-control" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Check In Student</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeDirectSitInModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add this script tag with a custom type to store JSON data from Jinja -->
+    <script id="students-data" type="application/json">
+    [
+        {% for student in students %}
+        {
+            "id": {{ student.id }},
+            "idno": "{{ student.idno }}",
+            "name": "{{ student.lastname }}, {{ student.firstname }}",
+            "course": "{{ student.course }}"
+        }{% if not loop.last %},{% endif %}
+        {% endfor %}
+    ]
+    </script>
+
+    <!-- Add this script tag for chart data -->
+    <script id="chart-data" type="application/json">
+    {
+        "labs": [
+            {% for lab in lab_stats %}
+            {
+                "label": {% if lab.lab_room == 'Lab 1' %}
+                "Lab 524"
+                {% elif lab.lab_room == 'Lab 2' %}
+                "Lab 526"
+                {% elif lab.lab_room == 'Lab 3' %}
+                "Lab 528"
+                {% elif lab.lab_room == 'Lab 4' %}
+                "Lab 530"
+                {% elif lab.lab_room == 'Lab 5' %}
+                "Lab 532"
+                {% elif lab.lab_room == 'Lab 6' %}
+                "Lab 534"
+                {% elif lab.lab_room == 'Lab 7' %}
+                "Lab 536"
+                {% elif lab.lab_room == 'Lab 8' %}
+                "Lab 538"
+                {% elif lab.lab_room == 'Lab 9' %}
+                "Lab 540"
+                {% elif lab.lab_room == 'Lab 10' %}
+                "Lab 542"
+                {% elif lab.lab_room == 'Lab 11' %}
+                "Lab 544"
+                {% else %}
+                "{{ lab.lab_room }}"
+                {% endif %},
+                "count": {{ lab.count }}
+            }{% if not loop.last %},{% endif %}
+            {% endfor %}
+        ],
+        "reports": {
+            "totalStudents": {{ students|length }},
+            "currentSitIns": {{ current_sit_ins|length|default(0) }},
+            "activePendingSessions": {{ active_sessions|length + pending_sessions|length }}
+        },
+        "courses": {
+            "bsit": {{ students|selectattr('course', 'equalto', '1')|list|length }},
+            "bscs": {{ students|selectattr('course', 'equalto', '2')|list|length }},
+            "bsce": {{ students|selectattr('course', 'equalto', '3')|list|length }},
+            "other": {{ students|rejectattr('course', 'in', ['1', '2', '3'])|list|length }}
+        },
+        "status": {
+            "active": {{ active_sessions|selectattr('status', 'equalto', 'active')|list|length }},
+            "pending": {{ pending_sessions|length }},
+            "completed": {{ active_sessions|selectattr('status', 'equalto', 'completed')|list|length }},
+            "cancelled": {{ active_sessions|selectattr('status', 'equalto', 'cancelled')|list|length }}
+        }
+    }
+    </script>
+
+    <script>
+        // Auto-hide flash messages after 5 seconds
+        setTimeout(function() {
+            var flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(function(message) {
+                message.style.opacity = '0';
+                setTimeout(function() {
+                    message.style.display = 'none';
+                }, 500);
+            });
+        }, 5000);
+        
+        // Tab functionality
+        function showTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(function(tab) {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+            
+            // Update active nav item
+            document.querySelectorAll('.nav-item').forEach(function(item) {
+                item.classList.remove('active');
+            });
+            
+            // Find the nav item that was clicked and make it active
+            document.querySelectorAll('.nav-item').forEach(function(item) {
+                if (item.getAttribute('onclick').includes(tabId)) {
+                    item.classList.add('active');
+                }
+            });
+        }
+        
+        // Search functionality for students
+        function searchStudents() {
+            const searchTerm = document.getElementById('studentSearchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#students .student-table tbody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+        
+        // Search functionality for sessions
+        function searchSessions() {
+            const searchTerm = document.getElementById('sessionSearchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#sessions .student-table tbody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+        
+        // Search functionality for pending requests
+        function searchPending() {
+            const searchTerm = document.getElementById('pendingSearchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#pending .student-table tbody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+        
+        // Search functionality for feedback
+        function searchFeedback() {
+            const searchTerm = document.getElementById('feedbackSearchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#feedback .student-table tbody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+        
+        // Generate report
+        function generateReport() {
+            const reportType = document.getElementById('reportType').value;
+            const reportDate = document.getElementById('reportDate').value;
+            
+            if (!reportDate) {
+                alert('Please select a date for the report');
+                return;
+            }
+            
+            alert('Generating ' + reportType + ' report for ' + reportDate);
+            
+            // In a real implementation, this would make an AJAX call to the server
+            // to generate the report based on the selected type and date
+        }
+        
+        // Export report
+        function exportReport(format) {
+            if (format === 'pdf') {
+                printReport(); // Use the print function for PDF export
+            } else {
+                window.location.href = '/export-report/' + format;
+            }
+        }
+        
+        // Print report
+        function printReport() {
+            // Create a printable version
+            const reportTitle = document.getElementById('reportType').value;
+            const printContent = document.getElementById('reportContent').cloneNode(true);
+            
+            // Store current body content
+            const originalContent = document.body.innerHTML;
+            
+            // Build HTML content with document.createElement instead of string concatenation
+            const tempDiv = document.createElement('div');
+            
+            // Add styles
+            const styleEl = document.createElement('style');
+            styleEl.textContent = 
+                'body { font-family: Arial, sans-serif; padding: 20px; }' +
+                'table { width: 100%; border-collapse: collapse; margin: 20px 0; }' +
+                'th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }' +
+                'th { background-color: #003366; color: white; }' +
+                'h2, h3 { color: #333; margin-top: 20px; }' +
+                '@media print { button { display: none; } }';
+            tempDiv.appendChild(styleEl);
+            
+            // Add header
+            const headerDiv = document.createElement('div');
+            headerDiv.style.textAlign = 'center';
+            headerDiv.style.marginBottom = '30px';
+            
+            const logo = document.createElement('img');
+            logo.src = '/static/CSS.png';
+            logo.alt = 'CSS Logo';
+            logo.style.maxWidth = '100px';
+            logo.style.margin = '0 auto';
+            logo.style.display = 'block';
+            headerDiv.appendChild(logo);
+            
+            const title = document.createElement('h1');
+            title.textContent = 'CSS SIT-IN MONITORING SYSTEM';
+            headerDiv.appendChild(title);
+            
+            const subtitle = document.createElement('h2');
+            subtitle.textContent = reportTitle.charAt(0).toUpperCase() + reportTitle.slice(1) + ' Report';
+            headerDiv.appendChild(subtitle);
+            
+            tempDiv.appendChild(headerDiv);
+            
+            // Add date
+            const dateDiv = document.createElement('div');
+            dateDiv.style.textAlign = 'right';
+            dateDiv.style.fontStyle = 'italic';
+            dateDiv.style.marginBottom = '20px';
+            dateDiv.textContent = 'Generated on: ' + new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString();
+            tempDiv.appendChild(dateDiv);
+            
+            // Add content
+            const contentDiv = document.createElement('div');
+            contentDiv.innerHTML = printContent.innerHTML;
+            tempDiv.appendChild(contentDiv);
+            
+            // Add buttons
+            const buttonDiv = document.createElement('div');
+            buttonDiv.style.display = 'flex';
+            buttonDiv.style.justifyContent = 'center';
+            buttonDiv.style.marginTop = '30px';
+            buttonDiv.style.gap = '20px';
+            
+            const printBtn = document.createElement('button');
+            printBtn.textContent = 'Print Report';
+            printBtn.style.padding = '10px 20px';
+            printBtn.style.background = '#4CAF50';
+            printBtn.style.color = 'white';
+            printBtn.style.border = 'none';
+            printBtn.style.cursor = 'pointer';
+            printBtn.style.borderRadius = '5px';
+            printBtn.onclick = function() { window.print(); };
+            buttonDiv.appendChild(printBtn);
+            
+            const cancelBtn = document.createElement('button');
+            cancelBtn.textContent = 'Cancel';
+            cancelBtn.style.padding = '10px 20px';
+            cancelBtn.style.background = '#f44336';
+            cancelBtn.style.color = 'white';
+            cancelBtn.style.border = 'none';
+            cancelBtn.style.cursor = 'pointer';
+            cancelBtn.style.borderRadius = '5px';
+            cancelBtn.onclick = function() { window.location.reload(); };
+            buttonDiv.appendChild(cancelBtn);
+            
+            tempDiv.appendChild(buttonDiv);
+            
+            // Replace with printable content
+            document.body.innerHTML = tempDiv.innerHTML;
+            
+            // After print dialog closed, restore original content
+            window.onafterprint = function() {
+                document.body.innerHTML = originalContent;
+            };
+        }
+        
+        // Save settings
+        function saveSettings() {
+            const maxSessionsBSIT = document.getElementById('maxSessionsBSIT').value;
+            const maxSessionsBSCS = document.getElementById('maxSessionsBSCS').value;
+            const maxSessionsBSCE = document.getElementById('maxSessionsBSCE').value;
+            const maxSessionsOther = document.getElementById('maxSessionsOther').value;
+            const adminPassword = document.getElementById('adminPassword').value;
+            
+            alert('Settings saved successfully.');
+            
+            // In a real implementation, this would make an AJAX call to the server
+            // to update the settings in the database
+        }
+        
+        // Student modal functions
+        async function viewStudent(studentId, sessionId = null) {
+            try {
+                // Fetch student data
+                fetch(`/admin/get-student-info/${studentId}`)
+                .then(response => {
+                    if (!response.ok) {
+                            throw new Error('Could not fetch student data');
+                    }
+                    return response.json();
+                })
+                .then(student => {
+                    // Populate student info (same as above)
+                    document.getElementById('modalStudentName').textContent = `${student.firstname} ${student.lastname}`;
+                    document.getElementById('modalStudentID').textContent = `ID: ${student.idno}`;
+                    
+                    let courseName = '';
+                    if (student.course === '1') courseName = 'BSIT';
+                    else if (student.course === '2') courseName = 'BSCS';
+                    else if (student.course === '3') courseName = 'BSCE';
+                    else courseName = student.course;
+                    
+                    document.getElementById('modalStudentCourse').textContent = `Course: ${courseName}`;
+                    document.getElementById('modalStudentYear').textContent = `Year: ${student.year_level}`;
+                    document.getElementById('modalSessionsUsed').textContent = `Sessions Used: ${student.sessions_used}/${student.max_sessions}`;
+                    
+                    if (student.profile_picture) {
+                        document.getElementById('modalProfilePic').src = `/static/profile_pictures/${student.profile_picture}`;
+                    } else {
+                        document.getElementById('modalProfilePic').src = `/static/profile_pictures/default.jpg`;
+                    }
+                    
+                    // Set the student ID in the hidden field
+                    document.getElementById('currentStudentId').value = studentId;
+                    
+                    // Hide pending request buttons by default
+                    document.getElementById('pendingRequestButtons').style.display = 'none';
+                    
+                    // Regular student view (not pending request)
+                    if (sessionId) {
+                        document.getElementById('sessionId').value = sessionId;
+                        document.getElementById('checkInOutBtn').style.display = 'inline-block';
+                        document.getElementById('endSessionBtn').style.display = 'inline-block';
+                        
+                        // Configure check in/out button based on current status
+                        const checkInOutBtn = document.getElementById('checkInOutBtn');
+                        const hasActiveSession = student.active_sessions && student.active_sessions.length > 0;
+                        
+                        if (hasActiveSession) {
+                            // Check if any active session is already checked in
+                            const checkedInSession = student.active_sessions.find(s => s.check_in_time && !s.check_out_time);
+                            
+                            if (checkedInSession) {
+                                checkInOutBtn.textContent = 'Check-Out Student';
+                                checkInOutBtn.onclick = function() {
+                                    window.location.href = `/admin/check-out/${checkedInSession.id}`;
+                                };
+                            } else {
+                                checkInOutBtn.textContent = 'Check-In Student';
+                                checkInOutBtn.onclick = function() {
+                                    window.location.href = `/admin/check-in/${sessionId}`;
+                                };
+                            }
+                        } else {
+                            checkInOutBtn.style.display = 'none';
+                        }
+                        
+                        // Configure end session button
+                        document.getElementById('endSessionBtn').onclick = function() {
+                            if (confirm('Are you sure you want to end all active sessions for this student?')) {
+                                window.location.href = `/admin/end-student-session/${studentId}`;
+                            }
+                        };
+                    } else {
+                        document.getElementById('checkInOutBtn').style.display = 'none';
+                        document.getElementById('endSessionBtn').style.display = 'none';
+                    }
+                    
+                    // Show modal
+                    document.getElementById('studentModal').style.display = 'block';
+                })
+                .catch(error => {
+                        console.error('Error fetching student data:', error);
+                        alert('Failed to load student information');
+                });
+            } catch (error) {
+                console.error('Error fetching student data:', error);
+                alert('Failed to load student information');
+            }
+        }
+        
+        function closeStudentModal() {
+            document.getElementById('studentModal').style.display = 'none';
+        }
+        
+        // Toggle purpose textarea based on selection
+        function togglePurposeTextarea() {
+            const purposeSelect = document.getElementById('purposeSelect');
+            const otherPurposeDiv = document.getElementById('otherPurposeDiv');
+            
+            if (purposeSelect.value === 'Other') {
+                otherPurposeDiv.style.display = 'block';
+            } else {
+                otherPurposeDiv.style.display = 'none';
+            }
+        }
+        
+        // End student session
+        function endStudentSession(sessionId) {
+            if (confirm('Are you sure you want to end this session?')) {
+                // Send request to end the session
+                fetch('/admin/complete-session/' + sessionId, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to end session');
+                    }
+                    alert('Session has been ended successfully');
+                    // Refresh the modal content
+                    const studentId = document.getElementById('modalStudentID').getAttribute('data-student-id');
+                    if (studentId) {
+                        viewStudent(studentId);
+                    } else {
+                        closeStudentModal();
+                        location.reload(); // Reload the page if we can't refresh the modal
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to end session: ' + error.message);
+                });
+            }
+        }
+        
+        // End all sessions for a student
+        function endAllStudentSessions(studentId) {
+            if (confirm('Are you sure you want to end all active sessions for this student?')) {
+                // Send request to end all sessions
+                fetch('/admin/end-student-session/' + studentId, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to end sessions');
+                    }
+                    alert('All sessions have been ended successfully');
+                    closeStudentModal();
+                    location.reload(); // Reload the page to reflect changes
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to end sessions: ' + error.message);
+                });
+            }
+        }
+
+        function editStudent(id) {
+            // Edit student details
+            alert('Editing student with ID: ' + id);
+        }
+
+        function deleteStudent(id) {
+            if (confirm('Are you sure you want to delete this student? This will also delete all their sessions and feedback. This action cannot be undone.')) {
+                // Create a form to submit the delete request
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/admin/delete-student/' + id;
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('studentModal');
+            if (event.target == modal) {
+                closeStudentModal();
+            }
+        }
+
+        // Function to update session details
+        async function updateSessionDetails() {
+            const sessionId = document.getElementById('sessionId').value;
+            if (!sessionId) {
+                alert('No active session selected');
+                return;
+            }
+            
+            const labRoom = document.getElementById('labRoom').value;
+            const purposeSelect = document.getElementById('purposeSelect').value;
+            let finalPurpose = purposeSelect;
+            
+            // If "Other" is selected, use the text from the textarea
+            if (purposeSelect === 'Other') {
+                finalPurpose = document.getElementById('otherPurposeField').value;
+                if (!finalPurpose.trim()) {
+                    alert('Please specify a purpose');
+                    return;
+                }
+            }
+            
+            try {
+                const response = await fetch(`/admin/update-session/${sessionId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `lab_room=${encodeURIComponent(labRoom)}&programming_language=${encodeURIComponent("")}&purpose=${encodeURIComponent(finalPurpose)}`
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to update session');
+                }
+                
+                alert('Session details updated successfully');
+                
+                // Add approve button if it's in pending section
+                const pendingRow = document.querySelector(`tr[data-session-id="${sessionId}"]`);
+                if (pendingRow) {
+                    const actionsCell = pendingRow.querySelector('.action-buttons');
+                    
+                    // Check if approve button already exists
+                    const existingApproveButton = actionsCell.querySelector('.approve-btn');
+                    if (!existingApproveButton) {
+                        const approveForm = document.createElement('form');
+                        approveForm.action = `/admin/approve-session/${sessionId}`;
+                        approveForm.method = 'POST';
+                        approveForm.style.display = 'inline';
+                        
+                        const approveButton = document.createElement('button');
+                        approveButton.type = 'submit';
+                        approveButton.className = 'action-btn view-btn approve-btn';
+                        approveButton.textContent = 'Approve';
+                        
+                        approveForm.appendChild(approveButton);
+                        actionsCell.appendChild(approveForm);
+                        
+                        // Add reject button if not present
+                        const existingRejectButton = actionsCell.querySelector('.delete-btn');
+                        if (!existingRejectButton) {
+                            const rejectForm = document.createElement('form');
+                            rejectForm.action = `/admin/reject-session/${sessionId}`;
+                            rejectForm.method = 'POST';
+                            rejectForm.style.display = 'inline';
+                            
+                            const rejectButton = document.createElement('button');
+                            rejectButton.type = 'submit';
+                            rejectButton.className = 'action-btn delete-btn';
+                            rejectButton.textContent = 'Reject';
+                            
+                            rejectForm.appendChild(rejectButton);
+                            actionsCell.appendChild(rejectForm);
+                        }
+                    }
+                }
+                
+                // Refresh the modal content
+                const studentId = document.getElementById('modalStudentID').getAttribute('data-student-id');
+                if (studentId) {
+                    viewStudent(studentId);
+                } else {
+                    closeStudentModal();
+                    location.reload(); // Reload the page if we can't refresh the modal
+                }
+            } catch (error) {
+                console.error('Error updating session:', error);
+                alert('Could not update session. Please try again.');
+            }
+        }
+
+        // Function to show Direct Sit In modal
+        function showDirectSitInModal() {
+            document.getElementById('directSitInModal').style.display = 'block';
+            // Clear previous search results and selection
+            document.getElementById('student_search').value = '';
+            document.getElementById('student_id').value = '';
+            document.getElementById('selected_student_info').innerHTML = '';
+            document.getElementById('student_search_results').innerHTML = '';
+        }
+        
+        // Function to close Direct Sit In modal
+        function closeDirectSitInModal() {
+            document.getElementById('directSitInModal').style.display = 'none';
+        }
+        
+        // Toggle purpose textarea for Direct Sit In
+        function togglePurposeField() {
+            const purposeSelect = document.getElementById('purpose_select');
+            const purposeField = document.getElementById('purpose_field');
+            
+            if (purposeSelect.value === 'Other') {
+                purposeField.style.display = 'block';
+            } else {
+                purposeField.style.display = 'none';
+            }
+        }
+        
+        // Create Direct Sit In from student modal
+        function createDirectSitIn() {
+            const studentId = document.getElementById('modalStudentID').getAttribute('data-student-id');
+            if (!studentId) {
+                alert("No student selected");
+                return;
+            }
+            
+            // Close current modal and open direct sit in modal
+            closeStudentModal();
+            showDirectSitInModal();
+            
+            // Pre-select the student
+            const studentSelect = document.getElementById('studentSelect');
+            for (let i = 0; i < studentSelect.options.length; i++) {
+                if (studentSelect.options[i].value === studentId) {
+                    studentSelect.selectedIndex = i;
+                    break;
+                }
+            }
+        }
+
+        // Function to search for students by ID
+        function searchStudentById() {
+            const searchInput = document.getElementById('student_search');
+            const searchTerm = searchInput.value.trim();
+            const searchResults = document.getElementById('student_search_results');
+            
+            if (searchTerm.length < 1) {
+                searchResults.innerHTML = '';
+                return;
+            }
+            
+            // Get students data from the JSON script tag
+            const studentsData = JSON.parse(document.getElementById('students-data').textContent);
+            
+            // Filter students by ID number
+            const matchingStudents = studentsData.filter(student => 
+                student.idno.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            
+            // Display search results
+            if (matchingStudents.length > 0) {
+                let resultsHtml = '';
+                matchingStudents.forEach(student => {
+                    resultsHtml += `<div class="search-result-item" onclick="selectStudent(${student.id}, '${student.idno}', '${student.name}', '${student.course}')">
+                        ${student.idno} - ${student.name}
+                    </div>`;
+                });
+                searchResults.innerHTML = resultsHtml;
+                searchResults.style.display = 'block';
+            } else {
+                searchResults.innerHTML = '<div class="no-results">No matching students found</div>';
+                searchResults.style.display = 'block';
+            }
+        }
+        
+        // Function to select a student from search results
+        function selectStudent(id, idno, name, course) {
+            document.getElementById('student_id').value = id;
+            document.getElementById('selected_student_info').innerHTML = `
+                <div class="selected-student-header">Selected Student:</div>
+                <div class="selected-student-details">
+                    <div class="student-id">${idno}</div>
+                    <div class="student-name">${name}</div>
+                    <div class="student-course">${course == '1' ? 'BSIT' : course == '2' ? 'BSCS' : course == '3' ? 'BSCE' : course}</div>
+                </div>
+            `;
+            document.getElementById('selected_student_info').style.display = 'block';
+            document.getElementById('student_search_results').innerHTML = '';
+            document.getElementById('student_search_results').style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize student search
+            const studentSearch = document.getElementById('student_search');
+            if (studentSearch) {
+                studentSearch.addEventListener('input', searchStudentById);
+            }
+            
+            // Fix current sessions tab background and navigation
+            const sessionsTab = document.querySelector('.nav-item[onclick="showTab(\'sessions\')"]');
+            if (sessionsTab) {
+                sessionsTab.addEventListener('click', function() {
+                    document.querySelectorAll('.tab-content').forEach(tab => {
+                        tab.classList.remove('active');
+                    });
+                    document.getElementById('sessions').classList.add('active');
+                    
+                    document.querySelectorAll('.nav-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                });
+            }
+            
+            // Initialize charts with data from JSON
+            try {
+                const chartData = JSON.parse(document.getElementById('chart-data').textContent);
+                
+                // Lab Usage Chart
+                const labUsageCtx = document.getElementById('labRoomChart').getContext('2d');
+                const labUsageChart = new Chart(labUsageCtx, {
+                type: 'pie',
+                data: {
+                        labels: chartData.labs.map(lab => lab.label),
+                    datasets: [{
+                            data: chartData.labs.map(lab => lab.count),
+                            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#C9CBCF']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                                labels: {
+                                    boxWidth: 15,
+                                    padding: 15
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const value = context.raw;
+                                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                        const percentage = Math.round((value / total) * 100);
+                                        return `${value} sessions (${percentage}%)`;
+                                    }
+                                }
+                        }
+                    }
+                }
+            });
+            
+                // Report Stats Chart
+                const reportStatsCtx = document.getElementById('reportStatsChart').getContext('2d');
+                const reportStatsChart = new Chart(reportStatsCtx, {
+                    type: 'doughnut',
+                data: {
+                        labels: ['Total Students', 'Current Sit-ins', 'Active+Pending Sessions'],
+                    datasets: [{
+                            data: [
+                                chartData.reports.totalStudents,
+                                chartData.reports.currentSitIns,
+                                chartData.reports.activePendingSessions
+                            ],
+                            backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                                labels: {
+                                    boxWidth: 15,
+                                    padding: 15
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `${context.raw}`;
+                                    }
+                                }
+                        }
+                    }
+                }
+            });
+            
+            // Course Chart
+            const courseCtx = document.getElementById('courseChart').getContext('2d');
+            const courseChart = new Chart(courseCtx, {
+                type: 'pie',
+                data: {
+                        labels: ['BSIT', 'BSCS', 'BSCE', 'Other'],
+                    datasets: [{
+                            data: [
+                                chartData.courses.bsit,
+                                chartData.courses.bscs,
+                                chartData.courses.bsce,
+                                chartData.courses.other
+                            ],
+                            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#C9CBCF']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                                labels: {
+                                    boxWidth: 15,
+                                    padding: 15
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const value = context.raw;
+                                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                        const percentage = Math.round((value / total) * 100);
+                                        return `${value} students (${percentage}%)`;
+                                    }
+                                }
+                        }
+                    }
+                }
+            });
+            
+            // Status Chart
+            const statusCtx = document.getElementById('statusChart').getContext('2d');
+            const statusChart = new Chart(statusCtx, {
+                type: 'pie',
+                data: {
+                        labels: ['Active', 'Pending', 'Completed', 'Cancelled'],
+                    datasets: [{
+                            data: [
+                                chartData.status.active,
+                                chartData.status.pending,
+                                chartData.status.completed,
+                                chartData.status.cancelled
+                            ],
+                            backgroundColor: ['#28a745', '#ffc107', '#17a2b8', '#dc3545']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                                labels: {
+                                    boxWidth: 15,
+                                    padding: 15
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const value = context.raw;
+                                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                        const percentage = Math.round((value / total) * 100);
+                                        return `${value} sessions (${percentage}%)`;
+                                    }
+                                }
+                        }
+                    }
+                }
+            });
+            } catch (error) {
+                console.error('Error initializing charts:', error);
+            }
+        });
+
+        // Add search functionality for forms
+        function searchForms() {
+            const searchTerm = document.getElementById('formsSearchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#forms .student-table tbody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // Add this to your existing JavaScript code
+        function viewPendingRequest(studentId, sessionId) {
+            fetch(`/admin/get-student-info/${studentId}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Populate student info
+                    document.getElementById('modalStudentName').textContent = `${data.firstname} ${data.lastname}`;
+                    document.getElementById('modalStudentID').textContent = `ID: ${data.idno}`;
+                    
+                    let courseName = '';
+                    if (data.course === '1') courseName = 'BSIT';
+                    else if (data.course === '2') courseName = 'BSCS';
+                    else if (data.course === '3') courseName = 'BSCE';
+                    else courseName = data.course;
+                    
+                    document.getElementById('modalStudentCourse').textContent = `Course: ${courseName}`;
+                    document.getElementById('modalStudentYear').textContent = `Year: ${data.year_level}`;
+                    document.getElementById('modalSessionsUsed').textContent = `Sessions Used: ${data.sessions_used}/${data.max_sessions}`;
+                    
+                    if (data.profile_picture) {
+                        document.getElementById('modalProfilePic').src = `/static/profile_pictures/${data.profile_picture}`;
+                    } else {
+                        document.getElementById('modalProfilePic').src = `/static/profile_pictures/default.jpg`;
+                    }
+                    
+                    // Hide regular action buttons and show pending request buttons
+                    document.getElementById('checkInOutBtn').style.display = 'none';
+                    document.getElementById('endSessionBtn').style.display = 'none';
+                    document.getElementById('pendingRequestButtons').style.display = 'block';
+                    
+                    // Set the form actions for approve/reject buttons
+                    document.getElementById('approveForm').action = `/admin/approve-session/${sessionId}`;
+                    document.getElementById('rejectForm').action = `/admin/reject-session/${sessionId}`;
+                    
+                    // Show modal
+                    document.getElementById('studentModal').style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error fetching student info:', error);
+                    alert('Failed to load student information');
+                });
+        }
+
+        // Function for direct sit-in
+        async function directSitInStudent() {
+            const studentId = document.getElementById('currentStudentId').value;
+            const labRoom = document.getElementById('labRoom').value;
+            const purposeSelect = document.getElementById('purposeSelect').value;
+            let purpose = '';
+            
+            // If "Other" is selected, use the text from the textarea
+            if (purposeSelect === 'Other') {
+                purpose = document.getElementById('otherPurposeField').value;
+                if (!purpose.trim()) {
+                    alert('Please specify a purpose');
+                    return;
+                }
+            }
+            
+            // Create a form and submit it
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = "{{ url_for('direct_sit_in') }}";
+            form.style.display = 'none';
+
+            // Add student ID
+            const studentIdInput = document.createElement('input');
+            studentIdInput.type = 'hidden';
+            studentIdInput.name = 'student_id';
+            studentIdInput.value = studentId;
+            form.appendChild(studentIdInput);
+
+            // Add lab room
+            const labRoomInput = document.createElement('input');
+            labRoomInput.type = 'hidden';
+            labRoomInput.name = 'lab_room';
+            labRoomInput.value = labRoom;
+            form.appendChild(labRoomInput);
+
+            // Add purpose select
+            const purposeSelectInput = document.createElement('input');
+            purposeSelectInput.type = 'hidden';
+            purposeSelectInput.name = 'purpose_select';
+            purposeSelectInput.value = purposeSelect;
+            form.appendChild(purposeSelectInput);
+
+            // Add purpose if needed
+            if (purposeSelect === 'Other') {
+                const purposeInput = document.createElement('input');
+                purposeInput.type = 'hidden';
+                purposeInput.name = 'purpose';
+                purposeInput.value = purpose;
+                form.appendChild(purposeInput);
+            }
+
+            // Add to document and submit
+            document.body.appendChild(form);
+            form.submit();
+        }
+        
+        // Edit announcement functionality
+        function editAnnouncement(announcementId) {
+            fetch(`/admin/get-announcement/${announcementId}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('edit_announcement_id').value = data.id;
+                    document.getElementById('edit_title').value = data.title;
+                    document.getElementById('edit_content').value = data.content;
+                    document.getElementById('editAnnouncementModal').style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error fetching announcement data');
+                });
+        }
+        
+        // Close edit announcement modal
+        function closeEditAnnouncementModal() {
+            document.getElementById('editAnnouncementModal').style.display = 'none';
+        }
+    </script>
+    
+    <!-- Edit Announcement Modal -->
+    <div id="editAnnouncementModal" class="modal" style="display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4); padding-top: 60px;">
+        <div class="modal-content" style="background-color: #fefefe; margin: 5% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 600px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+            <span class="close" onclick="closeEditAnnouncementModal()" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+            <h2 style="margin-top: 0; color: var(--primary-color);">Edit Announcement</h2>
+            <form action="{{ url_for('edit_announcement') }}" method="POST">
+                <input type="hidden" id="edit_announcement_id" name="announcement_id">
+                <div style="margin-bottom: 15px;">
+                    <label for="edit_title" style="display: block; margin-bottom: 5px; font-weight: 600;">Title</label>
+                    <input type="text" id="edit_title" name="title" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;" required>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="edit_content" style="display: block; margin-bottom: 5px; font-weight: 600;">Content</label>
+                    <textarea id="edit_content" name="content" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; min-height: 150px;" rows="5" required></textarea>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeEditAnnouncementModal()">Cancel</button>
+                    <button type="submit" class="btn btn-success">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+    // ... existing scripts ...
+
+    // Edit announcement functionality
+    function editAnnouncement(announcementId) {
+        fetch(`/admin/get-announcement/${announcementId}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('edit_announcement_id').value = data.id;
+                document.getElementById('edit_title').value = data.title;
+                document.getElementById('edit_content').value = data.content;
+                document.getElementById('editAnnouncementModal').style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error fetching announcement data');
+            });
+    }
+
+    // Close edit announcement modal
+    function closeEditAnnouncementModal() {
+        document.getElementById('editAnnouncementModal').style.display = 'none';
+    }
+
+    // Close modal when clicking outside of it
+    window.onclick = function(event) {
+        const modal = document.getElementById('editAnnouncementModal');
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    </script>
+</body>
+<script src="/static/js/admin.js"></script>
+<script>
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    const modal = document.getElementById('editAnnouncementModal');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+</html> 

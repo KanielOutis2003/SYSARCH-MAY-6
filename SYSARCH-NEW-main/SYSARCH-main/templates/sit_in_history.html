@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sit-In History - CSS SIT-IN MONITORING SYSTEM</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-image: url('/static/uc.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: rgba(0, 0, 0, 0.5);
+            background-blend-mode: overlay;
+            min-height: 100vh;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #003366;
+        }
+
+        .back-btn {
+            background-color: #003366;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .back-btn:hover {
+            background-color: #002244;
+        }
+
+        .logout-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+
+        .content-section {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #003366;
+            margin-top: 0;
+            border-bottom: 2px solid #003366;
+            padding-bottom: 10px;
+        }
+
+        .student-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .student-table th, .student-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .student-table th {
+            background-color: #003366;
+            color: white;
+            font-weight: 600;
+        }
+
+        .student-table tr:hover {
+            background-color: rgba(0, 51, 102, 0.05);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .status-pending {
+            background-color: #ffc107;
+            color: #343a40;
+        }
+
+        .status-completed {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .status-cancelled {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .export-section {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .export-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .export-btn-csv {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .export-btn-excel {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .export-btn-print {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .export-btn:hover {
+            opacity: 0.9;
+        }
+
+        .flash-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .flash-message {
+            padding: 15px 25px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.3s ease;
+            transition: opacity 0.5s ease;
+        }
+
+        .flash-success {
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        .flash-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        .flash-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .filter-container {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 10px 15px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .date-filter {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .date-input {
+            padding: 10px 15px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Flash Messages Container -->
+    <div class="flash-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <div class="dashboard-container">
+        <div class="header">
+            <div class="logo-section">
+                <img src="/static/CSS.png" alt="CSS Logo" class="logo">
+                <h1>Sit-In History</h1>
+            </div>
+            <div>
+                <a href="{{ url_for('admin_dashboard') }}"><button class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</button></a>
+                <a href="{{ url_for('logout') }}"><button class="logout-btn">Logout</button></a>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2><i class="fas fa-history"></i> Complete Sit-In History</h2>
+            
+            <div class="search-container">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search by name, ID number, lab room...">
+                <button onclick="searchTable()" class="back-btn">Search</button>
+            </div>
+            
+            <div class="filter-container">
+                <select id="statusFilter" class="filter-select" onchange="filterTable()">
+                    <option value="all">All Statuses</option>
+                    <option value="completed">Completed</option>
+                    <option value="active">Active</option>
+                    <option value="pending">Pending</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+                
+                <select id="labRoomFilter" class="filter-select" onchange="filterTable()">
+                    <option value="all">All Lab Rooms</option>
+                    <option value="Lab 524">Lab 524</option>
+                    <option value="Lab 526">Lab 526</option>
+                    <option value="Lab 528">Lab 528</option>
+                    <option value="Lab 530">Lab 530</option>
+                    <option value="Lab 532">Lab 532</option>
+                    <option value="Lab 534">Lab 534</option>
+                    <option value="Lab 536">Lab 536</option>
+                    <option value="Lab 538">Lab 538</option>
+                    <option value="Lab 540">Lab 540</option>
+                    <option value="Lab 542">Lab 542</option>
+                    <option value="Lab 544">Lab 544</option>
+                </select>
+                
+                <div class="date-filter">
+                    <span>From:</span>
+                    <input type="date" id="dateFrom" class="date-input" onchange="filterTable()">
+                    <span>To:</span>
+                    <input type="date" id="dateTo" class="date-input" onchange="filterTable()">
+                </div>
+            </div>
+
+            {% if sessions %}
+                <table id="historyTable" class="student-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>ID No.</th>
+                            <th>Student Name</th>
+                            <th>Lab Room</th>
+                            <th>Check In</th>
+                            <th>Check Out</th>
+                            <th>Purpose</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for session in sessions %}
+                        <tr data-date="{{ session.date_time_formatted }}" data-status="{{ session.status }}" data-lab="{{ session.lab_room|lab_room }}">
+                            <td>{{ session.date_time_formatted }}</td>
+                            <td>{{ session.idno }}</td>
+                            <td>{{ session.firstname }} {{ session.lastname }}</td>
+                            <td>{{ session.lab_room|lab_room }}</td>
+                            <td>{{ session.check_in_time_formatted }}</td>
+                            <td>{{ session.check_out_time_formatted }}</td>
+                            <td>{{ session.purpose or session.programming_language }}</td>
+                            <td>
+                                {% if session.check_in_time and not session.check_out_time %}
+                                    <span class="status-badge status-active">Currently In Lab</span>
+                                {% elif session.status == 'active' %}
+                                    <span class="status-badge status-pending">Scheduled</span>
+                                {% elif session.status == 'completed' %}
+                                    <span class="status-badge status-completed">Completed</span>
+                                {% elif session.status == 'cancelled' %}
+                                    <span class="status-badge status-cancelled">Cancelled</span>
+                                {% else %}
+                                    <span class="status-badge status-pending">Pending</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <div class="export-section">
+                    <a href="{{ url_for('export_report', format='csv') }}" class="export-btn export-btn-csv">
+                        <i class="fas fa-file-csv"></i> Export to CSV
+                    </a>
+                    <a href="{{ url_for('export_report', format='excel') }}" class="export-btn export-btn-excel">
+                        <i class="fas fa-file-excel"></i> Export to Excel
+                    </a>
+                    <button onclick="window.print()" class="export-btn export-btn-print">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            {% else %}
+                <div class="alert-message">
+                    No sit-in session history found.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        // Auto-hide flash messages after 5 seconds
+        setTimeout(function() {
+            var flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(function(message) {
+                message.style.opacity = '0';
+                setTimeout(function() {
+                    message.style.display = 'none';
+                }, 500);
+            });
+        }, 5000);
+        
+        // Search functionality
+        function searchTable() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#historyTable tbody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+        
+        // Filter functionality
+        function filterTable() {
+            const statusFilter = document.getElementById('statusFilter').value;
+            const labRoomFilter = document.getElementById('labRoomFilter').value;
+            const dateFrom = document.getElementById('dateFrom').value;
+            const dateTo = document.getElementById('dateTo').value;
+            
+            const rows = document.querySelectorAll('#historyTable tbody tr');
+            
+            rows.forEach(row => {
+                let showRow = true;
+                
+                // Status filter
+                if (statusFilter !== 'all' && !row.getAttribute('data-status').includes(statusFilter)) {
+                    showRow = false;
+                }
+                
+                // Lab room filter
+                if (labRoomFilter !== 'all' && row.getAttribute('data-lab') !== labRoomFilter) {
+                    showRow = false;
+                }
+                
+                // Date range filter
+                const rowDate = row.getAttribute('data-date');
+                if (dateFrom && rowDate < dateFrom) {
+                    showRow = false;
+                }
+                if (dateTo && rowDate > dateTo) {
+                    showRow = false;
+                }
+                
+                row.style.display = showRow ? '' : 'none';
+            });
+        }
+        
+        // Set today's date as default for dateTo
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            
+            document.getElementById('dateTo').value = `${year}-${month}-${day}`;
+            
+            // Set date from to 30 days ago
+            const thirtyDaysAgo = new Date();
+            thirtyDaysAgo.setDate(today.getDate() - 30);
+            const yearFrom = thirtyDaysAgo.getFullYear();
+            const monthFrom = String(thirtyDaysAgo.getMonth() + 1).padStart(2, '0');
+            const dayFrom = String(thirtyDaysAgo.getDate()).padStart(2, '0');
+            
+            document.getElementById('dateFrom').value = `${yearFrom}-${monthFrom}-${dayFrom}`;
+        });
+    </script>
+</body>
+</html> 
