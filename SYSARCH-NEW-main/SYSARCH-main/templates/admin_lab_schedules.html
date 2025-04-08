@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lab Schedules - CSS SIT-IN MONITORING SYSTEM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -276,8 +277,84 @@
         .close:hover {
             color: #000;
         }
+
+        /* Admin Header Styles */
+        .admin-header {
+            background: #ffffff;
+            padding: 20px;
+            color: #2c3e50;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .admin-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            max-width: 100%;
+            align-items: center;
+        }
+        
+        .nav-item {
+            padding: 10px 16px;
+            cursor: pointer;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            background: #f8f9fa;
+            flex: 0 0 auto;
+            min-width: 130px;
+            font-size: 14px;
+            font-weight: 500;
+            height: 42px;
+            box-sizing: border-box;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            color: #2c3e50;
+        }
+        
+        .nav-item:hover {
+            background: #e9ecef;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .nav-item.active {
+            background: #2c3e50;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-item i {
+            font-size: 16px;
+            width: 16px;
+            text-align: center;
+            color: inherit;
+        }
+
+        @media (max-width: 1200px) {
+            .admin-header {
+                padding: 15px;
+            }
+            
+            .nav-item {
+                padding: 8px 14px;
+                font-size: 13px;
+                min-width: 120px;
+                height: 38px;
+            }
+            
+            .nav-item i {
+                font-size: 15px;
+                width: 18px;
+            }
+        }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <!-- Flash Messages Container -->
@@ -297,11 +374,37 @@
         <div class="header">
             <div class="logo-section">
                 <img src="/static/CSS.png" alt="CSS Logo" class="logo">
-                <h1>Laboratory Room Schedules</h1>
+                <h1>Lab Schedules</h1>
             </div>
-            <div>
-                <a href="{{ url_for('admin_dashboard') }}"><button class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</button></a>
+            <div class="user-info">
+                <h3>Welcome, Admin</h3>
                 <a href="{{ url_for('logout') }}"><button class="logout-btn">Logout</button></a>
+            </div>
+        </div>
+
+        <!-- Admin Navigation Header -->
+        <div class="admin-header">
+            <div class="admin-nav">
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_dashboard') }}';">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </div>
+                <div class="nav-item active">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Lab Schedules</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('sit_in_history') }}';">
+                    <i class="fas fa-history"></i>
+                    <span>Sit-In History</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('todays_sit_ins') }}';">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Today's Sit-ins</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_leaderboard') }}';">
+                    <i class="fas fa-trophy"></i>
+                    <span>Leaderboard</span>
+                </div>
             </div>
         </div>
 

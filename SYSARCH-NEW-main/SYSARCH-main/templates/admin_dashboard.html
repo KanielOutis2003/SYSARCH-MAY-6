@@ -103,12 +103,46 @@
         }
 
         .action-btn {
-            padding: 6px 12px;
-            border-radius: 4px;
+            padding: 8px 12px;
             border: none;
+            border-radius: 4px;
             cursor: pointer;
             font-size: 14px;
             transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-btn.reset-btn {
+            background-color: #ffc107;
+            color: #000;
+            border: 1px solid #ffc107;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn.reset-btn:hover {
+            background-color: #ffca2c;
+            border-color: #ffca2c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-btn.reset-btn:active {
+            transform: translateY(0);
+            box-shadow: none;
         }
 
         .view-btn {
@@ -124,11 +158,6 @@
         .delete-btn {
             background-color: #dc3545;
             color: white;
-        }
-
-        .action-btn:hover {
-            opacity: 0.8;
-            transform: translateY(-2px);
         }
 
         .logout-btn {
@@ -310,40 +339,86 @@
 
         /* Admin Dashboard Header */
         .admin-header {
-            background-color: #003366;
-            color: white;
-            padding: 15px 0;
-            margin-bottom: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+            padding: 20px;
+            color: #2c3e50;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
-
+        
         .admin-nav {
             display: flex;
-            justify-content: space-around;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            max-width: 100%;
             align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
         }
-
+        
         .nav-item {
-            padding: 10px 20px;
+            padding: 10px 16px;
             cursor: pointer;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            text-align: center;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            background: #f8f9fa;
+            flex: 0 0 auto;
+            min-width: 130px;
+            font-size: 14px;
+            font-weight: 500;
+            height: 42px;
+            box-sizing: border-box;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            color: #2c3e50;
         }
-
-        .nav-item:hover, .nav-item.active {
-            background-color: rgba(255, 255, 255, 0.2);
+        
+        .nav-item:hover {
+            background: #e9ecef;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
-
+        
+        .nav-item.active {
+            background: #2c3e50;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
         .nav-item i {
-            display: block;
-            font-size: 24px;
-            margin-bottom: 5px;
+            font-size: 16px;
+            width: 16px;
+            text-align: center;
+            color: inherit;
         }
-
+        
+        .nav-item span {
+            white-space: nowrap;
+            line-height: 1;
+        }
+        
+        @media (max-width: 1200px) {
+            .admin-header {
+                padding: 15px;
+            }
+            
+            .nav-item {
+                padding: 8px 14px;
+                font-size: 13px;
+                min-width: 120px;
+                height: 38px;
+            }
+            
+            .nav-item i {
+                font-size: 15px;
+                width: 18px;
+            }
+        }
+        
         /* Dashboard Stats */
         .stats-container {
             display: grid;
@@ -1133,17 +1208,46 @@
         }
         
         .action-btn {
-            padding: 10px 20px;
+            padding: 8px 12px;
             border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 500;
+            border-radius: 4px;
             cursor: pointer;
-            display: flex;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            width: 48%;
+            gap: 5px;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .action-btn.reset-btn {
+            background-color: #ffc107;
+            color: #000;
+            border: 1px solid #ffc107;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .action-btn.reset-btn:hover {
+            background-color: #ffca2c;
+            border-color: #ffca2c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .action-btn.reset-btn:active {
+            transform: translateY(0);
+            box-shadow: none;
         }
         
         .action-btn i {
@@ -1218,6 +1322,79 @@
         }
         
         /* Flash message styles */
+        /* Dropdown styles */
+        .nav-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #ffffff;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            border-radius: 5px;
+            z-index: 1000;
+            min-width: 160px;
+            right: 0;
+        }
+        
+        .nav-dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        .dropdown-item {
+            color: #003366;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            transition: background-color 0.3s;
+        }
+        
+        .dropdown-item:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .dropdown-item i {
+            margin-right: 8px;
+            font-size: 14px;
+        }
+        
+        /* ... continuing with existing styles ... */
+        .nav-dropdown.active .dropdown-content {
+            display: block;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            min-width: 180px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            z-index: 1000;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+        
+        .dropdown-item {
+            display: block;
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+        
+        .dropdown-item:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .dropdown-item i {
+            margin-right: 8px;
+            color: #3498db;
+        }
     </style>
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -1250,55 +1427,59 @@
         <!-- Admin Navigation Header -->
         <div class="admin-header">
             <div class="admin-nav">
-                <div class="nav-item active" onclick="showTab('dashboard')">
+                <div class="nav-item active" onclick="showTab('dashboard');">
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </div>
-                <div class="nav-item" onclick="showTab('sessions')">
+                <div class="nav-item" onclick="showTab('sessions');">
                     <i class="fas fa-calendar-check"></i>
                     <span>Current Sessions</span>
                 </div>
-                <div class="nav-item" onclick="showTab('pending')">
+                <div class="nav-item" onclick="showTab('pending');">
                     <i class="fas fa-clock"></i>
                     <span>Pending Requests</span>
                 </div>
-                <div class="nav-item" onclick="showTab('forms')">
+                <div class="nav-item" onclick="showTab('forms');">
                     <i class="fas fa-file-alt"></i>
                     <span>Forms</span>
                 </div>
-                <div class="nav-item" onclick="showTab('students')">
+                <div class="nav-item" onclick="showTab('students');">
                     <i class="fas fa-user-graduate"></i>
                     <span>Students</span>
                 </div>
-                <div class="nav-item" onclick="showTab('feedback')">
+                <div class="nav-item" onclick="showTab('feedback');">
                     <i class="fas fa-comment-alt"></i>
                     <span>Feedback</span>
                 </div>
-                <div class="nav-item" onclick="showTab('announcements')">
+                <div class="nav-item" onclick="showTab('announcements');">
                     <i class="fas fa-bullhorn"></i>
                     <span>Announcements</span>
                 </div>
-                <div class="nav-item" onclick="showTab('reports')">
+                <div class="nav-item" onclick="showTab('reports');">
                     <i class="fas fa-chart-bar"></i>
                     <span>Reports</span>
                 </div>
-                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_leaderboard') }}'">
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_leaderboard') }}';">
                     <i class="fas fa-trophy"></i>
                     <span>Leaderboard</span>
                 </div>
-                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_lab_schedules') }}'">
+                <div class="nav-item" onclick="window.location.href='{{ url_for('lab_resources') }}';">
+                    <i class="fas fa-book"></i>
+                    <span>Lab Resources</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_lab_schedules') }}';">
                     <i class="fas fa-calendar-alt"></i>
                     <span>Lab Schedules</span>
                 </div>
-                <div class="nav-item" onclick="window.location.href='{{ url_for('sit_in_history') }}'">
+                <div class="nav-item" onclick="window.location.href='{{ url_for('sit_in_history') }}';">
                     <i class="fas fa-history"></i>
                     <span>Sit-In History</span>
                 </div>
-                <div class="nav-item" onclick="window.location.href='{{ url_for('todays_sit_ins') }}'">
+                <div class="nav-item" onclick="window.location.href='{{ url_for('todays_sit_ins') }}';">
                     <i class="fas fa-clipboard-list"></i>
                     <span>Today's Sit-ins</span>
                 </div>
-                <div class="nav-item" onclick="showTab('settings')">
+                <div class="nav-item" onclick="showTab('settings');">
                     <i class="fas fa-cog"></i>
                     <span>Settings</span>
                 </div>
@@ -1892,7 +2073,7 @@
                                         {% endif %}
                                     </td>
                                     <td class="action-buttons">
-                                        <button type="button" class="action-btn view-btn" onclick="editAnnouncement({{ announcement.id }})">
+                                        <button type="button" class="action-btn view-btn" onclick="editAnnouncement('{{ announcement.id }}');">
                                             Edit
                                         </button>
                                         <form action="{{ url_for('toggle_announcement', announcement_id=announcement.id) }}" method="POST" style="display: inline;">
@@ -1968,6 +2149,11 @@
                                         <button class="action-btn view-btn" onclick="viewStudent('{{ student.id }}')">View</button>
                                         <button class="action-btn edit-btn" onclick="editStudent('{{ student.id }}')">Edit</button>
                                         <button class="action-btn delete-btn" onclick="deleteStudent('{{ student.id }}')">Delete</button>
+                                        <form action="{{ url_for('reset_student_sessions', student_id=student.id) }}" method="POST" style="display: inline;">
+                                            <button type="submit" class="action-btn reset-btn" onclick="return confirm('Are you sure you want to reset this student\'s session count to zero?')">
+                                                <i class="fas fa-redo"></i> Reset Sessions
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -3225,6 +3411,26 @@
             modal.style.display = "none";
         }
     }
+    </script>
+
+    <script>
+        // Existing scripts...
+        
+        // Dropdown menu functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdown = document.querySelector('.nav-dropdown');
+            if (dropdown) {
+                dropdown.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    this.classList.toggle('active');
+                });
+                
+                // Close dropdown when clicking elsewhere
+                document.addEventListener('click', function() {
+                    dropdown.classList.remove('active');
+                });
+            }
+        });
     </script>
 </body>
 <script src="/static/js/admin.js"></script>

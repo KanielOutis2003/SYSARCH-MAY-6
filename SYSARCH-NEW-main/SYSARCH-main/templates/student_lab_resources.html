@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Resources - CSS SIT-IN MONITORING SYSTEM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-image: url('/static/uc.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: rgba(0, 0, 0, 0.5);
+            background-blend-mode: overlay;
+            min-height: 100vh;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #003366;
+        }
+
+        .user-info {
+            text-align: right;
+            color: #003366;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .profile-pic {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #003366;
+        }
+
+        .user-details {
+            text-align: right;
+        }
+
+        .back-btn, .logout-btn {
+            background-color: #003366;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-btn:hover, .logout-btn:hover {
+            background-color: #002244;
+        }
+
+        .content-section {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .resource-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .resource-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .resource-meta {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .resource-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .resource-description {
+            color: #666;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .resource-card .download-link {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .resource-card .download-link:hover {
+            background-color: #0056b3;
+            text-decoration: none;
+        }
+
+        .resource-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .view-btn, .download-btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+        }
+
+        .view-btn {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .view-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .download-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .download-btn:hover {
+            background-color: #218838;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .current-lab-banner {
+            background-color: #e3f2fd;
+            border-left: 4px solid #003366;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .current-lab-banner i {
+            color: #003366;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="header">
+            <div class="logo-section">
+                <img src="/static/CSS.png" alt="CSS Logo" class="logo">
+                <h1>Lab Resources</h1>
+            </div>
+            <div class="user-info">
+                <div class="user-details">
+                    <h3>{{ student.firstname }} {{ student.lastname }}</h3>
+                    <p>{{ student.idno }}</p>
+                    <a href="{{ url_for('student_dashboard') }}"><button class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</button></a>
+                    <a href="{{ url_for('logout') }}"><button class="logout-btn">Logout</button></a>
+                </div>
+                <img src="/static/profile_pictures/{{ student.profile_picture }}" alt="Profile Picture" class="profile-pic">
+            </div>
+        </div>
+
+        <div class="content-section">
+            {% if current_lab_room %}
+            <div class="current-lab-banner">
+                <i class="fas fa-info-circle"></i>
+                <div>
+                    <h3>You are currently in {{ current_lab_room|lab_room }}</h3>
+                    <p>Resources specific to your current lab room are highlighted below.</p>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="resources-list">
+                {% if resources %}
+                    {% for resource in resources %}
+                    <div class="resource-card {% if current_lab_room and resource.lab_room == current_lab_room %}current-lab-resource{% endif %}">
+                        <div class="resource-title">{{ resource.title }}</div>
+                        <div class="resource-meta">
+                            <span><i class="fas fa-folder"></i> {{ resource.resource_type|title }}</span>
+                            <span><i class="fas fa-door-open"></i> {{ resource.lab_room|lab_room }}</span>
+                        </div>
+                        <div class="resource-description">{{ resource.description }}</div>
+                        {% if resource.file_path %}
+                        <div class="resource-actions">
+                            <a href="{{ url_for('uploaded_file', filename=resource.file_path.split('/')[-1]) }}" target="_blank" class="view-btn">
+                                <i class="fas fa-eye"></i> View File
+                            </a>
+                            <a href="{{ url_for('uploaded_file', filename=resource.file_path.split('/')[-1]) }}" download class="download-btn">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-book-open"></i>
+                        <h3>No Resources Available</h3>
+                        <p>There are currently no resources available for download.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify, send_from_directory
 from werkzeug.security import generate_password_hash, check_password_hash
 import mysql.connector
 from datetime import timedelta
@@ -294,6 +294,21 @@ def init_db():
             hashed_password = generate_password_hash('admin')
             cursor.execute("INSERT INTO admins (username, password) VALUES (%s, %s)", 
                         ('admin', hashed_password))
+        
+        # Create lab_resources table
+        cursor.execute("""
+        CREATE TABLE IF NOT EXISTS lab_resources (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            title VARCHAR(255) NOT NULL,
+            description TEXT,
+            file_path VARCHAR(255),
+            resource_type ENUM('ppt', 'discussion', 'document', 'other') NOT NULL,
+            lab_room VARCHAR(50) NOT NULL,
+            is_enabled BOOLEAN DEFAULT TRUE,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        )
+        """)
         
         conn.commit()
         cursor.close()
@@ -1908,20 +1923,40 @@ def admin_leaderboard():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     
-    # Get top students by points
-    cursor.execute("""
-    SELECT id, idno, firstname, lastname, course, points,
-           (SELECT COUNT(*) FROM sessions WHERE student_id = students.id AND status = 'completed') as completed_sessions
-    FROM students
-    ORDER BY points DESC, completed_sessions DESC
-    LIMIT 20
-    """)
-    leaderboard = cursor.fetchall()
+    try:
+        # Get total students count
+        cursor.execute("SELECT COUNT(*) as count FROM students")
+        total_students = cursor.fetchone()['count']
+        
+        # Get leaderboard data
+        cursor.execute("""
+        SELECT 
+            s.id,
+            s.idno,
+            s.firstname,
+            s.lastname,
+            s.course,
+            s.points,
+            COUNT(ses.id) as total_sessions
+        FROM students s
+        LEFT JOIN sessions ses ON s.id = ses.student_id AND ses.status = 'completed'
+        GROUP BY s.id, s.idno, s.firstname, s.lastname, s.course, s.points
+        ORDER BY s.points DESC, total_sessions DESC
+        """)
+        leaderboard_data = cursor.fetchall()
+        
+    except Exception as e:
+        print(f"Error getting leaderboard data: {str(e)}")
+        total_students = 0
+        leaderboard_data = []
     
-    cursor.close()
-    conn.close()
+    finally:
+        cursor.close()
+        conn.close()
     
-    return render_template('admin_leaderboard.html', leaderboard=leaderboard)
+    return render_template('admin_leaderboard.html', 
+                         leaderboard_data=leaderboard_data,
+                         total_students=total_students)
 
 @app.route('/export-report/by-lab/<format>')
 @admin_required
@@ -2439,6 +2474,146 @@ def student_leaderboard():
     conn.close()
     
     return render_template('student_leaderboard.html', leaderboard=leaderboard, your_stats=your_stats, current_user={"id": student_id})
+
+@app.route('/admin/reset_student_sessions/<int:student_id>', methods=['POST'])
+@admin_required
+def reset_student_sessions(student_id):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    
+    try:
+        # Check if student exists
+        cursor.execute("SELECT * FROM students WHERE id = %s", (student_id,))
+        student = cursor.fetchone()
+        
+        if not student:
+            flash('Student not found', 'error')
+            return redirect(url_for('admin_dashboard'))
+        
+        # Reset sessions_used for the specific student
+        cursor.execute("UPDATE students SET sessions_used = 0 WHERE id = %s", (student_id,))
+        
+        conn.commit()
+        flash(f'Session count has been reset for student {student["firstname"]} {student["lastname"]}', 'success')
+        
+    except Exception as e:
+        conn.rollback()
+        flash(f'Failed to reset student sessions: {str(e)}', 'error')
+        
+    finally:
+        cursor.close()
+        conn.close()
+        
+    return redirect(url_for('admin_dashboard'))
+
+@app.route('/admin/lab_resources', methods=['GET', 'POST'])
+@admin_required
+def lab_resources():
+    if request.method == 'POST':
+        title = request.form.get('title')
+        description = request.form.get('description')
+        resource_type = request.form.get('resource_type')
+        lab_room = request.form.get('lab_room')
+        is_enabled = request.form.get('is_enabled') == 'on'
+        
+        file = request.files.get('file')
+        if not file or not file.filename:
+            flash('Please select a file to upload', 'error')
+            return redirect(url_for('lab_resources'))
+        
+        try:
+            # Create uploads directory if it doesn't exist
+            upload_dir = os.path.join('static', 'uploads')
+            if not os.path.exists(upload_dir):
+                os.makedirs(upload_dir)
+            
+            # Generate a unique filename
+            filename = secure_filename(file.filename)
+            unique_filename = f"{int(time.time())}_{filename}"
+            file_path = os.path.join('uploads', unique_filename)
+            
+            # Save the file
+            file.save(os.path.join('static', file_path))
+            
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            
+            # Insert the resource into the database
+            cursor.execute('''
+                INSERT INTO lab_resources (title, description, file_path, resource_type, lab_room, is_enabled)
+                VALUES (%s, %s, %s, %s, %s, %s)
+            ''', (title, description, file_path, resource_type, lab_room, is_enabled))
+            
+            conn.commit()
+            flash('Resource added successfully!', 'success')
+            
+        except Exception as e:
+            if conn:
+                conn.rollback()
+            flash(f'Error adding resource: {str(e)}', 'error')
+            logging.error(f"Error adding resource: {str(e)}")
+            
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
+        
+        return redirect(url_for('lab_resources'))
+    
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute('SELECT * FROM lab_resources ORDER BY id DESC')
+        resources = cursor.fetchall()
+    except Exception as e:
+        flash(f'Error fetching resources: {str(e)}', 'error')
+        resources = []
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+    
+    return render_template('lab_resources.html', resources=resources)
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory('static/uploads', filename)
+
+@app.route('/admin/delete-resource/<int:resource_id>', methods=['POST'])
+@admin_required
+def delete_resource(resource_id):
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        
+        # Get the resource to find the file path
+        cursor.execute("SELECT file_path FROM lab_resources WHERE id = %s", (resource_id,))
+        resource = cursor.fetchone()
+        
+        if resource and resource['file_path']:
+            # Delete the file from the filesystem
+            file_path = os.path.join('static', resource['file_path'])
+            if os.path.exists(file_path):
+                os.remove(file_path)
+        
+        # Delete the resource from the database
+        cursor.execute("DELETE FROM lab_resources WHERE id = %s", (resource_id,))
+        conn.commit()
+        
+        return jsonify({'success': True})
+        
+    except Exception as e:
+        if conn:
+            conn.rollback()
+        return jsonify({'success': False, 'error': str(e)})
+        
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
 
 # Initialize the database on startup
 # Moved to if __name__ == '__main__' block
