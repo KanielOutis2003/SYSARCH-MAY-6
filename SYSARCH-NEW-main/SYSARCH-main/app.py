@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify, send_from_directory
 from werkzeug.security import generate_password_hash, check_password_hash
 import mysql.connector
-from datetime import timedelta
+from datetime import timedelta, datetime
 import logging
 import sys
 from functools import wraps
@@ -9,6 +9,7 @@ import os
 from werkzeug.utils import secure_filename
 import uuid
 import time
+import sqlite3
 
 # Configure logging
 logging.basicConfig(
@@ -1785,34 +1786,30 @@ def add_lab_schedule():
     day_of_week = request.form.get('day_of_week')
     start_time = request.form.get('start_time')
     end_time = request.form.get('end_time')
-    instructor = request.form.get('instructor')
-    subject = request.form.get('subject')
-    section = request.form.get('section')
     
-    if not lab_room or not day_of_week or not start_time or not end_time:
-        flash('Lab room, day, start time, and end time are required', 'error')
+    if not all([lab_room, day_of_week, start_time, end_time]):
+        flash('All fields are required', 'error')
         return redirect(url_for('admin_lab_schedules'))
     
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    
     try:
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        
         cursor.execute("""
-        INSERT INTO lab_schedules (lab_room, day_of_week, start_time, end_time, instructor, subject, section)
-        VALUES (%s, %s, %s, %s, %s, %s, %s)
-        """, (lab_room, day_of_week, start_time, end_time, instructor, subject, section))
+            INSERT INTO lab_schedules 
+            (lab_room, day_of_week, start_time, end_time) 
+            VALUES (%s, %s, %s, %s)
+        """, (lab_room, day_of_week, start_time, end_time))
         
         conn.commit()
         flash('Lab schedule added successfully', 'success')
-        
     except Exception as e:
-        conn.rollback()
+        print(f"Error: {str(e)}")
         flash(f'Failed to add lab schedule: {str(e)}', 'error')
-        
     finally:
         cursor.close()
         conn.close()
-        
+    
     return redirect(url_for('admin_lab_schedules'))
 
 @app.route('/admin/edit-lab-schedule', methods=['POST'])
@@ -1823,36 +1820,30 @@ def edit_lab_schedule():
     day_of_week = request.form.get('day_of_week')
     start_time = request.form.get('start_time')
     end_time = request.form.get('end_time')
-    instructor = request.form.get('instructor')
-    subject = request.form.get('subject')
-    section = request.form.get('section')
     
-    if not schedule_id or not lab_room or not day_of_week or not start_time or not end_time:
-        flash('Schedule ID, lab room, day, start time, and end time are required', 'error')
+    if not all([schedule_id, lab_room, day_of_week, start_time, end_time]):
+        flash('All fields are required', 'error')
         return redirect(url_for('admin_lab_schedules'))
     
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    
     try:
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        
         cursor.execute("""
-        UPDATE lab_schedules 
-        SET lab_room = %s, day_of_week = %s, start_time = %s, end_time = %s, 
-            instructor = %s, subject = %s, section = %s
-        WHERE id = %s
-        """, (lab_room, day_of_week, start_time, end_time, instructor, subject, section, schedule_id))
+            UPDATE lab_schedules 
+            SET lab_room = %s, day_of_week = %s, start_time = %s, end_time = %s
+            WHERE id = %s
+        """, (lab_room, day_of_week, start_time, end_time, schedule_id))
         
         conn.commit()
         flash('Lab schedule updated successfully', 'success')
-        
     except Exception as e:
-        conn.rollback()
+        print(f"Error: {str(e)}")
         flash(f'Failed to update lab schedule: {str(e)}', 'error')
-        
     finally:
         cursor.close()
         conn.close()
-        
+    
     return redirect(url_for('admin_lab_schedules'))
 
 @app.route('/admin/delete-lab-schedule/<int:schedule_id>', methods=['POST'])
@@ -2506,76 +2497,129 @@ def reset_student_sessions(student_id):
         
     return redirect(url_for('admin_dashboard'))
 
-@app.route('/admin/lab_resources', methods=['GET', 'POST'])
-@admin_required
+@app.route('/lab_resources', methods=['GET', 'POST'])
 def lab_resources():
-    if request.method == 'POST':
-        title = request.form.get('title')
-        description = request.form.get('description')
-        resource_type = request.form.get('resource_type')
-        lab_room = request.form.get('lab_room')
-        is_enabled = request.form.get('is_enabled') == 'on'
-        
-        file = request.files.get('file')
-        if not file or not file.filename:
-            flash('Please select a file to upload', 'error')
-            return redirect(url_for('lab_resources'))
-        
-        try:
-            # Create uploads directory if it doesn't exist
-            upload_dir = os.path.join('static', 'uploads')
-            if not os.path.exists(upload_dir):
-                os.makedirs(upload_dir)
-            
-            # Generate a unique filename
-            filename = secure_filename(file.filename)
-            unique_filename = f"{int(time.time())}_{filename}"
-            file_path = os.path.join('uploads', unique_filename)
-            
-            # Save the file
-            file.save(os.path.join('static', file_path))
-            
-            conn = get_db_connection()
-            cursor = conn.cursor()
-            
-            # Insert the resource into the database
-            cursor.execute('''
-                INSERT INTO lab_resources (title, description, file_path, resource_type, lab_room, is_enabled)
-                VALUES (%s, %s, %s, %s, %s, %s)
-            ''', (title, description, file_path, resource_type, lab_room, is_enabled))
-            
-            conn.commit()
-            flash('Resource added successfully!', 'success')
-            
-        except Exception as e:
-            if conn:
-                conn.rollback()
-            flash(f'Error adding resource: {str(e)}', 'error')
-            logging.error(f"Error adding resource: {str(e)}")
-            
-        finally:
-            if cursor:
-                cursor.close()
-            if conn:
-                conn.close()
-        
-        return redirect(url_for('lab_resources'))
+    # Check if user is logged in
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    
+    user_type = session.get('user_type', '')
+    error_message = None
+    success_message = None
+    lab_resources_list = []
+    
+    # Create uploads directory if it doesn't exist
+    upload_dir = os.path.join('static', 'uploads')
+    if not os.path.exists(upload_dir):
+        os.makedirs(upload_dir)
     
     try:
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute('SELECT * FROM lab_resources ORDER BY id DESC')
-        resources = cursor.fetchall()
+        
+        if user_type == 'admin' and request.method == 'POST':
+            # Existing admin POST handling code
+            title = request.form.get('title')
+            description = request.form.get('description')
+            resource_type = request.form.get('resource_type')
+            lab_room = request.form.get('lab_room')
+            resource_link = request.form.get('resource_link')
+            
+            # Flag to determine if we're processing a file or URL
+            is_url = False
+            file_path = None
+            
+            # Check if resource_link starts with http:// or https://
+            if resource_link and (resource_link.startswith('http://') or resource_link.startswith('https://')):
+                is_url = True
+                file_path = resource_link  # Store the URL directly in file_path
+            else:
+                # Handle file upload
+                if 'file' in request.files and request.files['file'].filename != '':
+                    file = request.files['file']
+                    if file and allowed_file(file.filename):
+                        # Generate unique filename
+                        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+                        filename = secure_filename(f"{timestamp}_{file.filename}")
+                        
+                        # Save file and set path
+                        file_path = os.path.join('uploads', filename)
+                        file.save(os.path.join('static', file_path))
+                    else:
+                        error_message = "Invalid file type."
+                        flash(error_message, 'error')
+            
+            if title and (file_path or is_url):
+                # Insert the resource into the database
+                cursor.execute(
+                    "INSERT INTO lab_resources (file_path, title, description, resource_type, lab_room, is_enabled) VALUES (%s, %s, %s, %s, %s, %s)",
+                    (file_path, title, description, resource_type, lab_room, True)
+                )
+                conn.commit()
+                success_message = "Resource added successfully."
+                flash(success_message, 'success')
+            else:
+                if not file_path and not is_url:
+                    error_message = "Please provide either a file or a valid URL."
+                    flash(error_message, 'error')
+        
+        # Get lab resources for admin or student
+        if user_type == 'admin':
+            cursor.execute("SELECT * FROM lab_resources ORDER BY id DESC")
+            lab_resources_list = cursor.fetchall()
+            return render_template('lab_resources.html', resources=lab_resources_list)
+        else:
+            # For students, get student data and only show enabled resources
+            cursor.execute("SELECT * FROM students WHERE id = %s", (session.get('user_id'),))
+            student = cursor.fetchone()
+            
+            if not student:
+                flash('Student not found', 'error')
+                return redirect(url_for('logout'))
+            
+            # Get the student's current lab
+            current_lab = student.get('current_lab')
+            
+            # Get all enabled resources
+            cursor.execute("SELECT * FROM lab_resources WHERE is_enabled = TRUE ORDER BY id DESC")
+            lab_resources_list = cursor.fetchall()
+            
+            return render_template('student_lab_resources.html', 
+                                  student=student, 
+                                  resources=lab_resources_list,
+                                  current_lab_room=current_lab)
+    
     except Exception as e:
-        flash(f'Error fetching resources: {str(e)}', 'error')
-        resources = []
+        error_message = f"An error occurred: {str(e)}"
+        flash(error_message, 'error')
+        logging.error(f"Error in lab_resources route: {str(e)}")
+    
     finally:
-        if cursor:
+        if 'cursor' in locals() and cursor:
             cursor.close()
-        if conn:
+        if 'conn' in locals() and conn:
             conn.close()
     
-    return render_template('lab_resources.html', resources=resources)
+    # Default returns
+    if user_type == 'admin':
+        return render_template('lab_resources.html', resources=lab_resources_list)
+    else:
+        # Try to get student data again for error case
+        student = None
+        try:
+            conn = get_db_connection()
+            cursor = conn.cursor(dictionary=True)
+            cursor.execute("SELECT * FROM students WHERE id = %s", (session.get('user_id'),))
+            student = cursor.fetchone()
+            cursor.close()
+            conn.close()
+        except:
+            pass
+        
+        return render_template('student_lab_resources.html', 
+                              student=student, 
+                              resources=lab_resources_list,
+                              current_lab_room=None)
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
@@ -2615,8 +2659,190 @@ def delete_resource(resource_id):
         if conn:
             conn.close()
 
+@app.route('/admin/add-reward-points', methods=['POST'])
+@admin_required
+def add_reward_points():
+    student_id = request.form.get('student_id')
+    points = request.form.get('points')
+    reason = request.form.get('reason')
+    
+    if not student_id or not points:
+        flash('Student ID and points are required', 'error')
+        return redirect(url_for('admin_leaderboard'))
+    
+    try:
+        points = int(points)
+        if points <= 0 or points > 100:
+            flash('Points must be between 1 and 100', 'error')
+            return redirect(url_for('admin_leaderboard'))
+    except ValueError:
+        flash('Points must be a valid number', 'error')
+        return redirect(url_for('admin_leaderboard'))
+    
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    
+    try:
+        # Check if student exists
+        cursor.execute("SELECT * FROM students WHERE id = %s", (student_id,))
+        student = cursor.fetchone()
+        
+        if not student:
+            flash('Student not found', 'error')
+            return redirect(url_for('admin_leaderboard'))
+        
+        # Add points to the student
+        cursor.execute("UPDATE students SET points = points + %s WHERE id = %s", (points, student_id))
+        
+        # Log the reward
+        current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        cursor.execute("""
+            INSERT INTO activity_log (action_type, user_id, user_type, details, timestamp)
+            VALUES (%s, %s, %s, %s, %s)
+        """, ('reward_points', session.get('user_id'), 'admin', 
+             f"Added {points} reward points to student {student['firstname']} {student['lastname']} ({student['idno']}). Reason: {reason}", 
+             current_time))
+        
+        conn.commit()
+        flash(f'Successfully added {points} points to {student["firstname"]} {student["lastname"]}', 'success')
+        
+    except Exception as e:
+        conn.rollback()
+        flash(f'Failed to add reward points: {str(e)}', 'error')
+        
+    finally:
+        cursor.close()
+        conn.close()
+        
+    return redirect(url_for('admin_leaderboard'))
+
+@app.route('/admin/lab_resources/<int:resource_id>/toggle', methods=['POST'])
+def toggle_lab_resource(resource_id):
+    try:
+        if session.get('user_type') != 'admin':
+            return jsonify({'success': False, 'message': 'Admin access required'}), 403
+            
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        
+        # Get current status
+        cursor.execute("SELECT is_enabled FROM lab_resources WHERE id = %s", (resource_id,))
+        resource = cursor.fetchone()
+        
+        if not resource:
+            cursor.close()
+            conn.close()
+            return jsonify({'success': False, 'message': 'Resource not found'}), 404
+        
+        # Toggle status
+        new_status = not resource['is_enabled']
+        cursor.execute("UPDATE lab_resources SET is_enabled = %s WHERE id = %s", (new_status, resource_id))
+        conn.commit()
+        
+        cursor.close()
+        conn.close()
+        
+        return jsonify({'success': True})
+        
+    except Exception as e:
+        logging.error(f"Error toggling resource status: {str(e)}")
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+@app.route('/admin/lab_resources/<int:resource_id>/delete', methods=['POST'])
+def delete_lab_resource(resource_id):
+    try:
+        if session.get('user_type') != 'admin':
+            return jsonify({'success': False, 'message': 'Admin access required'}), 403
+            
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        
+        # Get resource info to delete file if needed
+        cursor.execute("SELECT * FROM lab_resources WHERE id = %s", (resource_id,))
+        resource = cursor.fetchone()
+        
+        if not resource:
+            cursor.close()
+            conn.close()
+            return jsonify({'success': False, 'message': 'Resource not found'}), 404
+        
+        # Delete the resource
+        cursor.execute("DELETE FROM lab_resources WHERE id = %s", (resource_id,))
+        conn.commit()
+        
+        # Delete the file if it exists
+        if resource['file_path']:
+            file_path = os.path.join('static', resource['file_path'])
+            if os.path.exists(file_path):
+                os.remove(file_path)
+        
+        cursor.close()
+        conn.close()
+        
+        return jsonify({'success': True})
+        
+    except Exception as e:
+        logging.error(f"Error deleting resource: {str(e)}")
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+@app.route('/student_lab_resources')
+def student_lab_resources():
+    if 'loggedin' not in session:
+        return redirect(url_for('login'))
+    
+    # Connect to the database
+    connection = sqlite3.connect('sit_in_db.db')
+    connection.row_factory = sqlite3.Row
+    cursor = connection.cursor()
+    
+    try:
+        # Get only the enabled resources
+        cursor.execute('''
+            SELECT * FROM lab_resources 
+            WHERE is_enabled = 1
+            ORDER BY lab_room
+        ''')
+        lab_resources_list = cursor.fetchall()
+        
+        # Get lab room mapping for display
+        lab_rooms = lab_room_mapping
+        
+        return render_template('student_lab_resources.html', 
+                              lab_resources_list=lab_resources_list,
+                              lab_rooms=lab_rooms,
+                              username=session['username'])
+    except Exception as e:
+        flash(f"Error: {str(e)}", "error")
+        return render_template('student_lab_resources.html', 
+                              lab_resources_list=[],
+                              lab_rooms=lab_room_mapping,
+                              username=session['username'])
+    finally:
+        cursor.close()
+        connection.close()
+
 # Initialize the database on startup
 # Moved to if __name__ == '__main__' block
+
+@app.template_filter('format_time')
+def format_time(time_delta):
+    """Format timedelta as HH:MM AM/PM"""
+    if not time_delta:
+        return ""
+    
+    total_seconds = int(time_delta.total_seconds())
+    hours = total_seconds // 3600
+    minutes = (total_seconds % 3600) // 60
+    
+    period = "AM" if hours < 12 else "PM"
+    display_hours = hours if hours <= 12 else hours - 12
+    # Handle midnight/noon special cases
+    if hours == 0:
+        display_hours = 12
+    if hours == 12:
+        display_hours = 12
+        
+    return f"{display_hours}:{minutes:02d} {period}"
 
 if __name__ == '__main__':
     print("Starting Student Lab Session Management System...")

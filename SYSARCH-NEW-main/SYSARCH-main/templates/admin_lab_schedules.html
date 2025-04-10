@@ -389,6 +389,42 @@
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_dashboard') }}#sessions';">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Current Sessions</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_dashboard') }}#pending';">
+                    <i class="fas fa-clock"></i>
+                    <span>Pending Requests</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_dashboard') }}#forms';">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Reservations</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_dashboard') }}#students';">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>Students</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_dashboard') }}#feedback';">
+                    <i class="fas fa-comment-alt"></i>
+                    <span>Feedback</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_dashboard') }}#announcements';">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Announcements</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_dashboard') }}#reports';">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reports</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_leaderboard') }}';">
+                    <i class="fas fa-trophy"></i>
+                    <span>Leaderboard</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('lab_resources') }}';">
+                    <i class="fas fa-book"></i>
+                    <span>Lab Resources</span>
+                </div>
                 <div class="nav-item active">
                     <i class="fas fa-calendar-alt"></i>
                     <span>Lab Schedules</span>
@@ -401,9 +437,9 @@
                     <i class="fas fa-clipboard-list"></i>
                     <span>Today's Sit-ins</span>
                 </div>
-                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_leaderboard') }}';">
-                    <i class="fas fa-trophy"></i>
-                    <span>Leaderboard</span>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_dashboard') }}#settings';">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
                 </div>
             </div>
         </div>
@@ -466,26 +502,6 @@
                         </div>
                     </div>
 
-                    <div class="form-row">
-                        <div class="form-col">
-                            <div class="form-group">
-                                <label for="subject">Subject</label>
-                                <input type="text" id="subject" name="subject" class="form-control" placeholder="e.g. Programming 1">
-                            </div>
-                        </div>
-                        <div class="form-col">
-                            <div class="form-group">
-                                <label for="section">Section</label>
-                                <input type="text" id="section" name="section" class="form-control" placeholder="e.g. BSIT 1A">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="instructor">Instructor</label>
-                        <input type="text" id="instructor" name="instructor" class="form-control" placeholder="Full name of instructor">
-                    </div>
-
                     <button type="submit" class="btn-primary"><i class="fas fa-plus"></i> Add Schedule</button>
                 </form>
             </div>
@@ -499,9 +515,6 @@
                             <th>Lab Room</th>
                             <th>Day</th>
                             <th>Time</th>
-                            <th>Subject</th>
-                            <th>Section</th>
-                            <th>Instructor</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -510,10 +523,7 @@
                             <tr>
                                 <td>{{ schedule.lab_room|lab_room }}</td>
                                 <td>{{ schedule.day_of_week }}</td>
-                                <td>{{ schedule.start_time.strftime('%I:%M %p') }} - {{ schedule.end_time.strftime('%I:%M %p') }}</td>
-                                <td>{{ schedule.subject }}</td>
-                                <td>{{ schedule.section }}</td>
-                                <td>{{ schedule.instructor }}</td>
+                                <td>{{ schedule.start_time|format_time }} - {{ schedule.end_time|format_time }}</td>
                                 <td>
                                     <button onclick="editSchedule('{{ schedule.id }}')" class="btn-edit"><i class="fas fa-edit"></i></button>
                                     <form action="{{ url_for('delete_lab_schedule', schedule_id=schedule.id) }}" method="POST" style="display: inline;">
@@ -588,26 +598,6 @@
                     </div>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-col">
-                        <div class="form-group">
-                            <label for="edit_subject">Subject</label>
-                            <input type="text" id="edit_subject" name="subject" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-col">
-                        <div class="form-group">
-                            <label for="edit_section">Section</label>
-                            <input type="text" id="edit_section" name="section" class="form-control">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="edit_instructor">Instructor</label>
-                    <input type="text" id="edit_instructor" name="instructor" class="form-control">
-                </div>
-
                 <button type="submit" class="btn-primary">Save Changes</button>
             </form>
         </div>
@@ -634,10 +624,7 @@
                 lab_room: "Lab 524",
                 day_of_week: "Monday",
                 start_time: "09:00",
-                end_time: "10:30",
-                subject: "Programming 1",
-                section: "BSIT 1A",
-                instructor: "John Doe"
+                end_time: "10:30"
             };
             
             // Populate the form fields
@@ -646,9 +633,6 @@
             document.getElementById('edit_day_of_week').value = scheduleData.day_of_week;
             document.getElementById('edit_start_time').value = scheduleData.start_time;
             document.getElementById('edit_end_time').value = scheduleData.end_time;
-            document.getElementById('edit_subject').value = scheduleData.subject;
-            document.getElementById('edit_section').value = scheduleData.section;
-            document.getElementById('edit_instructor').value = scheduleData.instructor;
             
             // Show the modal
             document.getElementById('editScheduleModal').style.display = 'block';

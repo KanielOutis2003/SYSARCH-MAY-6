@@ -70,7 +70,7 @@
         }
 
         .back-btn, .logout-btn {
-            background-color: #003366;
+            background-color: #dc3545;
             color: white;
             border: none;
             padding: 8px 16px;
@@ -84,7 +84,7 @@
         }
 
         .back-btn:hover, .logout-btn:hover {
-            background-color: #002244;
+            background-color: #dc3545;
         }
 
         .content-section {
@@ -93,6 +93,20 @@
             padding: 20px;
             margin-bottom: 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-section h2 {
+            color: #0056b3;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .content-section h2 i {
+            color: #0056b3;
         }
 
         .add-resource-form {
@@ -128,7 +142,7 @@
         }
 
         .submit-btn {
-            background-color: #003366;
+            background-color: #0056b3;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -136,166 +150,196 @@
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .submit-btn:hover {
-            background-color: #002244;
+            background-color: #003d82;
+            transform: translateY(-2px);
+        }
+
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
         }
 
         .resource-card {
             background-color: #ffffff;
             border-radius: 8px;
             padding: 20px;
-            margin-bottom: 20px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s ease;
+            transition: all 0.3s ease;
+            border-left: 4px solid #28a745;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
         }
 
         .resource-card:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
-        .resource-title {
-            font-size: 18px;
+        .resource-card.disabled {
+            opacity: 0.95;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .resource-card.disabled::before {
+            content: "DISABLED";
+            position: absolute;
+            top: 10px;
+            right: -22px;
+            background-color: #dc3545;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 3px 28px;
+            transform: rotate(45deg);
+            z-index: 1;
+        }
+
+        .resource-card:not(.disabled)::before {
+            content: "ENABLED";
+            position: absolute;
+            top: 10px;
+            right: -22px;
+            background-color: #28a745;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 3px 28px;
+            transform: rotate(45deg);
+            z-index: 1;
+        }
+
+        .resource-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            gap: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .resource-header h4 {
+            margin: 0;
+            font-size: 17px;
+            color: #495057;
             font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 8px;
         }
 
         .resource-meta {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 8px;
             display: flex;
-            align-items: center;
             gap: 15px;
-        }
-
-        .resource-meta span {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .resource-description {
-            color: #666;
             margin-bottom: 12px;
-            line-height: 1.5;
+            font-size: 14px;
+            color: #666;
         }
 
-        .resource-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .view-btn, .download-btn {
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            border: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            text-decoration: none;
-        }
-
-        .view-btn {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .view-btn:hover {
-            background-color: #0056b3;
-        }
-
-        .download-btn {
-            background-color: #28a745;
-            color: white;
-        }
-
-        .download-btn:hover {
-            background-color: #218838;
-        }
-
-        .toggle-btn {
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            border: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .toggle-btn.enabled {
-            background-color: #28a745;
-            color: white;
-        }
-
-        .toggle-btn.disabled {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .delete-btn {
-            background-color: #dc3545;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            border: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .delete-btn:hover {
-            background-color: #c82333;
-        }
-
-        .download-link {
+        .resource-type {
             display: inline-flex;
             align-items: center;
             gap: 5px;
-            color: #003366;
-            text-decoration: none;
-            font-weight: 500;
-            padding: 8px 16px;
+            padding: 6px 12px;
             border-radius: 4px;
-            background-color: #f8f9fa;
-            transition: all 0.3s ease;
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            background-color: #f5f5f5;
+            color: #616161;
+        }
+        
+        .resource-type.lecture {
+            background-color: #f0f5ff;
+            color: #0d6efd;
+        }
+        
+        .resource-type.exercise {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .resource-type.reference {
+            background-color: #fff8e1;
+            color: #f57f17;
+        }
+        
+        .resource-type.tutorial {
+            background-color: #e3f2fd;
+            color: #0277bd;
+        }
+        
+        .resource-type.software {
+            background-color: #f3e5f5;
+            color: #7b1fa2;
         }
 
-        .download-link:hover {
-            background-color: #e9ecef;
+        .resource-desc {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+            flex-grow: 1;
         }
 
-        .empty-state {
+        .resource-access {
+            margin-top: auto;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-outline-primary {
+            color: #0056b3;
+            border: 1px solid #0056b3;
+            background-color: transparent;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        .btn-outline-success {
+            color: #28a745;
+            border: 1px solid #28a745;
+            background-color: transparent;
+        }
+
+        .btn-outline-success:hover {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .no-file {
+            color: #666;
+            font-style: italic;
+        }
+
+        .no-resources {
             text-align: center;
             padding: 40px;
-            color: #666;
-        }
-
-        .empty-state i {
-            font-size: 48px;
-            margin-bottom: 20px;
-            color: #003366;
-        }
-
-        .empty-state h3 {
-            margin-bottom: 10px;
-            color: #2c3e50;
-        }
-
-        .empty-state p {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            font-size: 16px;
             color: #666;
         }
 
@@ -348,6 +392,232 @@
                 flex-direction: column;
             }
         }
+
+        /* Admin Header Styles */
+        .admin-header {
+            background: #ffffff;
+            padding: 20px;
+            color: #2c3e50;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .admin-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            max-width: 100%;
+            align-items: center;
+        }
+        
+        .nav-item {
+            padding: 10px 16px;
+            cursor: pointer;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            background: #f8f9fa;
+            flex: 0 0 auto;
+            min-width: 130px;
+            font-size: 14px;
+            font-weight: 500;
+            height: 42px;
+            box-sizing: border-box;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            color: #2c3e50;
+        }
+        
+        .nav-item:hover {
+            background: #e9ecef;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .nav-item.active {
+            background: #2c3e50;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-item i {
+            font-size: 16px;
+            width: 16px;
+            text-align: center;
+            color: inherit;
+        }
+
+        @media (max-width: 1200px) {
+            .admin-header {
+                padding: 15px;
+            }
+            
+            .nav-item {
+                padding: 8px 14px;
+                font-size: 13px;
+                min-width: 120px;
+                height: 38px;
+            }
+            
+            .nav-item i {
+                font-size: 15px;
+                width: 18px;
+            }
+        }
+
+        .resource-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .toggle-btn {
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 13px;
+        }
+
+        .toggle-btn[data-status="enabled"] {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .toggle-btn[data-status="disabled"] {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #003366;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .empty-state p {
+            color: #666;
+        }
+
+        .resource-form-container {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            border-left: 5px solid #0056b3;
+        }
+
+        .resource-form-container h3 {
+            color: #0056b3;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .resource-form-container h3 i {
+            color: #0056b3;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        .custom-control {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .custom-control-input {
+            margin-right: 10px;
+        }
+
+        .form-text {
+            display: block;
+            margin-top: 5px;
+            color: #6c757d;
+            font-size: 13px;
+        }
+
+        .resource-list h3 {
+            color: #495057;
+            margin-bottom: 20px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 10px;
+        }
+
+        .resource-list h3 i {
+            color: #495057;
+        }
     </style>
 </head>
 <body>
@@ -360,8 +630,69 @@
             <div class="user-info">
                 <div class="user-details">
                     <h3>Admin Dashboard</h3>
-                    <a href="{{ url_for('admin_dashboard') }}"><button class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</button></a>
                     <a href="{{ url_for('logout') }}"><button class="logout-btn">Logout</button></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Navigation Header -->
+        <div class="admin-header">
+            <div class="admin-nav">
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_dashboard') }}';">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_dashboard') }}#sessions';">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Current Sessions</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_dashboard') }}#pending';">
+                    <i class="fas fa-clock"></i>
+                    <span>Pending Requests</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_dashboard') }}#forms';">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Reservations</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_dashboard') }}#students';">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>Students</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_dashboard') }}#feedback';">
+                    <i class="fas fa-comment-alt"></i>
+                    <span>Feedback</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_dashboard') }}#announcements';">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Announcements</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_dashboard') }}#reports';">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reports</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_leaderboard') }}';">
+                    <i class="fas fa-trophy"></i>
+                    <span>Leaderboard</span>
+                </div>
+                <div class="nav-item active">
+                    <i class="fas fa-book"></i>
+                    <span>Lab Resources</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_lab_schedules') }}';">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Lab Schedules</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('sit_in_history') }}';">
+                    <i class="fas fa-history"></i>
+                    <span>Sit-In History</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('todays_sit_ins') }}';">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Today's Sit-ins</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_dashboard') }}#settings';">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
                 </div>
             </div>
         </div>
@@ -369,137 +700,202 @@
         <div class="content-section">
             <h2><i class="fas fa-book"></i> Lab Resources</h2>
 
-            <!-- Add Resource Form -->
-            <div class="add-resource-form">
-                <h3>Add New Resource</h3>
+            <!-- Resource Form -->
+            <div class="resource-form-container">
+                <h3><i class="fas fa-plus-circle"></i> Add New Resource</h3>
                 <form action="{{ url_for('lab_resources') }}" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="title">Title</label>
-                        <input type="text" id="title" name="title" class="form-control" required placeholder="Enter resource title">
+                        <input type="text" id="title" name="title" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea id="description" name="description" class="form-control" rows="3" placeholder="Enter resource description"></textarea>
+                        <textarea id="description" name="description" class="form-control" rows="3"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="resource_type">Resource Type</label>
-                        <select id="resource_type" name="resource_type" class="form-control" required>
-                            <option value="ppt">PowerPoint Presentation</option>
-                            <option value="discussion">Discussion Material</option>
-                            <option value="document">Document</option>
-                            <option value="other">Other</option>
+                        <label for="resource-type">Resource Type</label>
+                        <select id="resource-type" name="resource_type" class="form-control" required>
+                            <option value="Lecture">Lecture Material</option>
+                            <option value="Exercise">Exercise / Lab Work</option>
+                            <option value="Reference">Reference Document</option>
+                            <option value="Tutorial">Tutorial</option>
+                            <option value="Software">Software Tool</option>
+                            <option value="Other">Other</option>
                         </select>
                     </div>
+                    
+                    <input type="hidden" name="lab_room" value="All">
+                    
                     <div class="form-group">
-                        <label for="lab_room">Lab Room</label>
-                        <select id="lab_room" name="lab_room" class="form-control" required>
-                            <option value="Lab 1">Lab 524</option>
-                            <option value="Lab 2">Lab 526</option>
-                            <option value="Lab 3">Lab 528</option>
-                            <option value="Lab 4">Lab 530</option>
-                            <option value="Lab 5">Lab 532</option>
-                            <option value="Lab 6">Lab 534</option>
-                            <option value="Lab 7">Lab 536</option>
-                            <option value="Lab 8">Lab 538</option>
-                            <option value="Lab 9">Lab 540</option>
-                            <option value="Lab 10">Lab 542</option>
-                            <option value="Lab 11">Lab 544</option>
-                        </select>
+                        <label>Upload Method</label>
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="file-option" name="resource-option" value="file" class="custom-control-input" checked>
+                            <label class="custom-control-label" for="file-option">Upload File</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="link-option" name="resource-option" value="link" class="custom-control-input">
+                            <label class="custom-control-label" for="link-option">Provide URL</label>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="file">File</label>
-                        <input type="file" id="file" name="file" class="form-control">
+                    
+                    <div class="form-group file-upload-section">
+                        <label for="file">File Upload</label>
+                        <input type="file" id="file" name="file" class="form-control-file">
+                        <small class="form-text text-muted">Accepted file types: PDF, DOC, DOCX, PPT, PPTX, TXT, ZIP, etc.</small>
                     </div>
-                    <div class="form-group">
-                        <label>
-                            <input type="checkbox" name="is_enabled" checked>
-                            Enable Resource
-                        </label>
+                    
+                    <div class="form-group url-section" style="display:none;">
+                        <label for="resource_link">Resource URL</label>
+                        <input type="url" id="resource_link" name="resource_link" class="form-control" placeholder="https://example.com/resource">
+                        <small class="form-text text-muted">Enter a valid URL starting with http:// or https://</small>
                     </div>
-                    <button type="submit" class="submit-btn">Add Resource</button>
+                    
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-plus-circle"></i> Add Resource
+                    </button>
                 </form>
             </div>
 
-            <!-- Resources List -->
-            <div class="resources-list">
+            <!-- Resource List -->
+            <div class="resource-list">
+                <h3><i class="fas fa-list"></i> Available Resources</h3>
                 {% if resources %}
-                    {% for resource in resources %}
-                    <div class="resource-card">
-                        <div class="resource-title">{{ resource.title }}</div>
-                        <div class="resource-meta">
-                            <span><i class="fas fa-folder"></i> {{ resource.resource_type|title }}</span>
-                            <span><i class="fas fa-door-open"></i> {{ resource.lab_room|lab_room }}</span>
-                        </div>
-                        <div class="resource-description">{{ resource.description }}</div>
-                        {% if resource.file_path %}
-                        <div class="resource-actions">
-                            <a href="{{ url_for('uploaded_file', filename=resource.file_path.split('/')[-1]) }}" target="_blank" class="view-btn">
-                                <i class="fas fa-eye"></i> View File
-                            </a>
-                            <a href="{{ url_for('uploaded_file', filename=resource.file_path.split('/')[-1]) }}" download class="download-btn">
-                                <i class="fas fa-download"></i> Download
-                            </a>
-                        </div>
-                        {% endif %}
-                        <div class="resource-actions">
-                            <button class="toggle-btn {% if resource.is_enabled %}enabled{% else %}disabled{% endif %}"
-                                    onclick="toggleResource({{ resource.id }})">
-                                <i class="fas fa-{% if resource.is_enabled %}check{% else %}times{% endif %}"></i>
-                                {% if resource.is_enabled %}Enabled{% else %}Disabled{% endif %}
-                            </button>
-                            <button class="delete-btn" onclick="deleteResource({{ resource.id }})">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </div>
+                    <div class="resource-grid">
+                        {% for resource in resources %}
+                            <div class="resource-card {% if not resource.is_enabled %}disabled{% endif %}">
+                                <div class="resource-header">
+                                    <h4>{{ resource.title }}</h4>
+                                    <div class="resource-actions">
+                                        <button class="toggle-btn" data-id="{{ resource.id }}" data-status="{{ 'enabled' if resource.is_enabled else 'disabled' }}">
+                                            <i class="fas {% if resource.is_enabled %}fa-toggle-on{% else %}fa-toggle-off{% endif %}"></i>
+                                            {{ 'Disable' if resource.is_enabled else 'Enable' }}
+                                        </button>
+                                        <button class="delete-btn" data-id="{{ resource.id }}">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </div>
+                                </div>
+                                <p class="resource-meta">
+                                    <span class="resource-type {% if resource.resource_type == 'Lecture' %}lecture{% elif resource.resource_type == 'Exercise' %}exercise{% elif resource.resource_type == 'Reference' %}reference{% elif resource.resource_type == 'Tutorial' %}tutorial{% elif resource.resource_type == 'Software' %}software{% else %}other{% endif %}">
+                                        {% if resource.resource_type == 'Lecture' %}
+                                            <i class="fas fa-chalkboard-teacher"></i>
+                                        {% elif resource.resource_type == 'Exercise' %}
+                                            <i class="fas fa-laptop-code"></i>
+                                        {% elif resource.resource_type == 'Reference' %}
+                                            <i class="fas fa-book"></i>
+                                        {% elif resource.resource_type == 'Tutorial' %}
+                                            <i class="fas fa-graduation-cap"></i>
+                                        {% elif resource.resource_type == 'Software' %}
+                                            <i class="fas fa-download"></i>
+                                        {% else %}
+                                            <i class="fas fa-file-alt"></i>
+                                        {% endif %}
+                                        {{ resource.resource_type }}
+                                    </span>
+                                </p>
+                                <p class="resource-desc">{{ resource.description }}</p>
+                                <div class="resource-access">
+                                    {% if resource.file_path and (resource.file_path.startswith('http://') or resource.file_path.startswith('https://')) %}
+                                        <a href="{{ resource.file_path }}" target="_blank" class="btn btn-sm btn-outline-primary">Open Link</a>
+                                    {% elif resource.file_path %}
+                                        <a href="{{ url_for('static', filename=resource.file_path) }}" target="_blank" class="btn btn-sm btn-outline-primary">View File</a>
+                                        <a href="{{ url_for('static', filename=resource.file_path) }}" download class="btn btn-sm btn-outline-success">Download</a>
+                                    {% else %}
+                                        <span class="no-file">No file available</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                 {% else %}
-                    <div class="empty-state">
-                        <i class="fas fa-book-open"></i>
-                        <h3>No Resources Available</h3>
-                        <p>There are currently no resources available.</p>
-                    </div>
+                    <p class="no-resources">No resources available.</p>
                 {% endif %}
             </div>
         </div>
     </div>
 
     <script>
-        function toggleResource(resourceId) {
-            fetch(`/admin/lab_resources/${resourceId}/toggle`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
+        // Toggle between file upload and URL input
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileOption = document.getElementById('file-option');
+            const linkOption = document.getElementById('link-option');
+            const fileSection = document.querySelector('.file-upload-section');
+            const urlSection = document.querySelector('.url-section');
+            
+            fileOption.addEventListener('change', function() {
+                if (this.checked) {
+                    fileSection.style.display = 'block';
+                    urlSection.style.display = 'none';
+                    document.getElementById('resource_link').value = '';
                 }
-            }).then(function(response) {
-                return response.json();
-            }).then(function(data) {
-                if (data.success) {
-                    location.reload();
-                }
-            }).catch(function(error) {
-                console.error('Error:', error);
             });
-        }
-
-        function deleteResource(resourceId) {
-            if (confirm('Are you sure you want to delete this resource?')) {
-                fetch(`/admin/lab_resources/${resourceId}/delete`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
+            
+            linkOption.addEventListener('change', function() {
+                if (this.checked) {
+                    fileSection.style.display = 'none';
+                    urlSection.style.display = 'block';
+                    document.getElementById('file').value = '';
+                }
+            });
+            
+            // Handle toggle button clicks
+            document.querySelectorAll('.toggle-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const resourceId = this.getAttribute('data-id');
+                    const confirmation = confirm('Are you sure you want to ' + 
+                        (this.getAttribute('data-status') === 'enabled' ? 'disable' : 'enable') + 
+                        ' this resource?');
+                        
+                    if (confirmation) {
+                        fetch(`/admin/lab_resources/${resourceId}/toggle`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                window.location.reload();
+                            } else {
+                                alert('Failed to update resource status');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('An error occurred');
+                        });
                     }
-                }).then(function(response) {
-                    return response.json();
-                }).then(function(data) {
-                    if (data.success) {
-                        location.reload();
-                    }
-                }).catch(function(error) {
-                    console.error('Error:', error);
                 });
-            }
-        }
+            });
+            
+            // Handle delete button clicks
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const resourceId = this.getAttribute('data-id');
+                    const confirmation = confirm('Are you sure you want to delete this resource? This action cannot be undone.');
+                    
+                    if (confirmation) {
+                        fetch(`/admin/lab_resources/${resourceId}/delete`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                window.location.reload();
+                            } else {
+                                alert('Failed to delete resource');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('An error occurred');
+                        });
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html> 
