@@ -842,10 +842,14 @@
             document.querySelectorAll('.toggle-btn').forEach(button => {
                 button.addEventListener('click', function() {
                     const resourceId = this.getAttribute('data-id');
+                    const isCurrentlyEnabled = this.getAttribute('data-status') === 'enabled';
                     const confirmation = confirm('Are you sure you want to ' + 
-                        (this.getAttribute('data-status') === 'enabled' ? 'disable' : 'enable') + 
+                        (isCurrentlyEnabled ? 'disable' : 'enable') + 
                         ' this resource?');
-                        
+                    
+                    // Disable the button temporarily to prevent double clicks
+                    this.disabled = true;
+                    
                     if (confirmation) {
                         fetch(`/admin/lab_resources/${resourceId}/toggle`, {
                             method: 'POST',
@@ -853,17 +857,47 @@
                                 'Content-Type': 'application/json'
                             }
                         })
-                        .then(response => {
-                            if (response.ok) {
-                                window.location.reload();
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Update the UI without reloading the page
+                                const card = this.closest('.resource-card');
+                                const icon = this.querySelector('i');
+                                
+                                if (data.new_status) {
+                                    // Resource is now enabled
+                                    card.classList.remove('disabled');
+                                    icon.classList.remove('fa-toggle-off');
+                                    icon.classList.add('fa-toggle-on');
+                                    this.textContent = '';
+                                    this.appendChild(icon);
+                                    this.appendChild(document.createTextNode(' Disable'));
+                                    this.setAttribute('data-status', 'enabled');
+                                } else {
+                                    // Resource is now disabled
+                                    card.classList.add('disabled');
+                                    icon.classList.remove('fa-toggle-on');
+                                    icon.classList.add('fa-toggle-off');
+                                    this.textContent = '';
+                                    this.appendChild(icon);
+                                    this.appendChild(document.createTextNode(' Enable'));
+                                    this.setAttribute('data-status', 'disabled');
+                                }
                             } else {
-                                alert('Failed to update resource status');
+                                alert('Failed to update resource status: ' + (data.message || 'Unknown error'));
                             }
                         })
                         .catch(error => {
                             console.error('Error:', error);
                             alert('An error occurred');
+                        })
+                        .finally(() => {
+                            // Re-enable the button
+                            this.disabled = false;
                         });
+                    } else {
+                        // If user canceled, re-enable the button
+                        this.disabled = false;
                     }
                 });
             });

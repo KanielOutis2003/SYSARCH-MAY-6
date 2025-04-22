@@ -10,6 +10,8 @@ from werkzeug.utils import secure_filename
 import uuid
 import time
 import sqlite3
+import xlsxwriter
+from io import BytesIO
 
 # Configure logging
 logging.basicConfig(
@@ -31,13 +33,7 @@ lab_room_mapping = {
     'Lab 2': 'Lab 526',
     'Lab 3': 'Lab 528',
     'Lab 4': 'Lab 530',
-    'Lab 5': 'Lab 532',
-    'Lab 6': 'Lab 534',
-    'Lab 7': 'Lab 536',
-    'Lab 8': 'Lab 538',
-    'Lab 9': 'Lab 540',
-    'Lab 10': 'Lab 542',
-    'Lab 11': 'Lab 544'
+    'Lab 5': 'Lab 532'
 }
 
 # Add lab_room filter to Jinja templates
@@ -945,13 +941,7 @@ def export_report(format):
             'Lab 2': 'Lab 526',
             'Lab 3': 'Lab 528',
             'Lab 4': 'Lab 530',
-            'Lab 5': 'Lab 532',
-            'Lab 6': 'Lab 534',
-            'Lab 7': 'Lab 536',
-            'Lab 8': 'Lab 538',
-            'Lab 9': 'Lab 540',
-            'Lab 10': 'Lab 542',
-            'Lab 11': 'Lab 544'
+            'Lab 5': 'Lab 532'
         }
         
         # Write data
@@ -992,54 +982,83 @@ def export_report(format):
         )
     
     elif format == 'excel':
-        # For Excel, we'd typically use a library like openpyxl or xlsxwriter
-        # For simplicity, we'll just return a CSV with an Excel mimetype
-        import csv
-        from io import StringIO
-        import datetime
+        # Generate Excel file with proper header
+        output = BytesIO()
+        workbook = xlsxwriter.Workbook(output)
+        worksheet = workbook.add_worksheet('Lab Usage Report')
         
-        output = StringIO()
-        writer = csv.writer(output)
+        # Define formats
+        header_format = workbook.add_format({
+            'bold': True,
+            'font_size': 12,
+            'align': 'center',
+            'valign': 'vcenter',
+            'bg_color': '#003366',
+            'font_color': 'white',
+            'border': 1
+        })
         
-        # Write header
-        writer.writerow(['ID', 'Student ID', 'Student Name', 'Course', 'Lab Room', 'Date & Time', 
-                         'Duration', 'Programming Language', 'Purpose', 'Status'])
+        title_format = workbook.add_format({
+            'bold': True,
+            'font_size': 14,
+            'align': 'center',
+            'valign': 'vcenter'
+        })
+        
+        subtitle_format = workbook.add_format({
+            'bold': True,
+            'font_size': 12,
+            'align': 'center',
+            'valign': 'vcenter'
+        })
+        
+        data_format = workbook.add_format({
+            'border': 1,
+            'align': 'center',
+            'valign': 'vcenter'
+        })
+        
+        # Write header information
+        worksheet.merge_range('A1:G1', 'University of Cebu Main Campus', title_format)
+        worksheet.merge_range('A2:G2', 'College of Computer Studies', subtitle_format)
+        worksheet.merge_range('A3:G3', 'Computer Laboratory Sit in Monitoring System', subtitle_format)
+        worksheet.merge_range('A4:G4', 'Lab Usage Report', subtitle_format)
+        worksheet.merge_range('A5:G5', f'Generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}', subtitle_format)
+        
+        # Write column headers
+        headers = ['Lab Room', 'Total Sessions', 'Completed Sessions', 'Active Sessions', 
+                  'Pending Sessions', 'Cancelled Sessions', 'Total Hours']
+        for col, header in enumerate(headers):
+            worksheet.write(5, col, header, header_format)
         
         # Write data
-        for session in sessions:
-            course_name = ''
-            if session['course'] == '1':
-                course_name = 'BSIT'
-            elif session['course'] == '2':
-                course_name = 'BSCS'
-            elif session['course'] == '3':
-                course_name = 'BSCE'
-            else:
-                course_name = session['course']
-            
-            # Get the actual lab room name with number
-            lab_room_display = lab_room_mapping.get(session['lab_room'], session['lab_room'])
-                
-            writer.writerow([
-                session['id'],
-                session['idno'],
-                f"{session['firstname']} {session['lastname']}",
-                course_name,
-                lab_room_display,
-                session['date_time'].strftime('%Y-%m-%d %H:%M') if isinstance(session['date_time'], datetime.datetime) else session['date_time'],
-                session['duration'],
-                session.get('programming_language', 'Not specified'),
-                session.get('purpose', 'Not specified')[:50] + '...' if session.get('purpose') and len(session.get('purpose')) > 50 else session.get('purpose', 'Not specified'),
-                session['status']
-            ])
+        row = 6
+        for stat in lab_stats:
+            lab_room_display = lab_room_mapping.get(stat['lab_room'], stat['lab_room'])
+            worksheet.write(row, 0, lab_room_display, data_format)
+            worksheet.write(row, 1, stat['total_sessions'], data_format)
+            worksheet.write(row, 2, stat['completed_sessions'], data_format)
+            worksheet.write(row, 3, stat['active_sessions'], data_format)
+            worksheet.write(row, 4, stat['pending_sessions'], data_format)
+            worksheet.write(row, 5, stat['cancelled_sessions'], data_format)
+            worksheet.write(row, 6, stat['total_hours'], data_format)
+            row += 1
         
+        # Adjust column widths
+        worksheet.set_column('A:A', 20)
+        worksheet.set_column('B:G', 15)
+        
+        # Add a footer
+        worksheet.merge_range(f'A{row+1}:G{row+1}', 'Generated by Computer Laboratory Sit in Monitoring System', subtitle_format)
+        
+        workbook.close()
         output.seek(0)
         
         from flask import Response
         return Response(
             output.getvalue(),
-            mimetype="application/vnd.ms-excel",
-            headers={"Content-disposition": "attachment; filename=sit_in_history.xls"}
+            mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            headers={"Content-disposition": "attachment; filename=lab_usage_report.xlsx"}
         )
     
     elif format == 'pdf':
@@ -2013,37 +2032,83 @@ def export_report_by_lab(format):
         )
     
     elif format == 'excel':
-        # Generate Excel file
-        import csv
-        from io import StringIO
+        # Generate Excel file with proper header
+        output = BytesIO()
+        workbook = xlsxwriter.Workbook(output)
+        worksheet = workbook.add_worksheet('Lab Usage Report')
         
-        output = StringIO()
-        writer = csv.writer(output)
+        # Define formats
+        header_format = workbook.add_format({
+            'bold': True,
+            'font_size': 12,
+            'align': 'center',
+            'valign': 'vcenter',
+            'bg_color': '#003366',
+            'font_color': 'white',
+            'border': 1
+        })
         
-        # Write header
-        writer.writerow(['Lab Room', 'Total Sessions', 'Completed Sessions', 'Active Sessions', 
-                         'Pending Sessions', 'Cancelled Sessions', 'Total Hours'])
+        title_format = workbook.add_format({
+            'bold': True,
+            'font_size': 14,
+            'align': 'center',
+            'valign': 'vcenter'
+        })
+        
+        subtitle_format = workbook.add_format({
+            'bold': True,
+            'font_size': 12,
+            'align': 'center',
+            'valign': 'vcenter'
+        })
+        
+        data_format = workbook.add_format({
+            'border': 1,
+            'align': 'center',
+            'valign': 'vcenter'
+        })
+        
+        # Write header information
+        worksheet.merge_range('A1:G1', 'University of Cebu Main Campus', title_format)
+        worksheet.merge_range('A2:G2', 'College of Computer Studies', subtitle_format)
+        worksheet.merge_range('A3:G3', 'Computer Laboratory Sit in Monitoring System', subtitle_format)
+        worksheet.merge_range('A4:G4', 'Lab Usage Report', subtitle_format)
+        worksheet.merge_range('A5:G5', f'Generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}', subtitle_format)
+        
+        # Write column headers
+        headers = ['Lab Room', 'Total Sessions', 'Completed Sessions', 'Active Sessions', 
+                  'Pending Sessions', 'Cancelled Sessions', 'Total Hours']
+        for col, header in enumerate(headers):
+            worksheet.write(5, col, header, header_format)
         
         # Write data
+        row = 6
         for stat in lab_stats:
             lab_room_display = lab_room_mapping.get(stat['lab_room'], stat['lab_room'])
-            writer.writerow([
-                lab_room_display,
-                stat['total_sessions'],
-                stat['completed_sessions'],
-                stat['active_sessions'],
-                stat['pending_sessions'],
-                stat['cancelled_sessions'],
-                stat['total_hours']
-            ])
+            worksheet.write(row, 0, lab_room_display, data_format)
+            worksheet.write(row, 1, stat['total_sessions'], data_format)
+            worksheet.write(row, 2, stat['completed_sessions'], data_format)
+            worksheet.write(row, 3, stat['active_sessions'], data_format)
+            worksheet.write(row, 4, stat['pending_sessions'], data_format)
+            worksheet.write(row, 5, stat['cancelled_sessions'], data_format)
+            worksheet.write(row, 6, stat['total_hours'], data_format)
+            row += 1
         
+        # Adjust column widths
+        worksheet.set_column('A:A', 20)
+        worksheet.set_column('B:G', 15)
+        
+        # Add a footer
+        worksheet.merge_range(f'A{row+1}:G{row+1}', 'Generated by Computer Laboratory Sit in Monitoring System', subtitle_format)
+        
+        workbook.close()
         output.seek(0)
         
         from flask import Response
         return Response(
             output.getvalue(),
-            mimetype="application/vnd.ms-excel",
-            headers={"Content-disposition": "attachment; filename=lab_usage_report.xls"}
+            mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            headers={"Content-disposition": "attachment; filename=lab_usage_report.xlsx"}
         )
     
     elif format == 'pdf':
@@ -2430,6 +2495,10 @@ def get_announcement(announcement_id):
 @app.route('/student/leaderboard')
 @login_required
 def student_leaderboard():
+    if session.get('user_type') != 'student':
+        flash('Access denied', 'error')
+        return redirect(url_for('index'))
+    
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     
@@ -2464,7 +2533,12 @@ def student_leaderboard():
     cursor.close()
     conn.close()
     
-    return render_template('student_leaderboard.html', leaderboard=leaderboard, your_stats=your_stats, current_user={"id": student_id})
+    # Add Python's min function to the template context
+    return render_template('student_leaderboard.html', 
+                           leaderboard=leaderboard, 
+                           your_stats=your_stats, 
+                           current_user={"id": student_id},
+                           min=min)
 
 @app.route('/admin/reset_student_sessions/<int:student_id>', methods=['POST'])
 @admin_required
@@ -2586,7 +2660,7 @@ def lab_resources():
             
             return render_template('student_lab_resources.html', 
                                   student=student, 
-                                  resources=lab_resources_list,
+                                  lab_resources_list=lab_resources_list,
                                   current_lab_room=current_lab)
     
     except Exception as e:
@@ -2618,12 +2692,17 @@ def lab_resources():
         
         return render_template('student_lab_resources.html', 
                               student=student, 
-                              resources=lab_resources_list,
+                              lab_resources_list=lab_resources_list,
                               current_lab_room=None)
 
-@app.route('/uploads/<filename>')
+@app.route('/uploads/<path:filename>')
 def uploaded_file(filename):
-    return send_from_directory('static/uploads', filename)
+    # Handle both direct uploads and files in subdirectories
+    try:
+        return send_from_directory('static/uploads', filename)
+    except Exception as e:
+        logging.error(f"Error serving file {filename}: {str(e)}")
+        return "File not found", 404
 
 @app.route('/admin/delete-resource/<int:resource_id>', methods=['POST'])
 @admin_required
@@ -2664,7 +2743,7 @@ def delete_resource(resource_id):
 def add_reward_points():
     student_id = request.form.get('student_id')
     points = request.form.get('points')
-    reason = request.form.get('reason')
+    reason = request.form.get('reason', 'No reason provided')
     
     if not student_id or not points:
         flash('Student ID and points are required', 'error')
@@ -2689,10 +2768,23 @@ def add_reward_points():
         
         if not student:
             flash('Student not found', 'error')
+            cursor.close()
+            conn.close()
             return redirect(url_for('admin_leaderboard'))
+            
+        # Log current points for debugging
+        logging.info(f"Before update: Student {student_id} has {student['points']} points")
         
-        # Add points to the student
-        cursor.execute("UPDATE students SET points = points + %s WHERE id = %s", (points, student_id))
+        # Calculate new total points
+        new_total_points = student['points'] + points
+        
+        # Direct SQL update to set the new points total
+        cursor.execute("UPDATE students SET points = %s WHERE id = %s", (new_total_points, student_id))
+        
+        # Verify the update
+        cursor.execute("SELECT points FROM students WHERE id = %s", (student_id,))
+        updated_student = cursor.fetchone()
+        logging.info(f"After update: Student {student_id} now has {updated_student['points']} points")
         
         # Log the reward
         current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -2709,6 +2801,7 @@ def add_reward_points():
     except Exception as e:
         conn.rollback()
         flash(f'Failed to add reward points: {str(e)}', 'error')
+        logging.error(f"Error adding reward points: {str(e)}")
         
     finally:
         cursor.close()
@@ -2717,15 +2810,13 @@ def add_reward_points():
     return redirect(url_for('admin_leaderboard'))
 
 @app.route('/admin/lab_resources/<int:resource_id>/toggle', methods=['POST'])
+@admin_required
 def toggle_lab_resource(resource_id):
     try:
-        if session.get('user_type') != 'admin':
-            return jsonify({'success': False, 'message': 'Admin access required'}), 403
-            
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
         
-        # Get current status
+        # First, check if the resource exists
         cursor.execute("SELECT is_enabled FROM lab_resources WHERE id = %s", (resource_id,))
         resource = cursor.fetchone()
         
@@ -2742,18 +2833,17 @@ def toggle_lab_resource(resource_id):
         cursor.close()
         conn.close()
         
-        return jsonify({'success': True})
+        # Return the new status to update the UI without refreshing
+        return jsonify({'success': True, 'new_status': new_status})
         
     except Exception as e:
         logging.error(f"Error toggling resource status: {str(e)}")
         return jsonify({'success': False, 'message': str(e)}), 500
 
 @app.route('/admin/lab_resources/<int:resource_id>/delete', methods=['POST'])
+@admin_required
 def delete_lab_resource(resource_id):
     try:
-        if session.get('user_type') != 'admin':
-            return jsonify({'success': False, 'message': 'Admin access required'}), 403
-            
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
         
@@ -2786,40 +2876,55 @@ def delete_lab_resource(resource_id):
         return jsonify({'success': False, 'message': str(e)}), 500
 
 @app.route('/student_lab_resources')
+@login_required
 def student_lab_resources():
-    if 'loggedin' not in session:
-        return redirect(url_for('login'))
+    if session.get('user_type') != 'student':
+        flash('Access denied', 'error')
+        return redirect(url_for('index'))
     
-    # Connect to the database
-    connection = sqlite3.connect('sit_in_db.db')
-    connection.row_factory = sqlite3.Row
-    cursor = connection.cursor()
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    
+    # Get student information
+    cursor.execute("SELECT * FROM students WHERE id = %s", (session['user_id'],))
+    student = cursor.fetchone()
+    
+    if not student:
+        flash('Student not found', 'error')
+        cursor.close()
+        conn.close()
+        return redirect(url_for('logout'))
     
     try:
         # Get only the enabled resources
-        cursor.execute('''
+        cursor.execute("""
             SELECT * FROM lab_resources 
             WHERE is_enabled = 1
-            ORDER BY lab_room
-        ''')
+            ORDER BY resource_type
+        """)
         lab_resources_list = cursor.fetchall()
         
-        # Get lab room mapping for display
-        lab_rooms = lab_room_mapping
+        # Log the resources found for debugging
+        logging.info(f"Found {len(lab_resources_list)} resources for student display")
+        for resource in lab_resources_list:
+            logging.info(f"Resource ID: {resource['id']}, Title: {resource['title']}, " 
+                         f"Type: {resource['resource_type']}, Path: {resource['file_path']}")
+        
+        cursor.close()
+        conn.close()
         
         return render_template('student_lab_resources.html', 
-                              lab_resources_list=lab_resources_list,
-                              lab_rooms=lab_rooms,
-                              username=session['username'])
+                               student=student,
+                               lab_resources_list=lab_resources_list)
     except Exception as e:
-        flash(f"Error: {str(e)}", "error")
-        return render_template('student_lab_resources.html', 
-                              lab_resources_list=[],
-                              lab_rooms=lab_room_mapping,
-                              username=session['username'])
-    finally:
+        error_msg = f"Error retrieving resources: {str(e)}"
+        logging.error(error_msg)
+        flash(error_msg, "error")
         cursor.close()
-        connection.close()
+        conn.close()
+        return render_template('student_lab_resources.html', 
+                               student=student,
+                               lab_resources_list=[])
 
 # Initialize the database on startup
 # Moved to if __name__ == '__main__' block

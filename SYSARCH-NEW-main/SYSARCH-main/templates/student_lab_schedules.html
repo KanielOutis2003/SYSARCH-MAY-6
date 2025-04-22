@@ -268,7 +268,7 @@
                                     {% for schedule in schedules %}
                                         <tr>
                                             <td>{{ schedule.day_of_week }}</td>
-                                            <td>{{ schedule.start_time.strftime('%I:%M %p') }} - {{ schedule.end_time.strftime('%I:%M %p') }}</td>
+                                            <td>{{ schedule.start_time|format_time }} - {{ schedule.end_time|format_time }}</td>
                                             <td>{{ schedule.subject }}</td>
                                             <td>{{ schedule.section }}</td>
                                             <td>{{ schedule.instructor }}</td>

@@ -262,48 +262,35 @@
         </div>
 
         <div class="content-section">
-            {% if current_lab_room %}
-            <div class="current-lab-banner">
-                <i class="fas fa-info-circle"></i>
-                <div>
-                    <h3>You are currently in {{ current_lab_room|lab_room }}</h3>
-                    <p>Resources specific to your current lab room are highlighted below.</p>
-                </div>
-            </div>
-            {% endif %}
-
-            <!-- Lab Filter Section -->
-            <div class="lab-filter-section">
-                <h3>Filter by Lab Room</h3>
-                <div class="filter-buttons">
-                    <button class="filter-btn active" data-lab="all">All Resources</button>
-                    <button class="filter-btn" data-lab="FNCLAB1">FNCLAB1</button>
-                    <button class="filter-btn" data-lab="FNCLAB2">FNCLAB2</button>
-                    <button class="filter-btn" data-lab="FNCLAB3">FNCLAB3</button>
-                    <button class="filter-btn" data-lab="FNCLAB4">FNCLAB4</button>
-                    <button class="filter-btn" data-lab="FNCLAB5">FNCLAB5</button>
-                </div>
-            </div>
+            <h2><i class="fas fa-book"></i> Learning Resources</h2>
+            <p>Access materials and resources to enhance your learning experience.</p>
 
             <div class="resources-list">
-                {% if resources %}
-                    {% for resource in resources %}
-                    <div class="resource-card {% if current_lab_room and resource.lab_room == current_lab_room %}current-lab-resource{% endif %}">
+                {% if lab_resources_list %}
+                    {% for resource in lab_resources_list %}
+                    <div class="resource-card">
                         <div class="resource-title">{{ resource.title }}</div>
                         <div class="resource-meta">
                             <span><i class="fas fa-folder"></i> {{ resource.resource_type|title }}</span>
-                            <span><i class="fas fa-door-open"></i> {{ resource.lab_room|lab_room }}</span>
                         </div>
                         <div class="resource-description">{{ resource.description }}</div>
                         {% if resource.file_path %}
-                        <div class="resource-actions">
-                            <a href="/static/{{ resource.file_path }}" target="_blank" class="view-btn" rel="noopener noreferrer">
-                                <i class="fas fa-eye"></i> View Resource
-                            </a>
-                            <a href="/static/{{ resource.file_path }}" download class="download-btn">
-                                <i class="fas fa-download"></i> Download
-                            </a>
-                        </div>
+                            {% if resource.file_path.startswith('http://') or resource.file_path.startswith('https://') %}
+                                <div class="resource-actions">
+                                    <a href="{{ resource.file_path }}" target="_blank" class="view-btn" rel="noopener noreferrer">
+                                        <i class="fas fa-external-link-alt"></i> Open Link
+                                    </a>
+                                </div>
+                            {% else %}
+                                <div class="resource-actions">
+                                    <a href="{{ url_for('static', filename=resource.file_path) }}" target="_blank" class="view-btn" rel="noopener noreferrer">
+                                        <i class="fas fa-eye"></i> View Resource
+                                    </a>
+                                    <a href="{{ url_for('static', filename=resource.file_path) }}" download class="download-btn">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+                            {% endif %}
                         {% endif %}
                     </div>
                     {% endfor %}
@@ -319,31 +306,16 @@
     </div>
 
     <script>
-        // Lab room filter functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const filterButtons = document.querySelectorAll('.filter-btn');
-            const resourceCards = document.querySelectorAll('.resource-card');
-            
-            filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Update active button
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    const selectedLab = this.getAttribute('data-lab');
-                    
-                    resourceCards.forEach(card => {
-                        const labRoom = card.querySelector('.resource-meta span:nth-child(2)').textContent.trim();
-                        
-                        if (selectedLab === 'all' || labRoom.includes(selectedLab)) {
-                            card.style.display = 'block';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
-                });
+        // Auto-hide flash messages after 5 seconds
+        setTimeout(function() {
+            var flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(function(message) {
+                message.style.opacity = '0';
+                setTimeout(function() {
+                    message.style.display = 'none';
+                }, 500);
             });
-        });
+        }, 5000);
     </script>
 </body>
 </html> 

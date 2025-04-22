@@ -380,7 +380,8 @@
             <!-- Top 3 Students Cards -->
             {% if leaderboard and leaderboard|length >= 3 %}
                 <div class="leaderboard-cards">
-                    {% for i in range(min(3, leaderboard|length)) %}
+                    {% set top_count = [3, leaderboard|length]|sort|first %}
+                    {% for i in range(top_count) %}
                         {% set student = leaderboard[i] %}
                         <div class="student-card">
                             <div class="card-header">

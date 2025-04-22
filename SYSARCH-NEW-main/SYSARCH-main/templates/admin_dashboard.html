@@ -1750,6 +1750,15 @@
         <!-- Reports Tab -->
         <div id="reports" class="tab-content">
             <div class="content-section">
+                <div class="header-section" style="text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f8f9fa; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <img src="{{ url_for('static', filename='images/uc-logo.png') }}" alt="UC Logo" style="height: 80px; margin-bottom: 15px;">
+                    <h1 style="color: #003366; margin-bottom: 5px; font-size: 24px;">University of Cebu Main Campus</h1>
+                    <h2 style="color: #003366; margin-bottom: 5px; font-size: 20px;">College of Computer Studies</h2>
+                    <h3 style="color: #003366; margin-bottom: 5px; font-size: 18px;">Computer Laboratory Sit in Monitoring System</h3>
+                    <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #dee2e6;">
+                        <h4 style="color: #495057; font-size: 16px;">Usage Reports</h4>
+                    </div>
+                </div>
                 <h2>Usage Reports</h2>
                 
                 <div class="search-bar">
@@ -1767,18 +1776,9 @@
                     <button class="export-btn csv" onclick="exportReport('csv')">
                         <i class="fas fa-file-csv"></i> Export CSV
                     </button>
-                    <button class="export-btn pdf" onclick="exportReport('pdf')">
-                        <i class="fas fa-file-pdf"></i> Export PDF
-                    </button>
                     <button class="export-btn excel" onclick="exportReport('excel')">
                         <i class="fas fa-file-excel"></i> Export Excel
                     </button>
-                    <button class="export-btn print" onclick="printReport()">
-                        <i class="fas fa-print"></i> Print
-                    </button>
-                    <a href="{{ url_for('todays_sit_ins') }}" class="export-btn" style="background-color: #17a2b8; color: white;">
-                        <i class="fas fa-clipboard-list"></i> Today's Sit-ins
-                    </a>
                 </div>
                 
                 <!-- Charts -->
@@ -1819,38 +1819,26 @@
                         <tbody>
                             {% if lab_stats %}
                                 {% for lab in lab_stats %}
-                                    <tr>
-                                        <td>
-                                            {% if lab.lab_room == 'Lab 1' %}
-                                                Lab 524
-                                            {% elif lab.lab_room == 'Lab 2' %}
-                                                Lab 526
-                                            {% elif lab.lab_room == 'Lab 3' %}
-                                                Lab 528
-                                            {% elif lab.lab_room == 'Lab 4' %}
-                                                Lab 530
-                                            {% elif lab.lab_room == 'Lab 5' %}
-                                                Lab 532
-                                            {% elif lab.lab_room == 'Lab 6' %}
-                                                Lab 534
-                                            {% elif lab.lab_room == 'Lab 7' %}
-                                                Lab 536
-                                            {% elif lab.lab_room == 'Lab 8' %}
-                                                Lab 538
-                                            {% elif lab.lab_room == 'Lab 9' %}
-                                                Lab 540
-                                            {% elif lab.lab_room == 'Lab 10' %}
-                                                Lab 542
-                                            {% elif lab.lab_room == 'Lab 11' %}
-                                                Lab 544
-                                            {% else %}
-                                                {{ lab.lab_room }}
-                                            {% endif %}
-                                        </td>
-                                        <td>{{ lab.count }}</td>
-                                        <td>{{ lab.total_hours }}</td>
-                                        <td>{{ "%.2f"|format(lab.percentage) }}%</td>
-                                    </tr>
+                                    {% if lab.lab_room in ['Lab 1', 'Lab 2', 'Lab 3', 'Lab 4', 'Lab 5'] %}
+                                        <tr>
+                                            <td>
+                                                {% if lab.lab_room == 'Lab 1' %}
+                                                    Lab 524
+                                                {% elif lab.lab_room == 'Lab 2' %}
+                                                    Lab 526
+                                                {% elif lab.lab_room == 'Lab 3' %}
+                                                    Lab 528
+                                                {% elif lab.lab_room == 'Lab 4' %}
+                                                    Lab 530
+                                                {% elif lab.lab_room == 'Lab 5' %}
+                                                    Lab 532
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ lab.count }}</td>
+                                            <td>{{ lab.total_hours }}</td>
+                                            <td>{{ "%.2f"|format(lab.percentage) }}%</td>
+                                        </tr>
+                                    {% endif %}
                                 {% endfor %}
                             {% else %}
                                 <tr>
@@ -2220,11 +2208,7 @@
                                 <option value="Lab 2">Lab 526</option>
                                 <option value="Lab 3">Lab 528</option>
                                 <option value="Lab 4">Lab 530</option>
-                                <option value="Lab 5">Lab 532</option>
-                                <option value="Lab 6">Lab 534</option>
-                                <option value="Lab 7">Lab 536</option>
-                                <option value="Lab 8">Lab 538</option>
-                                <option value="Lab 9">Lab 540</option>
+                                <option value="Lab 5">Lab 517</option>
                                 <option value="Lab 10">Lab 542</option>
                                 <option value="Lab 11">Lab 544</option>
                             </select>
@@ -2300,30 +2284,15 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="lab_room">Lab Room:</label>
-                    <select id="lab_room" name="lab_room" class="form-control" required>
-                        <option value="">Select Lab Room</option>
-                        <option value="Lab 524">Lab 524</option>
-                        <option value="Lab 525">Lab 525</option>
-                        <option value="Lab 526">Lab 526</option>
-                        <option value="Lab 527">Lab 527</option>
-                        <option value="Lab 528">Lab 528</option>
-                        <option value="Lab 529">Lab 529</option>
-                        <option value="Lab 530">Lab 530</option>
-                        <option value="Lab 531">Lab 531</option>
-                        <option value="Lab 532">Lab 532</option>
-                        <option value="Lab 533">Lab 533</option>
-                        <option value="Lab 534">Lab 534</option>
-                        <option value="Lab 535">Lab 535</option>
-                        <option value="Lab 536">Lab 536</option>
-                        <option value="Lab 537">Lab 537</option>
-                        <option value="Lab 538">Lab 538</option>
-                        <option value="Lab 539">Lab 539</option>
-                        <option value="Lab 540">Lab 540</option>
-                        <option value="Lab 541">Lab 541</option>
-                        <option value="Lab 542">Lab 542</option>
-                        <option value="Lab 543">Lab 543</option>
-                        <option value="Lab 544">Lab 544</option>
+                    <label for="direct_lab_room">Lab Room</label>
+                    <select id="direct_lab_room" name="lab_room" class="form-control" required>
+                        <option value="Lab 1">Lab 524</option>
+                        <option value="Lab 2">Lab 526</option>
+                        <option value="Lab 3">Lab 528</option>
+                        <option value="Lab 4">Lab 530</option>
+                        <option value="Lab 5">Lab 517</option>
+                        <option value="Lab 10">Lab 542</option>
+                        <option value="Lab 11">Lab 544</option>
                     </select>
                 </div>
                 
@@ -2388,15 +2357,7 @@
                 {% elif lab.lab_room == 'Lab 4' %}
                 "Lab 530"
                 {% elif lab.lab_room == 'Lab 5' %}
-                "Lab 532"
-                {% elif lab.lab_room == 'Lab 6' %}
-                "Lab 534"
-                {% elif lab.lab_room == 'Lab 7' %}
-                "Lab 536"
-                {% elif lab.lab_room == 'Lab 8' %}
-                "Lab 538"
-                {% elif lab.lab_room == 'Lab 9' %}
-                "Lab 540"
+                "Lab 517"
                 {% elif lab.lab_room == 'Lab 10' %}
                 "Lab 542"
                 {% elif lab.lab_room == 'Lab 11' %}
