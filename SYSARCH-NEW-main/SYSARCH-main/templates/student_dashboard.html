@@ -263,6 +263,11 @@
             color: #dc3545;
         }
 
+        .status-pending {
+            color: #ffc107;
+            font-weight: 600;
+        }
+
         .action-btn {
             padding: 6px 12px;
             border-radius: 4px;
@@ -577,15 +582,50 @@
             <h2>Reserve a Session</h2>
             
             {% if student.sessions_used < student.max_sessions %}
-                <form action="{{ url_for('add_session') }}" method="POST" class="add-session-form">                    
+                <form action="{{ url_for('add_session') }}" method="POST" class="add-session-form">
                     <div class="form-group">
-                        <label for="date_time">Date & Time</label>
-                        <input type="datetime-local" id="date_time" name="date_time" class="form-control" required>
+                        <label for="idno">ID Number</label>
+                        <input type="text" id="idno" name="idno" class="form-control" value="{{ student.idno }}" readonly>
                     </div>
                     
                     <div class="form-group">
-                        <label for="lab_room">Room</label>
-                        <select id="lab_room" name="lab_room" class="form-control" required>
+                        <label for="student_name">Student Name</label>
+                        <input type="text" id="student_name" name="student_name" class="form-control" value="{{ student.firstname }} {{ student.lastname }}" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="purpose">Purpose</label>
+                        <select id="purpose" name="purpose" class="form-control" onchange="togglePurposeField()" required>
+                            <option value="PHP Programming">PHP Programming</option>
+                            <option value="Java Programming">Java Programming</option>
+                            <option value="Python Programming">Python Programming</option>
+                            <option value="JavaScript Programming">JavaScript Programming</option>
+                            <option value="C++ Programming">C++ Programming</option>
+                            <option value="C# Programming">C# Programming</option>
+                            <option value="Ruby Programming">Ruby Programming</option>
+                            <option value="Swift Programming">Swift Programming</option>
+                            <option value="Database">Database</option>
+                            <option value="Digital and Logic Design">Digital and Logic Design</option>
+                            <option value="Embedded System and IOT">Embedded System and IOT</option>
+                            <option value="Systems Integration and Architecture">Systems Integration and Architecture</option>
+                            <option value="Computer Application">Computer Application</option>
+                            <option value="Project Management">Project Management</option>
+                            <option value="IT Trends">IT Trends</option>
+                            <option value="Technopreneurship">Technopreneurship</option>
+                            <option value="Capstone">Capstone</option>           
+                            <option value="Other">Other Purpose</option>
+                        </select>
+                    </div>
+                    
+                    <div id="purposeFieldDiv" class="form-group" style="display: none;">
+                        <label for="other_purpose">Specify Purpose</label>
+                        <textarea id="other_purpose" name="other_purpose" class="form-control" rows="3" placeholder="Please specify your purpose..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lab_room">Lab Room</label>
+                        <select id="lab_room" name="lab_room" class="form-control" onchange="loadAvailablePCs()" required>
+                            <option value="">Select a Lab Room</option>
                             <option value="Lab 1">Lab 524</option>
                             <option value="Lab 2">Lab 526</option>
                             <option value="Lab 3">Lab 528</option>
@@ -597,32 +637,24 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="programming_language">Purpose</label>
-                        <select id="programming_language" name="programming_language" class="form-control" onchange="togglePurposeField()" required>
-                            <option value="PHP Programming">PHP Programming</option>
-                            <option value="Java Programming">Java Programming</option>
-                            <option value="Python Programming">Python Programming</option>
-                            <option value="JavaScript Programming">JavaScript Programming</option>
-                            <option value="C++ Programming">C++ Programming</option>
-                            <option value="C# Programming">C# Programming</option>
-                            <option value="Ruby Programming">Ruby Programming</option>
-                            <option value="Swift Programming">Swift Programming</option>
-                            <option value="PHP Programming">Database</option>
-                            <option value="Java Programming">Digital and Logic Design</option>
-                            <option value="Python Programming">Embeded System and IOT</option>
-                            <option value="JavaScript Programming">Systems Integration and Architecture</option>
-                            <option value="C++ Programming">Computer Application</option>
-                            <option value="C# Programming">Project Management</option>
-                            <option value="Ruby Programming">IT Trends</option>
-                            <option value="Swift Programming">Technoprenuership</option>
-                            <option value="Swift Programming">Capstone</option>           
-                            <option value="Other">Other Purpose</option>
+                        <label for="pc_number">Available PCs</label>
+                        <select id="pc_number" name="pc_number" class="form-control" required disabled>
+                            <option value="">Select a Lab Room first</option>
                         </select>
                     </div>
                     
-                    <div id="purposeFieldDiv" class="form-group" style="display: none;">
-                        <label for="purpose">Specify Purpose</label>
-                        <textarea id="purpose" name="purpose" class="form-control" rows="3" placeholder="Please specify your purpose..."></textarea>
+                    <div class="form-group">
+                        <label for="date">Date</label>
+                        <input type="date" id="date" name="date" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="time_in">Time-IN</label>
+                        <input type="time" id="time_in" name="time_in" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group info-box">
+                        <p><strong>Remaining Sessions:</strong> {{ student.max_sessions - student.sessions_used }} out of {{ student.max_sessions }}</p>
                     </div>
                     
                     <!-- Hidden fields with default values -->
@@ -630,6 +662,64 @@
                     
                     <button type="submit" class="btn-primary">Reserve Session</button>
                 </form>
+                
+                <script>
+                    function togglePurposeField() {
+                        const purposeSelect = document.getElementById('purpose');
+                        const purposeFieldDiv = document.getElementById('purposeFieldDiv');
+                        const otherPurposeField = document.getElementById('other_purpose');
+                        
+                        if (purposeSelect.value === 'Other') {
+                            purposeFieldDiv.style.display = 'block';
+                            otherPurposeField.required = true;
+                        } else {
+                            purposeFieldDiv.style.display = 'none';
+                            otherPurposeField.required = false;
+                        }
+                    }
+                    
+                    function loadAvailablePCs() {
+                        const labRoomSelect = document.getElementById('lab_room');
+                        const pcSelect = document.getElementById('pc_number');
+                        
+                        // Clear existing options
+                        pcSelect.innerHTML = '';
+                        
+                        if (!labRoomSelect.value) {
+                            pcSelect.disabled = true;
+                            pcSelect.innerHTML = '<option value="">Select a Lab Room first</option>';
+                            return;
+                        }
+                        
+                        // In a real application, you would fetch this data from the server
+                        // For demo purposes, we'll generate 50 PCs per lab with random availability
+                        pcSelect.disabled = false;
+                        
+                        // Add default option
+                        const defaultOption = document.createElement('option');
+                        defaultOption.value = '';
+                        defaultOption.text = 'Select a PC';
+                        pcSelect.appendChild(defaultOption);
+                        
+                        // Generate PC options (in a real app, this would come from the server)
+                        for (let i = 1; i <= 50; i++) {
+                            // Randomly determine if PC is available (70% chance)
+                            const isAvailable = Math.random() < 0.7;
+                            
+                            if (isAvailable) {
+                                const option = document.createElement('option');
+                                option.value = i.toString();
+                                option.text = `PC ${i}`;
+                                pcSelect.appendChild(option);
+                            }
+                        }
+                        
+                        // If no PCs are available
+                        if (pcSelect.options.length <= 1) {
+                            pcSelect.innerHTML = '<option value="">No PCs available in this lab</option>';
+                        }
+                    }
+                </script>
             {% else %}
                 <div class="alert alert-warning">
                     <p>You have used all your available sessions. Please contact the administrator if you need more sessions.</p>
@@ -848,7 +938,7 @@
         
         // Toggle other purpose textarea
         function togglePurposeField() {
-            const purposeSelect = document.getElementById('programming_language');
+            const purposeSelect = document.getElementById('purpose');
             const purposeFieldDiv = document.getElementById('purposeFieldDiv');
             
             if (purposeSelect.value === 'Other') {

@@ -481,11 +481,11 @@
                 </table>
 
                 <div class="export-section">
-                    <a href="{{ url_for('export_report', format='csv') }}" class="export-btn export-btn-csv">
-                        <i class="fas fa-file-csv"></i> Export to CSV
-                    </a>
-                    <a href="{{ url_for('export_report', format='excel') }}" class="export-btn export-btn-excel">
+                    <a href="{{ url_for('export_sit_in_history') }}" class="export-btn export-btn-excel">
                         <i class="fas fa-file-excel"></i> Export to Excel
+                    </a>
+                    <a href="{{ url_for('export_sit_in_history_pdf') }}" class="export-btn export-btn-pdf">
+                        <i class="fas fa-file-pdf"></i> Export to PDF
                     </a>
                     <button onclick="window.print()" class="export-btn export-btn-print">
                         <i class="fas fa-print"></i> Print

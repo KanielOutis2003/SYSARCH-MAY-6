@@ -1459,19 +1459,23 @@
                     <i class="fas fa-chart-bar"></i>
                     <span>Reports</span>
                 </div>
-                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_leaderboard') }}';">
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_leaderboard') }}'">
                     <i class="fas fa-trophy"></i>
                     <span>Leaderboard</span>
                 </div>
-                <div class="nav-item" onclick="window.location.href='{{ url_for('lab_resources') }}';">
+                <div class="nav-item" onclick="showTab('computer_control')">
+                    <i class="fas fa-desktop"></i>
+                    <span>Computer Control</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='{{ url_for('lab_resources') }}'">
                     <i class="fas fa-book"></i>
                     <span>Lab Resources</span>
                 </div>
-                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_lab_schedules') }}';">
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_lab_schedules') }}'">
                     <i class="fas fa-calendar-alt"></i>
                     <span>Lab Schedules</span>
                 </div>
-                <div class="nav-item" onclick="window.location.href='{{ url_for('sit_in_history') }}';">
+                <div class="nav-item" onclick="window.location.href='{{ url_for('sit_in_history') }}'">
                     <i class="fas fa-history"></i>
                     <span>Sit-In History</span>
                 </div>
@@ -1504,7 +1508,7 @@
                 
                 <div class="stat-card">
                     <i class="fas fa-users"></i>
-                    <h3>{{ current_sit_ins|length|default(0) }}</h3>
+                    <h3>{{ active_sessions|length|default(0) }}</h3>
                     <p>Current Sit-ins</p>
                 </div>
                 
@@ -1590,8 +1594,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                    {% if current_sit_ins|length > 0 %}
-                        {% for session in current_sit_ins %}
+                    {% if active_sessions|length > 0 %}
+                        {% for session in active_sessions %}
                             <tr>
                                 <td>{{ session.idno }}</td>
                                 <td>{{ session.lastname }}, {{ session.firstname }}</td>
@@ -1628,123 +1632,181 @@
                 </table>
         </div>
 
-        <!-- Forms Tab for managing pending/approved forms -->
-        <div id="forms" class="tab-content">
-            <h2>Reservation Management</h2>
-                
-                <div class="search-bar">
-                <input type="text" id="formsSearchInput" class="search-input" placeholder="Search by name, ID, or status...">
-                <button class="search-btn" onclick="searchForms()">Search</button>
-                </div>
-                
-                <table class="student-table">
-                    <thead>
-                        <tr>
-                            <th>Student ID</th>
-                            <th>Name</th>
-                            <th>Course</th>
-                            <th>Lab Room</th>
-                            <th>Date & Time</th>
-                            <th>Purpose</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% set has_approved = false %}
-                            {% for session in active_sessions %}
-                        {% if session.approval_status == 'approved' and not session.check_in_time %}
-                            {% set has_approved = true %}
-                                <tr>
-                                    <td>{{ session.idno }}</td>
-                                    <td>{{ session.lastname }}, {{ session.firstname }}</td>
-                                    <td>
-                                        {% if session.course == '1' %}
-                                            BSIT
-                                        {% elif session.course == '2' %}
-                                            BSCS
-                                        {% elif session.course == '3' %}
-                                            BSCE
-                                        {% else %}
-                                            {{ session.course }}
-                                        {% endif %}
-                                    </td>
-                                    <td>{{ session.lab_room|lab_room }}</td>
-                                    <td>{{ session.date_time_formatted }}</td>
-                                <td>{{ session.purpose|default('N/A')|truncate(30) }}</td>
-                                <td><span class="status-active">Approved</span></td>
-                                    <td class="action-buttons">
-                                    <form action="{{ url_for('check_in_student', session_id=session.id) }}" method="POST" style="display:inline;">
-                                                <button type="submit" class="action-btn view-btn">Check In</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                        {% endif %}
-                            {% endfor %}
-                    {% if not has_approved %}
-                            <tr>
-                            <td colspan="8" style="text-align: center;">No approved forms waiting for check-in</td>
-                            </tr>
-                        {% endif %}
-                    </tbody>
-                </table>
-        </div>
-
         <!-- Pending Requests Tab -->
         <div id="pending" class="tab-content">
             <h2>Pending Requests</h2>
                 
-                <div class="search-bar">
-                    <input type="text" id="pendingSearchInput" class="search-input" placeholder="Search by name, ID, or lab room...">
-                    <button class="search-btn" onclick="searchPending()">Search</button>
-                </div>
-                
-                <table class="student-table">
-                    <thead>
-                        <tr>
-                            <th>Student ID</th>
-                            <th>Name</th>
-                            <th>Course</th>
-                            <th>Lab Room</th>
-                            <th>Date & Time</th>
-                            <th>Purpose</th>
+            <div class="search-bar">
+                <input type="text" id="pendingSearchInput" class="search-input" placeholder="Search by name, ID, or lab room...">
+                <button class="search-btn" onclick="searchPending()">Search</button>
+            </div>
+            
+            <table class="student-table">
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Name</th>
+                        <th>Course</th>
+                        <th>Lab Room</th>
+                        <th>Date & Time</th>
+                        <th>Purpose</th>
                         <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
                     {% if pending_sessions|length > 0 %}
-                            {% for session in pending_sessions %}
-                                <tr>
-                                    <td>{{ session.idno }}</td>
-                                    <td>{{ session.lastname }}, {{ session.firstname }}</td>
-                                    <td>
-                                        {% if session.course == '1' %}
-                                            BSIT
-                                        {% elif session.course == '2' %}
-                                            BSCS
-                                        {% elif session.course == '3' %}
-                                            BSCE
-                                        {% else %}
-                                            {{ session.course }}
-                                        {% endif %}
-                                    </td>
-                                    <td>{{ session.lab_room|lab_room }}</td>
-                                    <td>{{ session.date_time_formatted }}</td>
+                        {% for session in pending_sessions %}
+                            <tr>
+                                <td>{{ session.idno }}</td>
+                                <td>{{ session.lastname }}, {{ session.firstname }}</td>
+                                <td>
+                                    {% if session.course == '1' %}
+                                        BSIT
+                                    {% elif session.course == '2' %}
+                                        BSCS
+                                    {% elif session.course == '3' %}
+                                        BSCE
+                                    {% else %}
+                                        {{ session.course }}
+                                    {% endif %}
+                                </td>
+                                <td>{{ session.lab_room|lab_room }}</td>
+                                <td>{{ session.date_time_formatted }}</td>
                                 <td>{{ session.purpose|default('N/A')|truncate(30) }}</td>
                                 <td><span class="status-pending">Pending</span></td>
-                                    <td class="action-buttons">
+                                <td class="action-buttons">
                                     <button class="action-btn view-btn" onclick="viewPendingRequest('{{ session.student_id }}', '{{ session.id }}')">View SIT IN FORM</button>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        {% else %}
-                            <tr>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
                             <td colspan="8" style="text-align: center;">No pending requests</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+
+            <!-- Student Request Modal Content -->
+            <div id="pendingRequestButtons" style="display: none; margin-top: 20px;">
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                    <form id="approveForm" method="POST" style="display: inline;">
+                        <button type="submit" class="btn btn-success">Approve Request</button>
+                    </form>
+                    <form id="rejectForm" method="POST" style="display: inline;">
+                        <button type="submit" class="btn btn-danger">Reject Request</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Forms Tab for managing pending/approved forms -->
+        <div id="forms" class="tab-content">
+            <h2>Reservation Management</h2>
+                
+            <div class="search-bar">
+                <input type="text" id="formsSearchInput" class="search-input" placeholder="Search by name, ID, or status...">
+                <button class="search-btn" onclick="searchForms()">Search</button>
+            </div>
+            
+            <table class="student-table">
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Name</th>
+                        <th>Course</th>
+                        <th>Lab Room</th>
+                        <th>Date & Time</th>
+                        <th>Purpose</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set has_approved = false %}
+                    {% for session in active_sessions %}
+                        {% if session.approval_status == 'approved' and not session.check_in_time %}
+                            {% set has_approved = true %}
+                            <tr>
+                                <td>{{ session.idno }}</td>
+                                <td>{{ session.lastname }}, {{ session.firstname }}</td>
+                                <td>
+                                    {% if session.course == '1' %}
+                                        BSIT
+                                    {% elif session.course == '2' %}
+                                        BSCS
+                                    {% elif session.course == '3' %}
+                                        BSCE
+                                    {% else %}
+                                        {{ session.course }}
+                                    {% endif %}
+                                </td>
+                                <td>{{ session.lab_room|lab_room }}</td>
+                                <td>{{ session.date_time_formatted }}</td>
+                                <td>{{ session.purpose|default('N/A')|truncate(30) }}</td>
+                                <td><span class="status-active">Approved</span></td>
+                                <td class="action-buttons">
+                                    <form action="{{ url_for('check_in_student', session_id=session.id) }}" method="POST" style="display:inline;">
+                                        <button type="submit" class="action-btn view-btn">Check In</button>
+                                    </form>
+                                </td>
                             </tr>
                         {% endif %}
-                    </tbody>
-                </table>
+                    {% endfor %}
+                    {% if not has_approved %}
+                        <tr>
+                            <td colspan="8" style="text-align: center;">No approved forms waiting for check-in</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 30px;">Reservation Logs</h3>
+            <div class="search-bar">
+                <input type="text" id="logsSearchInput" class="search-input" placeholder="Search logs by name, ID, or date...">
+                <button class="search-btn" onclick="searchLogs()">Search</button>
+            </div>
+            
+            <table class="student-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Student ID</th>
+                        <th>Name</th>
+                        <th>Lab Room</th>
+                        <th>Date & Time</th>
+                        <th>Purpose</th>
+                        <th>Status</th>
+                        <th>Created At</th>
+                    </tr>
+                </thead>
+                <tbody id="logsTableBody">
+                    {% set has_logs = false %}
+                    {% for session in completed_sessions %}
+                        {% set has_logs = true %}
+                        <tr>
+                            <td>{{ session.id }}</td>
+                            <td>{{ session.idno }}</td>
+                            <td>{{ session.lastname }}, {{ session.firstname }}</td>
+                            <td>{{ session.lab_room|lab_room }}</td>
+                            <td>{{ session.date_time_formatted }}</td>
+                            <td>{{ session.purpose|default('N/A')|truncate(30) }}</td>
+                            <td>
+                                <span class="status-{% if session.status == 'completed' %}completed{% elif session.status == 'cancelled' %}cancelled{% else %}{{ session.status }}{% endif %}">
+                                    {{ session.status|capitalize }}
+                                </span>
+                            </td>
+                            <td>{{ session.created_at_formatted }}</td>
+                        </tr>
+                    {% endfor %}
+                    {% if not has_logs %}
+                        <tr>
+                            <td colspan="8" style="text-align: center;">No reservation logs available</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
         </div>
 
         <!-- Reports Tab -->
@@ -2162,6 +2224,374 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Computer Control Tab -->
+        <div id="computer_control" class="tab-content">
+            <h2>Computer Control Module</h2>
+            
+            <div class="search-bar">
+                <select id="labRoomFilter" class="search-input" onchange="filterComputersByLab()">
+                    <option value="">Select Lab Room</option>
+                    <option value="Lab 1">Lab 524</option>
+                    <option value="Lab 2">Lab 526</option>
+                    <option value="Lab 3">Lab 528</option>
+                    <option value="Lab 4">Lab 530</option>
+                    <option value="Lab 5">Lab 517</option>
+                    <option value="Lab 10">Lab 542</option>
+                    <option value="Lab 11">Lab 544</option>
+                </select>
+                <button class="search-btn" onclick="filterComputersByLab()">Filter</button>
+            </div>
+            
+            <div id="computerControlContent">
+                <div class="computer-grid">
+                    <!-- Computer grid will be populated dynamically -->
+                    <p>Please select a lab room to view available computers.</p>
+                </div>
+            </div>
+            
+            <!-- Computer Details Modal -->
+            <div id="computerDetailsModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeComputerModal()">&times;</span>
+                    <h2 class="modal-title">Computer Details</h2>
+                    <div id="computerDetailsContent">
+                        <!-- Computer details will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            // Computer Control functions
+            function filterComputersByLab() {
+                const selectedLab = document.getElementById('labRoomFilter').value;
+                displayComputers(selectedLab);
+            }
+            
+            function displayComputers(labRoom) {
+                // Instead of random statuses, fetch actual PC status data from the server
+                fetch(`/get_pc_status?lab_room=${labRoom}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Format the displayed computers based on real data
+                        let html = `<div class="computer-grid">`;
+                        
+                        for (let i = 1; i <= 50; i++) {
+                            const pcData = data.pc_status[i] || { status: 'vacant' };
+                            const pcStatus = pcData.status;
+                            
+                            html += `
+                                <div class="computer-item ${pcStatus}" onclick="showComputerDetails('${labRoom}', ${i}, '${pcStatus}', ${pcData.student_id}, ${pcData.session_id}, '${pcData.purpose || ''}')">
+                                    <div class="computer-icon">
+                                        <i class="fas fa-desktop"></i>
+                                    </div>
+                                    <div class="computer-name">PC ${i}</div>
+                                    <div class="computer-status">${getStatusLabel(pcStatus)}</div>
+                                </div>
+                            `;
+                        }
+                        
+                        html += '</div>';
+                        document.getElementById('computerControlContent').innerHTML = html;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching PC status:', error);
+                        document.getElementById('computerControlContent').innerHTML = `
+                            <div class="alert alert-danger">
+                                Failed to load computer status. Please try again.
+                            </div>
+                        `;
+                    });
+            }
+            
+            function getStatusLabel(status) {
+                switch (status) {
+                    case 'vacant': return 'Vacant';
+                    case 'occupied': return 'In Use';
+                    case 'reserved': return 'Reserved';
+                    case 'maintenance': return 'Maintenance';
+                    default: return 'Unknown';
+                }
+            }
+            
+            function showComputerDetails(labRoom, pcNumber, status, studentId, sessionId, purpose) {
+                let content = `
+                    <div class="computer-details">
+                        <h3>PC ${pcNumber} in ${labRoom}</h3>
+                        <div class="detail-item">
+                            <span class="detail-label">Status:</span>
+                            <span class="detail-value ${status}">${getStatusLabel(status)}</span>
+                        </div>
+                `;
+                
+                if (status === 'occupied' || status === 'reserved') {
+                    // If occupied, fetch and show student info
+                    fetch(`/admin/get-student-info/${studentId || 0}`)
+                        .then(response => response.json())
+                        .then(studentData => {
+                            const studentInfo = studentData.student || { firstname: 'Unknown', lastname: 'Student', idno: 'N/A' };
+                            
+                            const detailsDiv = document.querySelector('.computer-details');
+                            detailsDiv.innerHTML += `
+                                <div class="detail-item">
+                                    <span class="detail-label">Assigned To:</span>
+                                    <span class="detail-value">${studentInfo.firstname} ${studentInfo.lastname} (${studentInfo.idno})</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Purpose:</span>
+                                    <span class="detail-value">${purpose || 'Not specified'}</span>
+                                </div>
+                                <div class="detail-actions">
+                                    <button class="action-btn end-btn" onclick="updatePCStatus('${labRoom}', ${pcNumber}, 'vacant')">Set as Vacant</button>
+                                </div>
+                            `;
+                        })
+                        .catch(error => {
+                            console.error('Error fetching student info:', error);
+                        });
+                } else {
+                    content += `
+                        <div class="detail-actions">
+                            <button class="action-btn mark-btn" onclick="updatePCStatus('${labRoom}', ${pcNumber}, 'occupied')">Set as Occupied</button>
+                            <button class="action-btn mark-btn" onclick="updatePCStatus('${labRoom}', ${pcNumber}, 'reserved')">Set as Reserved</button>
+                            <button class="action-btn mark-btn" onclick="updatePCStatus('${labRoom}', ${pcNumber}, 'maintenance')">Mark for Maintenance</button>
+                        </div>
+                    `;
+                }
+                
+                content += `</div>`;
+                document.getElementById('computerDetailsContent').innerHTML = content;
+                document.getElementById('computerDetailsModal').style.display = 'block';
+            }
+            
+            function closeComputerModal() {
+                document.getElementById('computerDetailsModal').style.display = 'none';
+            }
+            
+            function updatePCStatus(labRoom, pcNumber, status) {
+                // Send request to update PC status
+                const formData = new FormData();
+                formData.append('lab_room', labRoom);
+                formData.append('pc_number', pcNumber);
+                formData.append('status', status);
+                
+                fetch('/admin/update_pc_status', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        closeComputerModal();
+                        filterComputersByLab(); // Refresh the view
+                        showToast(data.message, 'success');
+                    } else {
+                        showToast(data.error || 'Failed to update PC status', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error updating PC status:', error);
+                    showToast('Failed to update PC status', 'error');
+                });
+            }
+            
+            function showToast(message, type = 'info') {
+                const toast = document.createElement('div');
+                toast.className = `toast toast-${type}`;
+                toast.innerHTML = message;
+                
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.classList.add('show');
+                }, 100);
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => {
+                        document.body.removeChild(toast);
+                    }, 500);
+                }, 3000);
+            }
+        </script>
+        
+        <style>
+            /* Computer Control styles */
+            .computer-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 15px;
+                margin-top: 20px;
+            }
+            
+            .computer-item {
+                background-color: #f8f9fa;
+                border-radius: 8px;
+                padding: 15px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                border: 1px solid #dee2e6;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            }
+            
+            .computer-item:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }
+            
+            .computer-item.vacant {
+                border-left: 5px solid #28a745;
+            }
+            
+            .computer-item.occupied, .computer-item.in-use {
+                border-left: 5px solid #dc3545;
+            }
+            
+            .computer-item.reserved {
+                border-left: 5px solid #ffc107;
+            }
+            
+            .computer-item.maintenance {
+                border-left: 5px solid #6c757d;
+            }
+            
+            .computer-icon {
+                font-size: 36px;
+                color: #495057;
+                margin-bottom: 10px;
+            }
+            
+            .computer-name {
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+            
+            .computer-status {
+                font-size: 0.9em;
+                color: #6c757d;
+            }
+            
+            .computer-item.vacant .computer-status {
+                color: #28a745;
+            }
+            
+            .computer-item.occupied .computer-status, .computer-item.in-use .computer-status {
+                color: #dc3545;
+            }
+            
+            .computer-item.reserved .computer-status {
+                color: #ffc107;
+            }
+            
+            .computer-item.maintenance .computer-status {
+                color: #6c757d;
+            }
+            
+            .computer-details {
+                padding: 15px;
+            }
+            
+            .detail-item {
+                margin-bottom: 10px;
+                display: flex;
+                justify-content: space-between;
+                border-bottom: 1px solid #eee;
+                padding-bottom: 10px;
+            }
+            
+            .detail-label {
+                font-weight: bold;
+                color: #495057;
+            }
+            
+            .detail-value {
+                color: #6c757d;
+            }
+            
+            .detail-value.vacant {
+                color: #28a745;
+                font-weight: bold;
+            }
+            
+            .detail-value.occupied, .detail-value.in-use {
+                color: #dc3545;
+                font-weight: bold;
+            }
+            
+            .detail-value.reserved {
+                color: #ffc107;
+                font-weight: bold;
+            }
+            
+            .detail-value.maintenance {
+                color: #6c757d;
+                font-weight: bold;
+            }
+            
+            .detail-actions {
+                margin-top: 20px;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                justify-content: center;
+            }
+            
+            .end-btn {
+                background-color: #dc3545;
+            }
+            
+            .end-btn:hover {
+                background-color: #c82333;
+            }
+            
+            .mark-btn {
+                background-color: #ffc107;
+                color: #212529;
+            }
+            
+            .mark-btn:hover {
+                background-color: #e0a800;
+            }
+            
+            /* Toast notifications */
+            .toast {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                min-width: 250px;
+                padding: 15px 20px;
+                border-radius: 5px;
+                background-color: #333;
+                color: white;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+                z-index: 9999;
+                opacity: 0;
+                transform: translateY(20px);
+                transition: all 0.3s ease;
+            }
+            
+            .toast.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            
+            .toast-success {
+                background-color: #28a745;
+            }
+            
+            .toast-error {
+                background-color: #dc3545;
+            }
+            
+            .toast-info {
+                background-color: #17a2b8;
+            }
+        </style>
     </div>
 
     <!-- Student View Modal - Enhanced design -->
@@ -2371,7 +2801,7 @@
         ],
         "reports": {
             "totalStudents": {{ students|length }},
-            "currentSitIns": {{ current_sit_ins|length|default(0) }},
+            "currentSitIns": {{ active_sessions|length|default(0) }},
             "activePendingSessions": {{ active_sessions|length + pending_sessions|length }}
         },
         "courses": {
@@ -2403,40 +2833,58 @@
         
         // Tab functionality
         function showTab(tabId) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(function(tab) {
-                tab.classList.remove('active');
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.style.display = 'none';
             });
             
-            // Show selected tab
-            document.getElementById(tabId).classList.add('active');
+            // Show the selected tab content
+            const selectedTab = document.getElementById(tabId);
+            if (selectedTab) {
+                selectedTab.style.display = 'block';
+            }
             
-            // Update active nav item
-            document.querySelectorAll('.nav-item').forEach(function(item) {
-                item.classList.remove('active');
-            });
-            
-            // Find the nav item that was clicked and make it active
-            document.querySelectorAll('.nav-item').forEach(function(item) {
-                if (item.getAttribute('onclick').includes(tabId)) {
-                    item.classList.add('active');
+            // Update active state on tab buttons
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                if (button.getAttribute('data-tab') === tabId) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
                 }
             });
+            
+            // Store active tab in URL hash
+            window.location.hash = tabId;
         }
         
-        // Search functionality for students
+        // Search functions
         function searchStudents() {
-            const searchTerm = document.getElementById('studentSearchInput').value.toLowerCase();
-            const rows = document.querySelectorAll('#students .student-table tbody tr');
+            var input, filter, table, tr, td, i, j, txtValue, found;
+            input = document.getElementById("studentSearchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("studentsTable");
+            tr = table.getElementsByTagName("tr");
             
-            rows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                if (text.includes(searchTerm)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
+            for (i = 1; i < tr.length; i++) {
+                found = false;
+                td = tr[i].getElementsByTagName("td");
+                for (j = 0; j < td.length; j++) {
+                    if (td[j]) {
+                        txtValue = td[j].textContent || td[j].innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            found = true;
+                            break;
+                        }
+                    }
                 }
-            });
+                if (found) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
         }
         
         // Search functionality for sessions
@@ -3202,21 +3650,22 @@
                 .then(response => response.json())
                 .then(data => {
                     // Populate student info
-                    document.getElementById('modalStudentName').textContent = `${data.firstname} ${data.lastname}`;
-                    document.getElementById('modalStudentID').textContent = `ID: ${data.idno}`;
+                    const studentData = data.student || {};
+                    document.getElementById('modalStudentName').textContent = `${studentData.firstname || ''} ${studentData.lastname || ''}`;
+                    document.getElementById('modalStudentID').textContent = `ID: ${studentData.idno || 'N/A'}`;
                     
                     let courseName = '';
-                    if (data.course === '1') courseName = 'BSIT';
-                    else if (data.course === '2') courseName = 'BSCS';
-                    else if (data.course === '3') courseName = 'BSCE';
-                    else courseName = data.course;
+                    if (studentData.course === '1') courseName = 'BSIT';
+                    else if (studentData.course === '2') courseName = 'BSCS';
+                    else if (studentData.course === '3') courseName = 'BSCE';
+                    else courseName = studentData.course || 'N/A';
                     
                     document.getElementById('modalStudentCourse').textContent = `Course: ${courseName}`;
-                    document.getElementById('modalStudentYear').textContent = `Year: ${data.year_level}`;
-                    document.getElementById('modalSessionsUsed').textContent = `Sessions Used: ${data.sessions_used}/${data.max_sessions}`;
+                    document.getElementById('modalStudentYear').textContent = `Year: ${studentData.year_level || 'N/A'}`;
+                    document.getElementById('modalSessionsUsed').textContent = `Sessions Used: ${studentData.sessions_used || 0}/${studentData.max_sessions || 0}`;
                     
-                    if (data.profile_picture) {
-                        document.getElementById('modalProfilePic').src = `/static/profile_pictures/${data.profile_picture}`;
+                    if (studentData.profile_picture) {
+                        document.getElementById('modalProfilePic').src = `/static/profile_pictures/${studentData.profile_picture}`;
                     } else {
                         document.getElementById('modalProfilePic').src = `/static/profile_pictures/default.jpg`;
                     }
@@ -3392,6 +3841,48 @@
                 });
             }
         });
+    </script>
+
+    <script>
+        // Auto-hide flash messages after 5 seconds
+        setTimeout(function() {
+            var flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(function(message) {
+                message.style.opacity = '0';
+                setTimeout(function() {
+                    message.style.display = 'none';
+                }, 500);
+            });
+        }, 5000);
+
+        // Function to search in the logs table
+        function searchLogs() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("logsSearchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("logsTableBody").parentElement;
+            tr = table.getElementsByTagName("tr");
+            
+            for (i = 0; i < tr.length; i++) {
+                var found = false;
+                // Skip first row (header)
+                if (tr[i].getElementsByTagName("td").length > 0) {
+                    // Loop through all cells in the row
+                    var tds = tr[i].getElementsByTagName("td");
+                    for (var j = 0; j < tds.length; j++) {
+                        td = tds[j];
+                        if (td) {
+                            txtValue = td.textContent || td.innerText;
+                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                found = true;
+                                break;
+                            }
+                        }
+                    }
+                    tr[i].style.display = found ? "" : "none";
+                }
+            }
+        }
     </script>
 </body>
 <script src="/static/js/admin.js"></script>

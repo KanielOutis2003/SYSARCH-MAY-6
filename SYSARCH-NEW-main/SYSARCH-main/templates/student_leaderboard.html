@@ -424,12 +424,14 @@
                             <th>Student ID</th>
                             <th>Name</th>
                             <th>Course</th>
+                            <th>Year Level</th>
                             <th>Points</th>
                             <th>Completed Sessions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for student in leaderboard %}
+                            {% if loop.index <= 5 %}
                             <tr class="{% if student.id == current_user.id %}highlight-row{% endif %}">
                                 <td>
                                     <div class="rank {% if loop.index <= 3 %}rank-{{ loop.index }}{% endif %}">{{ loop.index }}</div>
@@ -447,6 +449,19 @@
                                         {{ student.course }}
                                     {% endif %}
                                 </td>
+                                <td>
+                                    {% if student.year_level == '1' %}
+                                        1st Year
+                                    {% elif student.year_level == '2' %}
+                                        2nd Year
+                                    {% elif student.year_level == '3' %}
+                                        3rd Year
+                                    {% elif student.year_level == '4' %}
+                                        4th Year
+                                    {% else %}
+                                        {{ student.year_level }}
+                                    {% endif %}
+                                </td>
                                 <td><div class="points-badge">{{ student.points }}</div></td>
                                 <td>
                                     {% if student.completed_sessions %}
@@ -458,6 +473,7 @@
                                     {% endif %}
                                 </td>
                             </tr>
+                            {% endif %}
                         {% endfor %}
                     </tbody>
                 </table>

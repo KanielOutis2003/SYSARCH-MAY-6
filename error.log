@@ -3361,3 +3361,704 @@
 2025-04-10 23:45:57,096 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2025 23:45:57] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
 2025-04-10 23:45:57,099 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2025 23:45:57] "[36mGET /static/js/admin.js HTTP/1.1[0m" 304 -
 2025-04-10 23:45:57,107 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2025 23:45:57] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 21:10:24,187 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 21:10:24,892 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 21:10:24,896 - werkzeug - INFO -  * Debugger PIN: 351-728-428
+2025-04-29 21:10:24,913 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 21:25:48,790 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 21:25:49,292 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 21:25:49,293 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 21:25:49,306 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 21:25:51,754 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:25:51] "GET / HTTP/1.1" 200 -
+2025-04-29 21:25:51,870 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:25:51] "GET /static/uc.jpg HTTP/1.1" 200 -
+2025-04-29 21:25:51,870 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:25:51] "GET /static/CSS.png HTTP/1.1" 200 -
+2025-04-29 21:25:53,280 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:25:53] "GET / HTTP/1.1" 200 -
+2025-04-29 21:25:53,306 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:25:53] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 21:25:53,310 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:25:53] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 21:26:02,813 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:26:02] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-04-29 21:26:02,976 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:26:02] "GET /admin-dashboard HTTP/1.1" 200 -
+2025-04-29 21:26:02,997 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:26:02] "[33mGET /static/images/uc-logo.png HTTP/1.1[0m" 404 -
+2025-04-29 21:26:02,998 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:26:02] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 21:26:03,005 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:26:03] "GET /static/js/admin.js HTTP/1.1" 200 -
+2025-04-29 21:26:03,010 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:26:03] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 21:26:03,014 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:26:03] "GET /static/profile_pictures/default.jpg HTTP/1.1" 200 -
+2025-04-29 21:26:08,982 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:26:08] "GET /admin/leaderboard HTTP/1.1" 200 -
+2025-04-29 21:26:08,998 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:26:08] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 21:26:09,002 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:26:09] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 21:27:28,995 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:27:28] "GET /admin-dashboard HTTP/1.1" 200 -
+2025-04-29 21:27:29,014 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:27:29] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 21:27:29,018 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:27:29] "[33mGET /static/images/uc-logo.png HTTP/1.1[0m" 404 -
+2025-04-29 21:27:29,018 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:27:29] "[36mGET /static/js/admin.js HTTP/1.1[0m" 304 -
+2025-04-29 21:27:29,022 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:27:29] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-29 21:27:29,023 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:27:29] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 21:30:29,595 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 21:30:29,732 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 21:30:31,003 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 21:30:31,006 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 21:30:31,030 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 21:31:18,376 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 21:31:18,582 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 21:31:19,534 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 21:31:19,536 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 21:31:19,552 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 21:32:50,396 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 21:32:50,560 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 21:32:51,162 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 21:32:51,164 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 21:32:51,175 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 21:32:52,666 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:32:52] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-04-29 21:32:52,674 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:32:52] "GET / HTTP/1.1" 200 -
+2025-04-29 21:32:52,742 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:32:52] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 21:32:52,754 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:32:52] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 21:33:07,396 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:33:07] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-04-29 21:33:07,514 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:33:07] "[35m[1mGET /admin-dashboard HTTP/1.1[0m" 500 -
+2025-04-29 21:33:07,539 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:33:07] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-29 21:33:07,539 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:33:07] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-29 21:33:07,569 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:33:07] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-29 21:33:07,574 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:33:07] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 21:33:07,594 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:33:07] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 21:33:27,589 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 21:33:27,745 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 21:33:28,415 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 21:33:28,419 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 21:33:28,436 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 21:34:13,788 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 21:34:13,852 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 21:53:14,045 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 21:53:14,624 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 21:53:14,627 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 21:53:14,648 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 21:53:16,474 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:53:16] "GET / HTTP/1.1" 200 -
+2025-04-29 21:53:16,666 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:53:16] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 21:53:16,668 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:53:16] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 21:53:19,952 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:53:19] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-04-29 21:53:20,268 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:53:20] "[35m[1mGET /admin-dashboard HTTP/1.1[0m" 500 -
+2025-04-29 21:53:20,296 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:53:20] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-29 21:53:20,301 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:53:20] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-29 21:53:20,355 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:53:20] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-29 21:53:20,369 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:53:20] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 21:53:20,397 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:53:20] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 21:54:50,372 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 21:54:50,456 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 21:54:51,075 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 21:54:51,077 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 21:54:51,095 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 21:57:35,397 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 21:57:35,505 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 21:57:36,151 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 21:57:36,153 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 21:57:36,165 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 21:57:56,317 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 21:57:56,393 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 21:57:56,937 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 21:57:56,938 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 21:57:56,951 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 21:58:26,161 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 21:58:26,238 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 21:58:26,733 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 21:58:26,734 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 21:58:26,747 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 21:58:29,021 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:58:29] "[35m[1mGET /admin-dashboard HTTP/1.1[0m" 500 -
+2025-04-29 21:58:29,107 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:58:29] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-29 21:58:29,111 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:58:29] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-29 21:58:29,126 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:58:29] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-29 21:58:29,128 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:58:29] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 21:58:29,139 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 21:58:29] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 21:58:59,988 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 21:59:00,066 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 21:59:00,600 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 21:59:00,602 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 21:59:00,613 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 22:00:32,241 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 22:00:32,309 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 22:00:32,815 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 22:00:32,817 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 22:00:32,829 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 22:02:51,814 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 22:02:51,941 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 22:02:52,613 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 22:02:52,615 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 22:02:52,627 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 22:02:53,322 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:02:53] "[35m[1mGET /admin-dashboard HTTP/1.1[0m" 500 -
+2025-04-29 22:02:53,384 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:02:53] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-29 22:02:53,389 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:02:53] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-29 22:02:53,399 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:02:53] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-29 22:02:53,401 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:02:53] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:02:53,410 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:02:53] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:03:31,917 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 22:03:31,993 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 22:03:32,518 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 22:03:32,520 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 22:03:32,533 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 22:07:18,398 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:07:18] "[35m[1mGET /admin-dashboard HTTP/1.1[0m" 500 -
+2025-04-29 22:07:18,450 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:07:18] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-29 22:07:18,460 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:07:18] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-29 22:07:18,514 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:07:18] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-29 22:07:18,516 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:07:18] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:07:18,526 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:07:18] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:07:19,196 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:07:19] "[35m[1mGET /admin-dashboard HTTP/1.1[0m" 500 -
+2025-04-29 22:07:19,206 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:07:19] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-29 22:07:19,207 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:07:19] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-29 22:07:19,217 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:07:19] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-29 22:07:19,219 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:07:19] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:07:19,230 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:07:19] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:07:19,735 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:07:19] "[35m[1mGET /admin-dashboard HTTP/1.1[0m" 500 -
+2025-04-29 22:07:19,747 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:07:19] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-29 22:07:19,747 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:07:19] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-29 22:07:19,761 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:07:19] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-29 22:07:19,763 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:07:19] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:07:19,772 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:07:19] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:07:20,165 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:07:20] "[35m[1mGET /admin-dashboard HTTP/1.1[0m" 500 -
+2025-04-29 22:07:20,175 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:07:20] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-29 22:07:20,178 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:07:20] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-29 22:07:20,187 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:07:20] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-29 22:07:20,190 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:07:20] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:07:20,198 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:07:20] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:11:23,521 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 22:11:23,599 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 22:11:24,141 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 22:11:24,143 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 22:11:24,157 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 22:11:48,491 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 22:11:48,815 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 22:11:49,499 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 22:11:49,501 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 22:11:49,518 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 22:12:13,766 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 22:12:13,826 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 22:12:14,304 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 22:12:14,306 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 22:12:14,318 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 22:12:37,478 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 22:12:37,543 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 22:12:38,051 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 22:12:38,052 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 22:12:38,066 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 22:12:52,176 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 22:12:52,250 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 22:12:52,772 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 22:12:52,774 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 22:12:52,789 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 22:13:08,903 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 22:13:08,962 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 22:13:09,438 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 22:13:09,439 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 22:13:09,451 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 22:13:17,816 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:13:17] "GET / HTTP/1.1" 200 -
+2025-04-29 22:13:17,905 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:13:17] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 22:13:17,923 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:13:17] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 22:13:28,377 - root - ERROR - Database connection error: 2003: Can't connect to MySQL server on 'localhost:3306' (10061 No connection could be made because the target machine actively refused it)
+2025-04-29 22:13:28,380 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:13:28] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-04-29 22:13:28,384 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:13:28] "GET / HTTP/1.1" 200 -
+2025-04-29 22:13:28,406 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:13:28] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 22:13:28,408 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:13:28] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 22:13:45,753 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 22:13:45,872 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 22:13:53,480 - root - ERROR - Database connection error: 2003: Can't connect to MySQL server on 'localhost:3306' (10061 No connection could be made because the target machine actively refused it)
+2025-04-29 22:13:59,492 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 22:13:59,494 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 22:13:59,507 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 22:13:59,633 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:13:59] "GET / HTTP/1.1" 200 -
+2025-04-29 22:13:59,689 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:13:59] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 22:13:59,865 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:13:59] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 22:14:05,055 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:05] "GET / HTTP/1.1" 200 -
+2025-04-29 22:14:05,067 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:05] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 22:14:05,070 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:05] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 22:14:05,721 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:05] "GET / HTTP/1.1" 200 -
+2025-04-29 22:14:05,737 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:05] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 22:14:05,739 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:05] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 22:14:05,916 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:05] "GET / HTTP/1.1" 200 -
+2025-04-29 22:14:05,931 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:05] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 22:14:05,932 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:05] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 22:14:06,110 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:06] "GET / HTTP/1.1" 200 -
+2025-04-29 22:14:06,124 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:06] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 22:14:06,124 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:06] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 22:14:21,004 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 22:14:21,475 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 22:14:21,476 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 22:14:21,488 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 22:14:22,942 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:22] "GET / HTTP/1.1" 200 -
+2025-04-29 22:14:23,007 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:23] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 22:14:23,016 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:23] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 22:14:27,203 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:27] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-04-29 22:14:27,405 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:27] "[35m[1mGET /admin-dashboard HTTP/1.1[0m" 500 -
+2025-04-29 22:14:27,421 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:27] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-29 22:14:27,421 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:27] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-29 22:14:27,433 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:27] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:14:27,467 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:27] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-29 22:14:54,281 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:54] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-04-29 22:14:54,415 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:54] "[35m[1mGET /student-dashboard HTTP/1.1[0m" 500 -
+2025-04-29 22:14:54,433 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:54] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-29 22:14:54,434 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:54] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-29 22:14:54,441 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:54] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:14:54,445 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:54] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-29 22:14:54,454 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:14:54] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:15:21,978 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 22:15:22,052 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 22:15:22,577 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 22:15:22,579 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 22:15:22,591 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 22:16:03,885 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 22:16:03,955 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 22:16:04,472 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 22:16:04,474 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 22:16:04,485 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 22:16:41,753 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 22:16:41,823 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 22:16:42,345 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 22:16:42,347 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 22:16:42,358 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 22:18:56,524 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:18:56] "[35m[1mGET /student-dashboard HTTP/1.1[0m" 500 -
+2025-04-29 22:18:56,572 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:18:56] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-29 22:18:56,580 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:18:56] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-29 22:18:56,602 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:18:56] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-29 22:18:56,603 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:18:56] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:18:56,613 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:18:56] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:18:57,083 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:18:57] "[35m[1mGET /student-dashboard HTTP/1.1[0m" 500 -
+2025-04-29 22:18:57,094 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:18:57] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-29 22:18:57,094 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:18:57] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-29 22:18:57,157 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:18:57] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-29 22:18:57,159 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:18:57] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:18:57,168 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:18:57] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:18:57,304 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:18:57] "[35m[1mGET /student-dashboard HTTP/1.1[0m" 500 -
+2025-04-29 22:18:57,316 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:18:57] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-29 22:18:57,316 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:18:57] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-29 22:18:57,326 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:18:57] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-29 22:18:57,328 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:18:57] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:18:57,338 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:18:57] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:18:57,482 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:18:57] "[35m[1mGET /student-dashboard HTTP/1.1[0m" 500 -
+2025-04-29 22:18:57,492 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:18:57] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-29 22:18:57,495 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:18:57] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-29 22:18:57,504 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:18:57] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-29 22:18:57,506 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:18:57] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:18:57,515 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:18:57] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:20:05,402 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:20:05] "[35m[1mGET /student-dashboard HTTP/1.1[0m" 500 -
+2025-04-29 22:20:05,412 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:20:05] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-29 22:20:05,412 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:20:05] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-29 22:20:05,423 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:20:05] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-29 22:20:05,425 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:20:05] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:20:05,437 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:20:05] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:20:05,961 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:20:05] "[35m[1mGET /student-dashboard HTTP/1.1[0m" 500 -
+2025-04-29 22:20:05,969 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:20:05] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-29 22:20:05,972 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:20:05] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-29 22:20:05,981 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:20:05] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-29 22:20:05,983 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:20:05] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:20:05,992 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:20:05] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:20:06,233 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:20:06] "[35m[1mGET /student-dashboard HTTP/1.1[0m" 500 -
+2025-04-29 22:20:06,242 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:20:06] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-29 22:20:06,245 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:20:06] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-29 22:20:06,255 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:20:06] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-29 22:20:06,257 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:20:06] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:20:06,266 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:20:06] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:20:06,423 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:20:06] "[35m[1mGET /student-dashboard HTTP/1.1[0m" 500 -
+2025-04-29 22:20:06,436 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:20:06] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-29 22:20:06,436 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:20:06] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-29 22:20:06,546 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:20:06] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-29 22:20:06,548 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:20:06] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:20:06,559 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:20:06] "GET /student-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:20:59,250 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 22:20:59,371 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 22:20:59,945 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 22:20:59,947 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 22:20:59,959 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 22:24:53,635 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:24:53] "GET /student-dashboard HTTP/1.1" 200 -
+2025-04-29 22:24:53,737 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:24:53] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 22:24:53,741 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:24:53] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-29 22:24:53,746 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:24:53] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 22:30:25,152 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 22:30:25,223 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 22:30:25,865 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 22:30:25,867 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 22:30:25,879 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 22:30:29,106 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:30:29] "GET /student-dashboard HTTP/1.1" 200 -
+2025-04-29 22:30:29,183 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:30:29] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 22:30:29,199 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:30:29] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-29 22:30:29,199 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:30:29] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 22:30:32,682 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:30:32] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-04-29 22:30:32,689 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:30:32] "GET / HTTP/1.1" 200 -
+2025-04-29 22:30:32,704 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:30:32] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 22:30:32,710 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:30:32] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 22:30:35,683 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:30:35] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-04-29 22:30:35,902 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:30:35] "[35m[1mGET /admin-dashboard HTTP/1.1[0m" 500 -
+2025-04-29 22:30:35,917 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:30:35] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-29 22:30:35,917 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:30:35] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-29 22:30:35,926 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:30:35] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:30:35,931 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:30:35] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-29 22:31:53,542 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 22:31:53,631 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 22:31:54,233 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 22:31:54,234 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 22:31:54,246 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 22:31:56,390 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:31:56] "GET / HTTP/1.1" 200 -
+2025-04-29 22:31:56,470 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:31:56] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 22:31:56,475 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:31:56] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 22:31:59,376 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:31:59] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-04-29 22:31:59,586 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:31:59] "[35m[1mGET /admin-dashboard HTTP/1.1[0m" 500 -
+2025-04-29 22:31:59,600 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:31:59] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-29 22:31:59,601 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:31:59] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-29 22:31:59,610 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:31:59] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:31:59,626 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:31:59] "GET /admin-dashboard?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-29 22:32:15,435 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:15] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-04-29 22:32:15,545 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:15] "GET /student-dashboard HTTP/1.1" 200 -
+2025-04-29 22:32:15,567 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:15] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 22:32:15,567 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:15] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-29 22:32:15,572 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:15] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 22:32:22,185 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:22] "[35m[1mGET /student/lab-schedules HTTP/1.1[0m" 500 -
+2025-04-29 22:32:22,201 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:22] "GET /student/lab-schedules?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-29 22:32:22,204 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:22] "GET /student/lab-schedules?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-29 22:32:22,216 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:22] "GET /student/lab-schedules?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-29 22:32:22,218 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:22] "GET /student/lab-schedules?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:32:22,230 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:22] "GET /student/lab-schedules?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 22:32:24,972 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:24] "GET /student/leaderboard HTTP/1.1" 200 -
+2025-04-29 22:32:24,988 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:24] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 22:32:24,993 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:24] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 22:32:31,586 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:31] "GET /lab_resources HTTP/1.1" 200 -
+2025-04-29 22:32:31,603 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:31] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 22:32:31,610 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:31] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-29 22:32:31,612 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:31] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 22:32:33,739 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:33] "GET /student/announcements HTTP/1.1" 200 -
+2025-04-29 22:32:33,753 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:33] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 22:32:33,761 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:33] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 22:32:40,741 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 22:32:40,873 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 22:32:41,522 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 22:32:41,524 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 22:32:41,538 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 22:32:43,276 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:43] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-04-29 22:32:43,363 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:43] "GET /student-dashboard HTTP/1.1" 200 -
+2025-04-29 22:32:43,445 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:43] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-29 22:32:43,448 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:43] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 22:32:43,450 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:43] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 22:32:44,958 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:44] "GET /edit-profile HTTP/1.1" 200 -
+2025-04-29 22:32:44,978 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:44] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-29 22:32:44,979 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:44] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 22:32:44,981 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:32:44] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 22:33:34,528 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:33:34] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-04-29 22:33:34,536 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:33:34] "GET / HTTP/1.1" 200 -
+2025-04-29 22:33:34,554 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:33:34] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 22:33:34,562 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 22:33:34] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 22:36:27,337 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 22:36:27,460 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 22:36:28,036 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 22:36:28,037 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 22:36:28,050 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 22:42:44,072 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 22:42:44,140 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 22:42:44,643 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 22:42:44,645 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 22:42:44,656 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 22:53:48,237 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 22:53:48,600 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 22:53:49,325 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 22:53:49,327 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 22:53:49,343 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 22:56:26,583 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 22:56:26,764 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 22:56:27,566 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 22:56:27,568 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 22:56:27,582 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 22:56:55,808 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 22:56:55,940 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 22:56:56,680 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 22:56:56,682 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 22:56:56,696 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 23:05:16,323 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 23:05:16,442 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 23:05:17,110 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 23:05:17,114 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 23:05:17,155 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 23:25:21,366 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 23:25:21,625 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 23:25:22,574 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 23:25:22,578 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 23:25:22,609 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 23:27:07,093 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 23:27:07,235 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 23:27:08,335 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 23:27:08,339 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 23:27:08,367 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 23:32:07,284 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:32:07] "GET /admin-dashboard HTTP/1.1" 200 -
+2025-04-29 23:32:07,314 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:32:07] "[33mGET /static/images/uc-logo.png HTTP/1.1[0m" 404 -
+2025-04-29 23:32:07,484 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:32:07] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 23:32:07,534 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:32:07] "[36mGET /static/profile_pictures/22660070_1745939905_481704576_1196798168815530_8973883449594692050_n.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:32:07,547 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:32:07] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:32:07,550 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:32:07] "[36mGET /static/js/admin.js HTTP/1.1[0m" 304 -
+2025-04-29 23:32:07,552 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:32:07] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:32:30,209 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:32:30] "[33mGET /admin/get-student-info/1 HTTP/1.1[0m" 404 -
+2025-04-29 23:33:05,534 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:33:05] "[33mGET /admin/get-student-info/1 HTTP/1.1[0m" 404 -
+2025-04-29 23:33:15,943 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:33:15] "[33mGET /admin/get-student-info/1 HTTP/1.1[0m" 404 -
+2025-04-29 23:33:39,002 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:33:39] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-04-29 23:33:39,015 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:33:39] "GET / HTTP/1.1" 200 -
+2025-04-29 23:33:39,049 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:33:39] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 23:33:39,051 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:33:39] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:33:43,869 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:33:43] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-04-29 23:33:43,981 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:33:43] "GET /admin-dashboard HTTP/1.1" 200 -
+2025-04-29 23:33:44,002 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:33:44] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 23:33:44,016 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:33:44] "[33mGET /static/images/uc-logo.png HTTP/1.1[0m" 404 -
+2025-04-29 23:33:44,017 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:33:44] "[36mGET /static/profile_pictures/22660070_1745939905_481704576_1196798168815530_8973883449594692050_n.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:33:44,020 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:33:44] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:33:44,024 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:33:44] "[36mGET /static/js/admin.js HTTP/1.1[0m" 304 -
+2025-04-29 23:33:44,024 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:33:44] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:35:26,952 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:35:26] "[33mGET /admin/get-student-info/1 HTTP/1.1[0m" 404 -
+2025-04-29 23:37:18,906 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:18] "[35m[1mGET /admin/lab_schedules HTTP/1.1[0m" 500 -
+2025-04-29 23:37:18,922 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:18] "GET /admin/lab_schedules?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-29 23:37:18,922 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:18] "GET /admin/lab_schedules?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-29 23:37:18,942 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:18] "GET /admin/lab_schedules?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-29 23:37:18,946 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:18] "GET /admin/lab_schedules?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 23:37:18,960 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:18] "GET /admin/lab_schedules?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 23:37:23,302 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:23] "GET /admin-dashboard HTTP/1.1" 200 -
+2025-04-29 23:37:24,932 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:24] "GET /admin/sit_in_history HTTP/1.1" 200 -
+2025-04-29 23:37:24,955 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:24] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 23:37:24,956 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:24] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:37:27,745 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:27] "GET /admin/leaderboard HTTP/1.1" 200 -
+2025-04-29 23:37:27,765 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:27] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 23:37:27,765 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:27] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:37:29,798 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:29] "GET /admin/sit_in_history HTTP/1.1" 200 -
+2025-04-29 23:37:29,821 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:29] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 23:37:29,821 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:29] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:37:31,802 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:31] "[35m[1mGET /admin/lab_schedules HTTP/1.1[0m" 500 -
+2025-04-29 23:37:31,822 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:31] "GET /admin/lab_schedules?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-29 23:37:31,822 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:31] "GET /admin/lab_schedules?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-29 23:37:31,841 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:31] "GET /admin/lab_schedules?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-29 23:37:31,845 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:31] "GET /admin/lab_schedules?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 23:37:52,185 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:52] "GET /admin/sit_in_history HTTP/1.1" 200 -
+2025-04-29 23:37:54,524 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:54] "GET /admin-dashboard HTTP/1.1" 200 -
+2025-04-29 23:37:54,541 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:54] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 23:37:54,551 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:54] "[33mGET /static/images/uc-logo.png HTTP/1.1[0m" 404 -
+2025-04-29 23:37:54,553 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:54] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:37:54,555 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:54] "[36mGET /static/js/admin.js HTTP/1.1[0m" 304 -
+2025-04-29 23:37:54,560 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:54] "[36mGET /static/profile_pictures/22660070_1745939905_481704576_1196798168815530_8973883449594692050_n.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:37:54,561 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:37:54] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:38:02,405 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:02] "GET /lab_resources HTTP/1.1" 200 -
+2025-04-29 23:38:02,424 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:02] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 23:38:02,424 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:02] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:38:05,854 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:05] "GET /admin/leaderboard HTTP/1.1" 200 -
+2025-04-29 23:38:05,874 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:05] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 23:38:05,879 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:05] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:38:07,013 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:07] "GET /admin-dashboard HTTP/1.1" 200 -
+2025-04-29 23:38:07,039 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:07] "[33mGET /static/images/uc-logo.png HTTP/1.1[0m" 404 -
+2025-04-29 23:38:07,040 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:07] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 23:38:07,049 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:07] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:38:07,050 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:07] "[36mGET /static/js/admin.js HTTP/1.1[0m" 304 -
+2025-04-29 23:38:07,053 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:07] "[36mGET /static/profile_pictures/22660070_1745939905_481704576_1196798168815530_8973883449594692050_n.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:38:07,058 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:07] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:38:10,332 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:10] "GET /lab_resources HTTP/1.1" 200 -
+2025-04-29 23:38:10,355 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:10] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 23:38:10,359 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:10] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:38:12,718 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:12] "[35m[1mGET /admin/lab_schedules HTTP/1.1[0m" 500 -
+2025-04-29 23:38:12,739 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:12] "GET /admin/lab_schedules?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-29 23:38:12,740 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:12] "GET /admin/lab_schedules?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-29 23:38:12,760 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:12] "GET /admin/lab_schedules?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-29 23:38:12,762 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:12] "GET /admin/lab_schedules?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 23:38:14,682 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:14] "GET /lab_resources HTTP/1.1" 200 -
+2025-04-29 23:38:24,439 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:24] "GET /admin/sit_in_history HTTP/1.1" 200 -
+2025-04-29 23:38:24,461 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:24] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 23:38:24,463 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:24] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:38:28,392 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:28] "GET /admin-dashboard HTTP/1.1" 200 -
+2025-04-29 23:38:28,415 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:28] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 23:38:28,422 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:28] "[33mGET /static/images/uc-logo.png HTTP/1.1[0m" 404 -
+2025-04-29 23:38:28,427 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:28] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:38:28,428 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:28] "[36mGET /static/js/admin.js HTTP/1.1[0m" 304 -
+2025-04-29 23:38:28,431 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:28] "[36mGET /static/profile_pictures/22660070_1745939905_481704576_1196798168815530_8973883449594692050_n.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:38:28,435 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:28] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:38:43,067 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:43] "GET /admin/leaderboard HTTP/1.1" 200 -
+2025-04-29 23:38:43,085 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:43] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 23:38:43,091 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:43] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:38:44,389 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:44] "GET /lab_resources HTTP/1.1" 200 -
+2025-04-29 23:38:44,412 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:44] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 23:38:44,414 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:44] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:38:46,367 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:46] "[35m[1mGET /admin/lab_schedules HTTP/1.1[0m" 500 -
+2025-04-29 23:38:46,390 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:46] "GET /admin/lab_schedules?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-29 23:38:46,395 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:46] "GET /admin/lab_schedules?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-29 23:38:46,409 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:46] "GET /admin/lab_schedules?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-29 23:38:46,412 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:46] "GET /admin/lab_schedules?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-29 23:38:47,957 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:47] "GET /lab_resources HTTP/1.1" 200 -
+2025-04-29 23:38:51,805 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:51] "GET /admin-dashboard HTTP/1.1" 200 -
+2025-04-29 23:38:51,824 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:51] "[33mGET /static/images/uc-logo.png HTTP/1.1[0m" 404 -
+2025-04-29 23:38:51,825 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:51] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 23:38:51,837 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:51] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:38:51,838 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:51] "[36mGET /static/profile_pictures/22660070_1745939905_481704576_1196798168815530_8973883449594692050_n.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:38:51,840 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:51] "[36mGET /static/js/admin.js HTTP/1.1[0m" 304 -
+2025-04-29 23:38:51,842 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:51] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:38:57,187 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:57] "GET /get_pc_status?lab_room=Lab%202 HTTP/1.1" 200 -
+2025-04-29 23:38:59,371 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:38:59] "[31m[1mGET /get_pc_status?lab_room= HTTP/1.1[0m" 400 -
+2025-04-29 23:43:30,271 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 23:43:30,427 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 23:43:31,127 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 23:43:31,130 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 23:43:31,145 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 23:46:25,517 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 23:46:25,683 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 23:46:26,430 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 23:46:26,432 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 23:46:26,450 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 23:46:53,837 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-29 23:46:53,949 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 23:46:54,639 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 23:46:54,641 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-29 23:46:54,658 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-29 23:46:57,002 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:46:57] "GET /admin-dashboard HTTP/1.1" 200 -
+2025-04-29 23:46:57,024 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:46:57] "[33mGET /static/images/uc-logo.png HTTP/1.1[0m" 404 -
+2025-04-29 23:46:57,166 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:46:57] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 23:46:57,228 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:46:57] "[36mGET /static/profile_pictures/22660070_1745939905_481704576_1196798168815530_8973883449594692050_n.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:46:57,231 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:46:57] "[36mGET /static/js/admin.js HTTP/1.1[0m" 304 -
+2025-04-29 23:46:57,236 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:46:57] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:46:57,247 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:46:57] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:47:02,932 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:47:02] "[32mPOST /admin/check_out_student/1 HTTP/1.1[0m" 302 -
+2025-04-29 23:47:03,052 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:47:03] "GET /admin-dashboard HTTP/1.1" 200 -
+2025-04-29 23:47:03,082 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:47:03] "[33mGET /static/images/uc-logo.png HTTP/1.1[0m" 404 -
+2025-04-29 23:47:03,083 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:47:03] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-29 23:47:03,094 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:47:03] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:47:03,095 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:47:03] "[36mGET /static/js/admin.js HTTP/1.1[0m" 304 -
+2025-04-29 23:47:03,096 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:47:03] "[36mGET /static/profile_pictures/22660070_1745939905_481704576_1196798168815530_8973883449594692050_n.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:47:03,100 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:47:03] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-29 23:47:39,321 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 23:47:39] "[33mGET /admin/get-student-info/1 HTTP/1.1[0m" 404 -
+2025-04-30 00:56:42,204 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-30 00:56:42,627 - werkzeug - INFO -  * Restarting with stat
+2025-04-30 00:56:43,634 - werkzeug - WARNING -  * Debugger is active!
+2025-04-30 00:56:43,638 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-30 00:56:43,661 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-30 00:59:02,777 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-30 00:59:02,990 - werkzeug - INFO -  * Restarting with stat
+2025-04-30 00:59:03,793 - werkzeug - WARNING -  * Debugger is active!
+2025-04-30 00:59:03,798 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-30 00:59:03,814 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-30 00:59:06,218 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 00:59:06] "GET /admin-dashboard HTTP/1.1" 200 -
+2025-04-30 00:59:06,447 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 00:59:06] "[33mGET /static/images/uc-logo.png HTTP/1.1[0m" 404 -
+2025-04-30 00:59:06,691 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 00:59:06] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-30 00:59:06,704 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 00:59:06] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-30 00:59:06,713 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 00:59:06] "[36mGET /static/js/admin.js HTTP/1.1[0m" 304 -
+2025-04-30 00:59:06,715 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 00:59:06] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-30 00:59:06,716 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 00:59:06] "[36mGET /static/profile_pictures/22660070_1745939905_481704576_1196798168815530_8973883449594692050_n.jpg HTTP/1.1[0m" 304 -
+2025-04-30 00:59:10,234 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 00:59:10] "[32mPOST /admin/check_out_student/1 HTTP/1.1[0m" 302 -
+2025-04-30 00:59:10,357 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 00:59:10] "GET /admin-dashboard HTTP/1.1" 200 -
+2025-04-30 00:59:10,394 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 00:59:10] "[33mGET /static/images/uc-logo.png HTTP/1.1[0m" 404 -
+2025-04-30 00:59:10,401 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 00:59:10] "[36mGET /static/profile_pictures/22660070_1745939905_481704576_1196798168815530_8973883449594692050_n.jpg HTTP/1.1[0m" 304 -
+2025-04-30 00:59:10,401 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 00:59:10] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-30 00:59:10,402 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 00:59:10] "[36mGET /static/js/admin.js HTTP/1.1[0m" 304 -
+2025-04-30 00:59:10,402 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 00:59:10] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-30 00:59:10,403 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 00:59:10] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-30 00:59:19,821 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 00:59:19] "GET /admin/get-student-info/1 HTTP/1.1" 200 -
+2025-04-30 01:00:00,905 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:00:00] "[32mPOST /admin/check_out_student/1 HTTP/1.1[0m" 302 -
+2025-04-30 01:00:01,003 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:00:01] "GET /admin-dashboard HTTP/1.1" 200 -
+2025-04-30 01:00:01,023 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:00:01] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-30 01:00:01,029 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:00:01] "[33mGET /static/images/uc-logo.png HTTP/1.1[0m" 404 -
+2025-04-30 01:00:01,033 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:00:01] "[36mGET /static/js/admin.js HTTP/1.1[0m" 304 -
+2025-04-30 01:00:01,035 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:00:01] "[36mGET /static/profile_pictures/22660070_1745939905_481704576_1196798168815530_8973883449594692050_n.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:00:01,036 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:00:01] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:00:01,038 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:00:01] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:00:36,975 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:00:36] "GET /admin-dashboard HTTP/1.1" 200 -
+2025-04-30 01:00:37,000 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:00:37] "[33mGET /static/images/uc-logo.png HTTP/1.1[0m" 404 -
+2025-04-30 01:00:37,002 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:00:37] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-30 01:00:37,006 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:00:37] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:00:37,008 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:00:37] "[36mGET /static/js/admin.js HTTP/1.1[0m" 304 -
+2025-04-30 01:00:37,013 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:00:37] "[36mGET /static/profile_pictures/22660070_1745939905_481704576_1196798168815530_8973883449594692050_n.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:00:37,014 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:00:37] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:00:46,921 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:00:46] "[33mGET /export-report/excel HTTP/1.1[0m" 404 -
+2025-04-30 01:00:49,272 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:00:49] "GET /admin-dashboard HTTP/1.1" 200 -
+2025-04-30 01:00:52,174 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:00:52] "[33mGET /export-report/csv HTTP/1.1[0m" 404 -
+2025-04-30 01:01:16,028 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:16] "GET /admin-dashboard HTTP/1.1" 200 -
+2025-04-30 01:01:17,545 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:17] "[35m[1mGET /admin/todays_sit_ins HTTP/1.1[0m" 500 -
+2025-04-30 01:01:17,567 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:17] "GET /admin/todays_sit_ins?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-30 01:01:17,574 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:17] "GET /admin/todays_sit_ins?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-30 01:01:17,593 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:17] "GET /admin/todays_sit_ins?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-30 01:01:17,598 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:17] "GET /admin/todays_sit_ins?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-30 01:01:17,618 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:17] "GET /admin/todays_sit_ins?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-30 01:01:40,466 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:40] "GET /admin-dashboard HTTP/1.1" 200 -
+2025-04-30 01:01:41,381 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:41] "GET /admin/sit_in_history HTTP/1.1" 200 -
+2025-04-30 01:01:41,403 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:41] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-30 01:01:41,411 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:41] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:01:42,887 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:42] "[35m[1mGET /admin/todays_sit_ins HTTP/1.1[0m" 500 -
+2025-04-30 01:01:42,900 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:42] "GET /admin/todays_sit_ins?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-04-30 01:01:42,904 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:42] "GET /admin/todays_sit_ins?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-04-30 01:01:42,916 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:42] "GET /admin/todays_sit_ins?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+2025-04-30 01:01:42,919 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:42] "GET /admin/todays_sit_ins?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-04-30 01:01:44,661 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:44] "GET /admin/sit_in_history HTTP/1.1" 200 -
+2025-04-30 01:01:45,982 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:45] "GET /admin/lab_schedules HTTP/1.1" 200 -
+2025-04-30 01:01:45,996 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:45] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-30 01:01:46,004 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:46] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:01:47,505 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:47] "GET /lab_resources HTTP/1.1" 200 -
+2025-04-30 01:01:47,519 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:47] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-30 01:01:47,523 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:47] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:01:48,581 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:48] "GET /admin-dashboard HTTP/1.1" 200 -
+2025-04-30 01:01:48,598 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:48] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-30 01:01:48,609 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:48] "[33mGET /static/images/uc-logo.png HTTP/1.1[0m" 404 -
+2025-04-30 01:01:48,610 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:48] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:01:48,611 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:48] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:01:48,611 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:48] "[36mGET /static/js/admin.js HTTP/1.1[0m" 304 -
+2025-04-30 01:01:48,612 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:01:48] "[36mGET /static/profile_pictures/22660070_1745939905_481704576_1196798168815530_8973883449594692050_n.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:02:44,331 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-30 01:02:44,524 - werkzeug - INFO -  * Restarting with stat
+2025-04-30 01:02:45,477 - werkzeug - WARNING -  * Debugger is active!
+2025-04-30 01:02:45,481 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-30 01:02:45,508 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-30 01:03:42,171 - werkzeug - INFO -  * Detected change in 'c:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-30 01:03:42,559 - werkzeug - INFO -  * Restarting with stat
+2025-04-30 01:06:52,806 - werkzeug - INFO -  * Restarting with stat
+2025-04-30 01:06:53,484 - werkzeug - WARNING -  * Debugger is active!
+2025-04-30 01:06:53,487 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-30 01:06:53,503 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-30 01:06:53,727 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:06:53] "GET /admin-dashboard HTTP/1.1" 200 -
+2025-04-30 01:06:53,802 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:06:53] "[33mGET /static/images/uc-logo.png HTTP/1.1[0m" 404 -
+2025-04-30 01:06:53,846 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:06:53] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-30 01:06:53,847 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:06:53] "[36mGET /static/js/admin.js HTTP/1.1[0m" 304 -
+2025-04-30 01:06:53,855 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:06:53] "[36mGET /static/profile_pictures/22660070_1745939905_481704576_1196798168815530_8973883449594692050_n.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:06:53,873 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:06:53] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:06:53,885 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:06:53] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:06:54,477 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:06:54] "GET /admin-dashboard HTTP/1.1" 200 -
+2025-04-30 01:06:54,496 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:06:54] "[33mGET /static/images/uc-logo.png HTTP/1.1[0m" 404 -
+2025-04-30 01:06:54,497 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:06:54] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-30 01:06:54,508 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:06:54] "[36mGET /static/js/admin.js HTTP/1.1[0m" 304 -
+2025-04-30 01:06:54,514 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:06:54] "[36mGET /static/profile_pictures/22660070_1745939905_481704576_1196798168815530_8973883449594692050_n.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:06:54,514 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:06:54] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:06:54,518 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:06:54] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:07:00,843 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:07:00] "[33mGET /export-report/csv HTTP/1.1[0m" 404 -
+2025-04-30 01:07:03,337 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:07:03] "[33mGET /export-report/excel HTTP/1.1[0m" 404 -
+2025-04-30 01:07:38,642 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:07:38] "[33mGET /export-report/csv HTTP/1.1[0m" 404 -
+2025-04-30 01:07:41,172 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:07:41] "GET /admin/sit_in_history HTTP/1.1" 200 -
+2025-04-30 01:07:41,190 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:07:41] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-30 01:07:41,195 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:07:41] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:07:44,230 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:07:44] "GET /admin/todays_sit_ins HTTP/1.1" 200 -
+2025-04-30 01:07:44,250 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:07:44] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-30 01:07:44,258 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:07:44] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:07:48,216 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:07:48] "GET /admin-dashboard HTTP/1.1" 200 -
+2025-04-30 01:07:48,236 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:07:48] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-30 01:07:48,254 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:07:48] "[33mGET /static/images/uc-logo.png HTTP/1.1[0m" 404 -
+2025-04-30 01:07:48,255 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:07:48] "[36mGET /static/js/admin.js HTTP/1.1[0m" 304 -
+2025-04-30 01:07:48,257 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:07:48] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:07:48,259 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:07:48] "[36mGET /static/profile_pictures/22660070_1745939905_481704576_1196798168815530_8973883449594692050_n.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:07:48,261 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:07:48] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:07:53,597 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:07:53] "[32mPOST /admin/check_out_student/1 HTTP/1.1[0m" 302 -
+2025-04-30 01:07:53,708 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:07:53] "GET /admin-dashboard HTTP/1.1" 200 -
+2025-04-30 01:07:53,725 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:07:53] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-30 01:07:53,731 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:07:53] "[33mGET /static/images/uc-logo.png HTTP/1.1[0m" 404 -
+2025-04-30 01:07:53,734 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:07:53] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:07:53,735 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:07:53] "[36mGET /static/js/admin.js HTTP/1.1[0m" 304 -
+2025-04-30 01:07:53,736 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:07:53] "[36mGET /static/profile_pictures/22660070_1745939905_481704576_1196798168815530_8973883449594692050_n.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:07:53,739 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:07:53] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:07:59,952 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:07:59] "[32mPOST /admin/check_out_student/1 HTTP/1.1[0m" 302 -
+2025-04-30 01:08:00,056 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:08:00] "GET /admin-dashboard HTTP/1.1" 200 -
+2025-04-30 01:08:00,075 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:08:00] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-30 01:08:00,085 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:08:00] "[33mGET /static/images/uc-logo.png HTTP/1.1[0m" 404 -
+2025-04-30 01:08:00,087 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:08:00] "[36mGET /static/js/admin.js HTTP/1.1[0m" 304 -
+2025-04-30 01:08:00,087 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:08:00] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:08:00,089 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:08:00] "[36mGET /static/profile_pictures/22660070_1745939905_481704576_1196798168815530_8973883449594692050_n.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:08:00,090 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:08:00] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:08:04,990 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:08:04] "GET /admin/get-student-info/1 HTTP/1.1" 200 -
+2025-04-30 01:08:07,405 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:08:07] "[32mPOST /admin/direct-sit-in HTTP/1.1[0m" 302 -
+2025-04-30 01:08:07,512 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:08:07] "GET /admin-dashboard HTTP/1.1" 200 -
+2025-04-30 01:08:07,528 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:08:07] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-30 01:08:07,535 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:08:07] "[33mGET /static/images/uc-logo.png HTTP/1.1[0m" 404 -
+2025-04-30 01:08:07,540 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:08:07] "[36mGET /static/js/admin.js HTTP/1.1[0m" 304 -
+2025-04-30 01:08:07,541 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:08:07] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:08:07,542 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:08:07] "[36mGET /static/profile_pictures/22660070_1745939905_481704576_1196798168815530_8973883449594692050_n.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:08:07,543 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:08:07] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:08:12,526 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:08:12] "GET /admin/get-student-info/1 HTTP/1.1" 200 -
+2025-04-30 01:08:21,328 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:08:21] "[32mPOST /admin/direct-sit-in HTTP/1.1[0m" 302 -
+2025-04-30 01:08:21,422 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:08:21] "GET /admin-dashboard HTTP/1.1" 200 -
+2025-04-30 01:08:21,438 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:08:21] "[36mGET /static/CSS.png HTTP/1.1[0m" 304 -
+2025-04-30 01:08:21,444 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:08:21] "[33mGET /static/images/uc-logo.png HTTP/1.1[0m" 404 -
+2025-04-30 01:08:21,447 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:08:21] "[36mGET /static/profile_pictures/22660070_1745939905_481704576_1196798168815530_8973883449594692050_n.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:08:21,448 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:08:21] "[36mGET /static/js/admin.js HTTP/1.1[0m" 304 -
+2025-04-30 01:08:21,449 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:08:21] "[36mGET /static/profile_pictures/default.jpg HTTP/1.1[0m" 304 -
+2025-04-30 01:08:21,451 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2025 01:08:21] "[36mGET /static/uc.jpg HTTP/1.1[0m" 304 -

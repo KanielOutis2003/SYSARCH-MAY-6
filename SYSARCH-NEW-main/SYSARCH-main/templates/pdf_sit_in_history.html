@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sit-In History Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #003366;
+            padding-bottom: 10px;
+        }
+        .report-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #003366;
+            margin: 0;
+        }
+        .subtitle {
+            font-size: 16px;
+            color: #666;
+            margin: 5px 0 0;
+        }
+        .date {
+            font-size: 14px;
+            color: #777;
+            margin-top: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            font-size: 12px;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .status-completed {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .status-cancelled {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="report-title">Computer Science Laboratory</h1>
+        <p class="subtitle">Sit-In History Report</p>
+        <p class="date">Generated on: {{ '%Y-%m-%d %H:%M:%S'|strftime }}</p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID No.</th>
+                <th>Student Name</th>
+                <th>Course</th>
+                <th>Lab Room</th>
+                <th>Date & Time</th>
+                <th>Purpose</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for session in sessions %}
+            <tr>
+                <td>{{ session.idno }}</td>
+                <td>{{ session.lastname }}, {{ session.firstname }}</td>
+                <td>
+                    {% if session.course == '1' %}
+                        BSIT
+                    {% elif session.course == '2' %}
+                        BSCS
+                    {% elif session.course == '3' %}
+                        BSCE
+                    {% else %}
+                        {{ session.course }}
+                    {% endif %}
+                </td>
+                <td>{{ session.lab_room }}</td>
+                <td>{{ session.date_time_formatted }}</td>
+                <td>{{ session.purpose or 'N/A' }}</td>
+                <td class="status-{{ session.status }}">
+                    {% if session.status == 'completed' %}
+                        Completed
+                    {% elif session.status == 'cancelled' %}
+                        Cancelled
+                    {% else %}
+                        {{ session.status|capitalize }}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="footer">
+        <p>Computer Science Laboratory - Student Sit-In System</p>
+    </div>
+</body>
+</html> 

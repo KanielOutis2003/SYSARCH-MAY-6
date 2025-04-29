@@ -14,27 +14,22 @@
             background-repeat: no-repeat;
             background-color: rgba(0, 0, 0, 0.5);
             background-blend-mode: overlay;
+            color: #333;
+            display: flex;
+            flex-direction: column;
             min-height: 100vh;
-        }
-
-        .dashboard-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
         }
 
         .header {
             background-color: rgba(255, 255, 255, 0.95);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
+            padding: 15px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        .logo-section {
+        .logo-container {
             display: flex;
             align-items: center;
             gap: 15px;
@@ -51,54 +46,113 @@
         .user-info {
             text-align: right;
             color: #003366;
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        .content-section {
+        .user-details {
+            text-align: right;
+        }
+
+        .logout-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .container {
             background-color: rgba(255, 255, 255, 0.95);
-            padding: 25px;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
             margin-bottom: 20px;
         }
 
-        h2 {
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #003366;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        h1 {
             color: #003366;
             margin-top: 0;
+            margin-bottom: 30px;
             border-bottom: 2px solid #003366;
             padding-bottom: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-section {
+            grid-column: 1 / -1;
+            margin-bottom: 20px;
+        }
+
+        .form-section h2 {
+            color: #003366;
+            margin-top: 0;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #ddd;
         }
 
         .form-group {
             margin-bottom: 20px;
         }
 
-        .form-group label {
+        label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             font-weight: 600;
-            color: #003366;
+            color: #444;
         }
 
         .form-control {
             width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 2px solid #e0e0e0;
-            font-size: 14px;
-            transition: all 0.3s ease;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
         }
 
         .form-control:focus {
             border-color: #003366;
             outline: none;
-            box-shadow: 0 0 5px rgba(0, 51, 102, 0.2);
+            box-shadow: 0 0 0 2px rgba(0, 51, 102, 0.2);
         }
 
-        .profile-section {
-            display: flex;
-            gap: 30px;
-            margin-bottom: 30px;
-            align-items: center;
+        .profile-pic-container {
+            margin-bottom: 20px;
+            text-align: center;
         }
 
         .profile-pic {
@@ -107,49 +161,31 @@
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid #003366;
+            margin-bottom: 15px;
         }
 
-        .profile-upload {
-            flex: 1;
-        }
-
-        .btn {
-            padding: 12px 25px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s ease;
+        .btn-container {
+            text-align: center;
+            margin-top: 30px;
         }
 
         .btn-primary {
             background-color: #003366;
             color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
         }
 
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
+        .btn-primary:hover {
+            background-color: #004d99;
         }
 
-        .btn:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-        }
-
-        .action-buttons {
-            display: flex;
-            justify-content: flex-end;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .readonly-field {
-            background-color: #f8f9fa;
-            cursor: not-allowed;
-        }
-
+        /* Flash message styles */
         .flash-container {
             position: fixed;
             top: 20px;
@@ -158,43 +194,47 @@
         }
 
         .flash-message {
+            background-color: #ffffff;
+            border-left: 4px solid;
             padding: 15px 25px;
             margin-bottom: 10px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            animation: slideIn 0.3s ease;
-            transition: opacity 0.5s ease;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: opacity 0.3s ease;
         }
 
         .flash-success {
-            background-color: #d4edda;
-            color: #155724;
-            border-left: 4px solid #28a745;
+            border-left-color: #28a745;
         }
 
         .flash-error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border-left: 4px solid #dc3545;
+            border-left-color: #dc3545;
+        }
+
+        .flash-warning {
+            border-left-color: #ffc107;
         }
 
         .flash-info {
-            background-color: #d1ecf1;
-            color: #0c5460;
-            border-left: 4px solid #17a2b8;
+            border-left-color: #17a2b8;
         }
 
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
+        .readonly {
+            background-color: #f8f9fa;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
             }
-            to {
-                transform: translateX(0);
-                opacity: 1;
+            
+            .main-content {
+                padding: 15px;
             }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <!-- Flash Messages Container -->
@@ -202,87 +242,113 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                    <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                    <div class="flash-message flash-{{ category }}">
+                        {{ message }}
+                    </div>
                 {% endfor %}
             {% endif %}
         {% endwith %}
     </div>
 
-    <div class="dashboard-container">
-        <div class="header">
-            <div class="logo-section">
-                <img src="/static/CSS.png" alt="CSS Logo" class="logo">
-                <h1>Edit Profile</h1>
-            </div>
-            <div class="user-info">
-                <h3>{{ student.firstname }} {{ student.lastname }}</h3>
-                <a href="{{ url_for('student_dashboard') }}"><button class="btn btn-secondary">Back to Dashboard</button></a>
-            </div>
+    <div class="header">
+        <div class="logo-container">
+            <img src="/static/CSS.png" alt="CSS Logo" class="logo">
+            <h2>CSS Sit-In Monitoring System</h2>
         </div>
+        <div class="user-info">
+            <div class="user-details">
+                <h3>{{ student.firstname }} {{ student.lastname }}</h3>
+                <p>{{ student.idno }}</p>
+            </div>
+            <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+        </div>
+    </div>
 
-        <div class="content-section">
-            <h2>Update Your Profile Information</h2>
+    <div class="main-content">
+        <a href="{{ url_for('student_dashboard') }}" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+        
+        <div class="container">
+            <h1>Edit Profile</h1>
             
             <form action="{{ url_for('edit_profile') }}" method="POST" enctype="multipart/form-data">
-                <div class="profile-section">
-                    <img src="/static/profile_pictures/{{ student.profile_picture }}" alt="Profile Picture" class="profile-pic" id="profile-preview">
-                    <div class="profile-upload">
+                <div class="profile-pic-container">
+                    <img src="/static/profile_pictures/{{ student.profile_picture }}" alt="Profile Picture" class="profile-pic" id="profilePreview">
+                    <div class="form-group">
+                        <label for="profile_picture">Update Profile Picture</label>
+                        <input type="file" id="profile_picture" name="profile_picture" class="form-control" accept="image/*" onchange="previewImage(this)">
+                    </div>
+                </div>
+                
+                <div class="form-grid">
+                    <div class="form-section">
+                        <h2>Personal Information</h2>
+                        
                         <div class="form-group">
-                            <label for="profile_picture">Profile Picture</label>
-                            <input type="file" name="profile_picture" id="profile_picture" class="form-control" accept="image/*" onchange="previewImage(this)">
-                            <small>Upload a new profile picture (JPG, PNG, or GIF)</small>
+                            <label for="idno">ID Number</label>
+                            <input type="text" id="idno" name="idno" class="form-control readonly" value="{{ student.idno }}" readonly>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="firstname">First Name</label>
+                            <input type="text" id="firstname" name="firstname" class="form-control" value="{{ student.firstname }}" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="lastname">Last Name</label>
+                            <input type="text" id="lastname" name="lastname" class="form-control" value="{{ student.lastname }}" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="middlename">Middle Name (Optional)</label>
+                            <input type="text" id="middlename" name="middlename" class="form-control" value="{{ student.middlename }}">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" class="form-control" value="{{ student.email }}" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="course">Course</label>
+                            <input type="text" id="course" name="course" class="form-control readonly" value="{% if student.course == '1' %}BSIT{% elif student.course == '2' %}BSCS{% elif student.course == '3' %}BSCE{% else %}{{ student.course }}{% endif %}" readonly>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="year_level">Year Level</label>
+                            <input type="text" id="year_level" name="year_level" class="form-control readonly" value="{{ student.year_level }}" readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h2>Change Password</h2>
+                        <p>Leave these fields blank if you don't want to change your password.</p>
+                        
+                        <div class="form-group">
+                            <label for="current_password">Current Password</label>
+                            <input type="password" id="current_password" name="current_password" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="new_password">New Password</label>
+                            <input type="password" id="new_password" name="new_password" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirm_password">Confirm New Password</label>
+                            <input type="password" id="confirm_password" name="confirm_password" class="form-control">
                         </div>
                     </div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="idno">Student ID Number</label>
-                    <input type="text" id="idno" class="form-control readonly-field" value="{{ student.idno }}" readonly>
-                </div>
-                
-                <div class="form-group">
-                    <label for="lastname">Last Name</label>
-                    <input type="text" name="lastname" id="lastname" class="form-control" value="{{ student.lastname }}" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="firstname">First Name</label>
-                    <input type="text" name="firstname" id="firstname" class="form-control" value="{{ student.firstname }}" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="middlename">Middle Name</label>
-                    <input type="text" name="middlename" id="middlename" class="form-control" value="{{ student.middlename }}">
-                </div>
-                
-                <div class="form-group">
-                    <label for="course">Course</label>
-                    <input type="text" id="course" class="form-control readonly-field" value="{{ student.course }}" readonly>
-                </div>
-                
-                <div class="form-group">
-                    <label for="year_level">Year Level</label>
-                    <input type="text" id="year_level" class="form-control readonly-field" value="{{ student.year_level }}" readonly>
-                </div>
-                
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" name="email" id="email" class="form-control" value="{{ student.email }}" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" class="form-control readonly-field" value="{{ student.username }}" readonly>
-                </div>
-                
-                <div class="action-buttons">
-                    <a href="{{ url_for('student_dashboard') }}"><button type="button" class="btn btn-secondary">Cancel</button></a>
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                <div class="btn-container">
+                    <button type="submit" class="btn-primary">Save Changes</button>
                 </div>
             </form>
         </div>
     </div>
-
+    
     <script>
         // Auto-hide flash messages after 5 seconds
         setTimeout(function() {
@@ -295,13 +361,13 @@
             });
         }, 5000);
         
-        // Preview uploaded image
+        // Preview profile picture
         function previewImage(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
                 
                 reader.onload = function(e) {
-                    document.getElementById('profile-preview').src = e.target.result;
+                    document.getElementById('profilePreview').src = e.target.result;
                 }
                 
                 reader.readAsDataURL(input.files[0]);
