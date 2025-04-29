@@ -14,6 +14,8 @@ import xlsxwriter
 from io import BytesIO
 import re
 import pdfkit
+import csv
+import io
 
 # Configure logging
 logging.basicConfig(
@@ -632,8 +634,33 @@ def admin_dashboard():
         ORDER BY s.date_time ASC
         """)
         pending_sessions = cursor.fetchall()
-    except:
+        
+        # Format dates for display
+        for session in pending_sessions:
+            if 'date_time' in session and session['date_time']:
+                session['date_time_formatted'] = session['date_time'].strftime('%Y-%m-%d %H:%M')
+    except Exception as e:
+        logging.error(f"Error fetching pending sessions: {str(e)}")
         pending_sessions = []
+
+    # Get reservation requests that are approved but not checked in yet
+    try:
+        cursor.execute("""
+        SELECT s.*, st.firstname, st.lastname, st.idno, st.course
+        FROM sessions s
+        JOIN students st ON s.student_id = st.id
+        WHERE s.approval_status = 'approved' AND s.status = 'pending'
+        ORDER BY s.date_time ASC
+        """)
+        approved_reservations = cursor.fetchall()
+        
+        # Format dates for display
+        for session in approved_reservations:
+            if 'date_time' in session and session['date_time']:
+                session['date_time_formatted'] = session['date_time'].strftime('%Y-%m-%d %H:%M')
+    except Exception as e:
+        logging.error(f"Error fetching approved reservations: {str(e)}")
+        approved_reservations = []
 
     # Get active sessions
     try:
@@ -641,27 +668,32 @@ def admin_dashboard():
         SELECT s.*, st.firstname, st.lastname, st.idno, st.course
         FROM sessions s
         JOIN students st ON s.student_id = st.id
-        WHERE s.status != 'completed' AND s.status != 'cancelled'
+        WHERE s.status = 'active' AND s.approval_status = 'approved'
         ORDER BY s.check_in_time DESC, s.date_time ASC
         """)
         active_sessions = cursor.fetchall()
     except:
         active_sessions = []
     
-    # Get completed sessions for reservation logs
+    # Get reservation logs (both approved and rejected)
     try:
         cursor.execute("""
         SELECT s.*, st.firstname, st.lastname, st.idno, st.course
         FROM sessions s
         JOIN students st ON s.student_id = st.id
-        WHERE s.status = 'completed' OR s.status = 'cancelled'
+        WHERE (s.status = 'completed' OR s.status = 'cancelled' OR s.approval_status = 'rejected')
         ORDER BY s.created_at DESC
         LIMIT 50
         """)
-        completed_sessions = cursor.fetchall()
+        reservation_logs = cursor.fetchall()
+        
+        # Format dates for display
+        for session in reservation_logs:
+            if 'date_time' in session and session['date_time']:
+                session['date_time_formatted'] = session['date_time'].strftime('%Y-%m-%d %H:%M')
     except Exception as e:
-        print(f"Error fetching completed sessions: {str(e)}")
-        completed_sessions = []
+        logging.error(f"Error fetching reservation logs: {str(e)}")
+        reservation_logs = []
 
     # Get all students
     try:
@@ -729,179 +761,72 @@ def admin_dashboard():
     """)
     recent_activity = cursor.fetchall()
     
-    # Format timestamps in recent_activity
+    # Format each timestamp
     for activity in recent_activity:
-        if 'timestamp' in activity and activity['timestamp']:
-            if isinstance(activity['timestamp'], datetime.datetime):
-                activity['timestamp_date'] = activity['timestamp'].strftime('%Y-%m-%d')
-                activity['timestamp_time'] = activity['timestamp'].strftime('%H:%M')
-            else:
-                activity['timestamp_date'] = activity['timestamp']
-                activity['timestamp_time'] = ''
+        if activity['timestamp']:
+            activity['formatted_time'] = activity['timestamp'].strftime('%Y-%m-%d %H:%M:%S')
     
-    # Get programming language statistics
-    try:
-        cursor.execute("""
-        SELECT 
-            programming_language,
-            COUNT(*) as count,
-            (COUNT(*) * 100.0 / (SELECT COUNT(*) FROM sessions WHERE programming_language IS NOT NULL)) as percentage
-        FROM sessions
-        WHERE programming_language IS NOT NULL
-        GROUP BY programming_language
-        ORDER BY count DESC
-        """)
-        language_stats = cursor.fetchall()
-        
-        # Ensure we have data for all default languages
-        default_languages = ['PHP', 'Java', 'Python', 'JavaScript', 'C++', 'C#', 'Ruby', 'Swift']
-        existing_languages = [lang['programming_language'] for lang in language_stats]
-        
-        # Add missing languages with count 0
-        for lang in default_languages:
-            if lang not in existing_languages:
-                language_stats.append({
-                    'programming_language': lang,
-                    'count': 0,
-                    'percentage': 0
-                })
-    except Exception as e:
-        print(f"Error getting language stats: {str(e)}")
-        language_stats = []
+    # Get feedback data and statistics
+    feedback_stats = {
+        'total_feedback': 0,
+        'average_rating': 0.0,
+        'positive_feedback': 0,
+        'negative_feedback': 0
+    }
     
-    # Get lab room usage statistics
-    try:
-        cursor.execute("""
-        SELECT 
-            lab_room,
-            COUNT(*) as count,
-            (COUNT(*) * 100.0 / (SELECT COUNT(*) FROM sessions)) as percentage,
-            SUM(duration) as total_hours
-        FROM sessions
-        GROUP BY lab_room
-        ORDER BY count DESC
-        """)
-        lab_stats = cursor.fetchall()
-        
-        # Ensure we have data for all lab rooms
-        default_labs = ['Lab 1', 'Lab 2', 'Lab 3', 'Lab 4', 'Lab 5', 'Lab 6', 'Lab 7', 'Lab 8', 'Lab 9', 'Lab 10', 'Lab 11']
-        existing_labs = [lab['lab_room'] for lab in lab_stats]
-        
-        # Add missing labs with count 0
-        for lab in default_labs:
-            if lab not in existing_labs:
-                lab_stats.append({
-                    'lab_room': lab,
-                    'count': 0,
-                    'percentage': 0,
-                    'total_hours': 0
-                })
-    except Exception as e:
-        print(f"Error getting lab stats: {str(e)}")
-        lab_stats = []
+    feedback_list = []
     
-    # Get feedback statistics
     try:
+        # Get feedback data
         cursor.execute("""
-        SELECT 
-            COUNT(*) as total_feedback,
-            AVG(rating) as average_rating,
-            SUM(CASE WHEN rating >= 4 THEN 1 ELSE 0 END) as positive_feedback,
-            SUM(CASE WHEN rating <= 2 THEN 1 ELSE 0 END) as negative_feedback
-        FROM feedback
-        """)
-        feedback_stats = cursor.fetchone()
-    except:
-        feedback_stats = {
-            'total_feedback': 0,
-            'average_rating': 0,
-            'positive_feedback': 0,
-            'negative_feedback': 0
-        }
-    
-    # Get feedback list with student and session details
-    try:
-        cursor.execute("""
-        SELECT f.*, s.lab_room, st.firstname, st.lastname, st.idno
+        SELECT f.*, s.lab_room, s.date_time, st.firstname, st.lastname, st.idno
         FROM feedback f
         JOIN sessions s ON f.session_id = s.id
         JOIN students st ON f.student_id = st.id
         ORDER BY f.created_at DESC
         """)
         feedback_list = cursor.fetchall()
-    except:
-        feedback_list = []
-    
-    # Get announcements
-    try:
-        cursor.execute("SELECT * FROM announcements ORDER BY created_at DESC")
-        announcements = cursor.fetchall()
-    except:
-        announcements = []
-    
-    # Get leaderboard data - top 5 students by points
-    try:
-        cursor.execute("""
-        SELECT id, idno, firstname, lastname, course, points,
-               (SELECT COUNT(*) FROM sessions WHERE student_id = students.id AND status = 'completed') as completed_sessions
-        FROM students
-        ORDER BY points DESC, completed_sessions DESC
-        LIMIT 5
-        """)
-        leaderboard = cursor.fetchall()
+        
+        # Calculate feedback statistics
+        if feedback_list:
+            total_ratings = 0
+            positive_count = 0
+            negative_count = 0
+            
+            for feedback in feedback_list:
+                total_ratings += feedback['rating']
+                if feedback['rating'] >= 4:
+                    positive_count += 1
+                elif feedback['rating'] <= 2:
+                    negative_count += 1
+            
+            feedback_stats = {
+                'total_feedback': len(feedback_list),
+                'average_rating': round(total_ratings / len(feedback_list), 1),
+                'positive_feedback': positive_count,
+                'negative_feedback': negative_count
+            }
     except Exception as e:
-        print(f"Error getting leaderboard: {str(e)}")
-        leaderboard = []
-    
-    # Format datetime fields in various session lists
-    
-    # Format active_sessions
-    for session in active_sessions:
-        if 'date_time' in session and session['date_time']:
-            if isinstance(session['date_time'], datetime.datetime):
-                session['date_time_formatted'] = session['date_time'].strftime('%Y-%m-%d %H:%M')
-            else:
-                session['date_time_formatted'] = session['date_time']
-    
-    # Format pending_sessions
-    for session in pending_sessions:
-        if 'date_time' in session and session['date_time']:
-            if isinstance(session['date_time'], datetime.datetime):
-                session['date_time_formatted'] = session['date_time'].strftime('%Y-%m-%d %H:%M')
-            else:
-                session['date_time_formatted'] = session['date_time']
-    
-    # Format completed_sessions for reservation logs
-    for session in completed_sessions:
-        if 'date_time' in session and session['date_time']:
-            if isinstance(session['date_time'], datetime.datetime):
-                session['date_time_formatted'] = session['date_time'].strftime('%Y-%m-%d %H:%M')
-            else:
-                session['date_time_formatted'] = session['date_time']
-        if 'created_at' in session and session['created_at']:
-            if isinstance(session['created_at'], datetime.datetime):
-                session['created_at_formatted'] = session['created_at'].strftime('%Y-%m-%d %H:%M')
-            else:
-                session['created_at_formatted'] = session['created_at']
+        logging.error(f"Error fetching feedback data: {str(e)}")
     
     cursor.close()
     conn.close()
     
-    return render_template(
-        'admin_dashboard.html',
-        pending_sessions=pending_sessions,
-        active_sessions=active_sessions,
-        completed_sessions=completed_sessions,
-        students=students,
-        recent_activity=recent_activity,
-        language_stats=language_stats,
-        lab_stats=lab_stats,
-        feedback_stats=feedback_stats,
-        feedback_list=feedback_list,
-        announcements=announcements,
-        has_approval_status=has_approval_status,
-        leaderboard=leaderboard
-    )
+    # Pass all data to the template
+    return render_template('admin_dashboard.html', 
+                          pending_sessions=pending_sessions,
+                          approved_reservations=approved_reservations,
+                          active_sessions=active_sessions,
+                          reservation_logs=reservation_logs, 
+                          students=students,
+                          recent_activity=recent_activity,
+                          has_approval_status=has_approval_status,
+                          feedback_stats=feedback_stats,
+                          feedback_list=feedback_list,
+                          announcements=[],
+                          language_stats=[],
+                          lab_stats=[],
+                          leaderboard=[])
 
 @app.route('/admin/delete-student/<int:student_id>', methods=['POST'])
 @admin_required
@@ -1190,9 +1115,11 @@ def todays_sit_ins():
     SELECT s.*, st.firstname, st.lastname, st.idno, st.course
     FROM sessions s
     JOIN students st ON s.student_id = st.id
-    WHERE DATE(s.date_time) = CURDATE() OR 
+    WHERE (DATE(s.date_time) = CURDATE() OR 
           DATE(s.check_in_time) = CURDATE() OR
-          DATE(s.check_out_time) = CURDATE()
+          DATE(s.check_out_time) = CURDATE())
+          AND (s.status = 'active' OR s.status = 'completed')
+          AND s.approval_status = 'approved'
     ORDER BY 
         CASE 
             WHEN s.check_out_time IS NULL AND s.check_in_time IS NOT NULL THEN 1
@@ -1552,20 +1479,11 @@ def delete_resource(resource_id):
 @admin_required
 def add_reward_points():
     student_id = request.form.get('student_id')
-    points = request.form.get('points')
+    points = int(request.form.get('points', 0))
     reason = request.form.get('reason', 'No reason provided')
     
-    if not student_id or not points:
-        flash('Student ID and points are required', 'error')
-        return redirect(url_for('admin_leaderboard'))
-    
-    try:
-        points = int(points)
-        if points <= 0 or points > 100:
-            flash('Points must be between 1 and 100', 'error')
-            return redirect(url_for('admin_leaderboard'))
-    except ValueError:
-        flash('Points must be a valid number', 'error')
+    if not student_id or points <= 0:
+        flash('Invalid input: Student ID and positive points are required', 'error')
         return redirect(url_for('admin_leaderboard'))
     
     conn = get_db_connection()
@@ -1877,10 +1795,8 @@ def add_lab_schedule():
         start_time = request.form.get('start_time')
         end_time = request.form.get('end_time')
         instructor = request.form.get('instructor')
-        subject = request.form.get('subject')
-        section = request.form.get('section')
         
-        if not day_of_week or not lab_room or not start_time or not end_time or not instructor or not subject or not section:
+        if not day_of_week or not lab_room or not start_time or not end_time or not instructor:
             flash('All fields are required', 'error')
             return redirect(url_for('admin_lab_schedules'))
         
@@ -1892,7 +1808,7 @@ def add_lab_schedule():
             cursor.execute("""
                 INSERT INTO lab_schedules (lab_room, day_of_week, start_time, end_time, instructor, subject, section)
                 VALUES (%s, %s, %s, %s, %s, %s, %s)
-            """, (lab_room, day_of_week, start_time, end_time, instructor, subject, section))
+            """, (lab_room, day_of_week, start_time, end_time, instructor, '', ''))
             
             conn.commit()
             flash('Lab schedule has been added successfully', 'success')
@@ -1931,95 +1847,58 @@ def delete_lab_schedule(schedule_id):
     return redirect(url_for('admin_lab_schedules'))
 
 @app.template_filter('format_time')
-def format_time(time_delta):
-    """Format timedelta as HH:MM AM/PM"""
-    if not time_delta:
+def format_time(time_value):
+    """Format timedelta or string time as HH:MM AM/PM"""
+    import datetime
+    
+    if not time_value:
         return ""
     
-    total_seconds = int(time_delta.total_seconds())
-    hours = total_seconds // 3600
-    minutes = (total_seconds % 3600) // 60
-    
-    period = "AM" if hours < 12 else "PM"
-    display_hours = hours if hours <= 12 else hours - 12
-    # Handle midnight/noon special cases
-    if hours == 0:
-        display_hours = 12
-    if hours == 12:
-        display_hours = 12
+    # Handle timedelta objects
+    if isinstance(time_value, datetime.timedelta):
+        total_seconds = int(time_value.total_seconds())
+        hours = total_seconds // 3600
+        minutes = (total_seconds % 3600) // 60
         
-    return f"{display_hours}:{minutes:02d} {period}"
+        period = "AM" if hours < 12 else "PM"
+        display_hours = hours if hours <= 12 else hours - 12
+        # Handle midnight/noon special cases
+        if hours == 0:
+            display_hours = 12
+        if hours == 12:
+            display_hours = 12
+            
+        return f"{display_hours}:{minutes:02d} {period}"
+    
+    # Handle string times (assume HH:MM:SS format)
+    elif isinstance(time_value, str):
+        try:
+            # Try to parse the time string
+            time_parts = time_value.split(':')
+            if len(time_parts) >= 2:
+                hours = int(time_parts[0])
+                minutes = int(time_parts[1])
+                
+                period = "AM" if hours < 12 else "PM"
+                display_hours = hours if hours <= 12 else hours - 12
+                # Handle midnight/noon special cases
+                if hours == 0:
+                    display_hours = 12
+                if hours == 12:
+                    display_hours = 12
+                    
+                return f"{display_hours}:{minutes:02d} {period}"
+        except (ValueError, IndexError):
+            # If parsing fails, return the original string
+            return time_value
+    
+    # Return the original value for other types
+    return str(time_value)
 
 @app.route('/admin/sit_in_history')
 @admin_required
 def sit_in_history():
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
-    
-    # Get completed sessions for session history
-    cursor.execute("""
-    SELECT s.*, st.firstname, st.lastname, st.idno, st.course
-    FROM sessions s
-    JOIN students st ON s.student_id = st.id
-    WHERE s.status = 'completed' OR s.status = 'cancelled'
-    ORDER BY s.created_at DESC
-    """)
-    sessions = cursor.fetchall()
-    
-    # Format datetime objects for display
-    for session in sessions:
-        import datetime
-        if 'date_time' in session and session['date_time']:
-            if isinstance(session['date_time'], datetime.datetime):
-                session['date_time_formatted'] = session['date_time'].strftime('%Y-%m-%d %H:%M')
-            else:
-                session['date_time_formatted'] = session['date_time']
-        if 'created_at' in session and session['created_at']:
-            if isinstance(session['created_at'], datetime.datetime):
-                session['created_at_formatted'] = session['created_at'].strftime('%Y-%m-%d %H:%M')
-            else:
-                session['created_at_formatted'] = session['created_at']
-                
-    cursor.close()
-    conn.close()
-    
-    return render_template('sit_in_history.html', sessions=sessions)
-
-@app.route('/admin/add-announcement', methods=['POST'])
-@admin_required
-def add_announcement():
-    title = request.form.get('title')
-    content = request.form.get('content')
-    
-    if not title or not content:
-        flash('Title and content are required', 'error')
-        return redirect(url_for('admin_announcements'))
-    
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        
-        # Insert new announcement
-        cursor.execute("""
-        INSERT INTO announcements (title, content, is_active)
-        VALUES (%s, %s, TRUE)
-        """, (title, content))
-        
-        conn.commit()
-        flash('Announcement has been added successfully', 'success')
-        
-    except Exception as e:
-        conn.rollback()
-        flash(f'Failed to add announcement: {str(e)}', 'error')
-        
-    finally:
-        cursor.close()
-        conn.close()
-        
-    return redirect(url_for('admin_announcements'))
-
-@app.route('/admin/edit-announcement', methods=['POST'])
-@admin_required
 def edit_announcement():
     announcement_id = request.form.get('announcement_id')
     title = request.form.get('title')
@@ -2111,16 +1990,119 @@ def delete_announcement(announcement_id):
         
     return redirect(url_for('admin_announcements'))
 
+@app.route('/admin/export-sit-in-history-csv')
+@admin_required
+def export_sit_in_history_csv():
+    try:
+        import csv
+        import io
+        from datetime import datetime
+        
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        
+        cursor.execute("""
+        SELECT s.*, st.firstname, st.lastname, st.idno, st.course
+        FROM sessions s
+        JOIN students st ON s.student_id = st.id
+        WHERE (s.status = 'completed' OR s.status = 'cancelled')
+          AND s.approval_status = 'approved'
+        ORDER BY s.created_at DESC
+        """)
+        
+        sessions = cursor.fetchall()
+        
+        # Create an in-memory output file
+        output = io.StringIO()
+        writer = csv.writer(output)
+        
+        # Add institutional header
+        writer.writerow(['UNIVERSITY OF CEBU MAIN CAMPUS'])
+        writer.writerow(['COLLEGE OF COMPUTER STUDIES'])
+        writer.writerow(['COMPUTER LABORATORY SIT IN MONITORING SYSTEM'])
+        writer.writerow([f'Report generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}'])
+        writer.writerow([])  # Empty row as separator
+        
+        # Write headers
+        writer.writerow(['Student ID', 'Name', 'Course', 'Lab Room', 'Date & Time', 
+                        'Check-In Time', 'Check-Out Time', 'Status', 'Purpose'])
+        
+        # Write data
+        for session in sessions:
+            # Format course
+            course_name = session['course']
+            if session['course'] == '1':
+                course_name = 'BSIT'
+            elif session['course'] == '2':
+                course_name = 'BSCS'
+            elif session['course'] == '3':
+                course_name = 'BSCE'
+            
+            # Format dates
+            date_time_str = session['date_time'].strftime('%Y-%m-%d %H:%M') if session['date_time'] else 'N/A'
+            check_in_str = session['check_in_time'].strftime('%I:%M %p') if session['check_in_time'] else 'N/A'
+            check_out_str = session['check_out_time'].strftime('%I:%M %p') if session['check_out_time'] else 'N/A'
+            
+            # Get lab room name
+            lab_room_name = format_lab_room(session['lab_room'])
+            
+            # Write row
+            writer.writerow([
+                session['idno'],
+                f"{session['lastname']}, {session['firstname']}",
+                course_name,
+                lab_room_name,
+                date_time_str,
+                check_in_str,
+                check_out_str,
+                'Completed' if session['status'] == 'completed' else 'Cancelled',
+                session['purpose'] if session['purpose'] else 'N/A'
+            ])
+        
+        cursor.close()
+        conn.close()
+        
+        # Prepare response
+        output.seek(0)
+        response = make_response(output.getvalue())
+        response.headers["Content-Disposition"] = f"attachment; filename=sit_in_history_{datetime.now().strftime('%Y%m%d%H%M%S')}.csv"
+        response.headers["Content-type"] = "text/csv"
+        
+        return response
+    
+    except Exception as e:
+        logging.error(f"Error exporting sit-in history to CSV: {str(e)}")
+        flash(f'Failed to export sit-in history to CSV: {str(e)}', 'error')
+        return redirect(url_for('sit_in_history'))
+
 @app.route('/admin/export-sit-in-history')
 @admin_required
 def export_sit_in_history():
     try:
+        import xlsxwriter
+        from io import BytesIO
+        from datetime import datetime
+        
         # Create an in-memory output file
         output = BytesIO()
         workbook = xlsxwriter.Workbook(output)
         worksheet = workbook.add_worksheet()
         
-        # Add header style
+        # Add header styles
+        title_format = workbook.add_format({
+            'bold': True,
+            'font_size': 16,
+            'align': 'center',
+            'valign': 'vcenter'
+        })
+        
+        subtitle_format = workbook.add_format({
+            'bold': True,
+            'font_size': 14,
+            'align': 'center',
+            'valign': 'vcenter'
+        })
+        
         header_format = workbook.add_format({
             'bold': True,
             'bg_color': '#003366',
@@ -2148,12 +2130,21 @@ def export_sit_in_history():
             'bold': True
         })
         
+        # Add institutional header
+        worksheet.merge_range('A1:I1', 'UNIVERSITY OF CEBU MAIN CAMPUS', title_format)
+        worksheet.merge_range('A2:I2', 'COLLEGE OF COMPUTER STUDIES', subtitle_format)
+        worksheet.merge_range('A3:I3', 'COMPUTER LABORATORY SIT IN MONITORING SYSTEM', subtitle_format)
+        worksheet.merge_range('A4:I4', f'Report generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}', workbook.add_format({'align': 'center'}))
+        
+        # Add a blank row
+        row_offset = 5
+        
         # Add column headers
         headers = ['Student ID', 'Name', 'Course', 'Lab Room', 'Date & Time', 
                 'Check-In Time', 'Check-Out Time', 'Status', 'Purpose']
         
         for col, header in enumerate(headers):
-            worksheet.write(0, col, header, header_format)
+            worksheet.write(row_offset, col, header, header_format)
         
         # Get data from database
         conn = get_db_connection()
@@ -2163,13 +2154,14 @@ def export_sit_in_history():
         SELECT s.*, st.firstname, st.lastname, st.idno, st.course
         FROM sessions s
         JOIN students st ON s.student_id = st.id
-        WHERE s.status = 'completed' OR s.status = 'cancelled'
+        WHERE (s.status = 'completed' OR s.status = 'cancelled')
+          AND s.approval_status = 'approved'
         ORDER BY s.created_at DESC
         """)
         sessions = cursor.fetchall()
         
         # Write data to worksheet
-        row = 1
+        row = row_offset + 1
         for session in sessions:
             # Map course number to name
             course_name = session['course']
@@ -2186,7 +2178,7 @@ def export_sit_in_history():
             check_out_str = session['check_out_time'].strftime('%I:%M %p') if session['check_out_time'] else 'N/A'
             
             # Get lab room name
-            lab_room_name = lab_room_mapping.get(session['lab_room'], session['lab_room'])
+            lab_room_name = format_lab_room(session['lab_room'])
             
             # Write data row
             worksheet.write(row, 0, session['idno'], data_format)
@@ -2226,14 +2218,21 @@ def export_sit_in_history():
         workbook.close()
         output.seek(0)
         
+        # Create filename with current timestamp
+        filename = f'sit_in_history_{datetime.now().strftime("%Y%m%d%H%M%S")}.xlsx'
+        
         # Create response
         return send_file(
             output,
             mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             as_attachment=True,
-            download_name=f'sit_in_history_{datetime.now().strftime("%Y%m%d%H%M%S")}.xlsx'
+            download_name=filename
         )
         
+    except ImportError as e:
+        logging.error(f"Missing module for Excel export: {str(e)}")
+        flash(f'Excel export requires the xlsxwriter module. Please install it with pip install xlsxwriter.', 'error')
+        return redirect(url_for('sit_in_history'))
     except Exception as e:
         logging.error(f"Error exporting sit-in history: {str(e)}")
         flash(f'Failed to export sit-in history: {str(e)}', 'error')
@@ -2245,6 +2244,7 @@ def export_sit_in_history_pdf():
     try:
         import pdfkit
         from flask import make_response
+        from datetime import datetime
         
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
@@ -2253,21 +2253,48 @@ def export_sit_in_history_pdf():
         SELECT s.*, st.firstname, st.lastname, st.idno, st.course
         FROM sessions s
         JOIN students st ON s.student_id = st.id
-        WHERE s.status = 'completed' OR s.status = 'cancelled'
+        WHERE (s.status = 'completed' OR s.status = 'cancelled')
+          AND s.approval_status = 'approved'
         ORDER BY s.created_at DESC
         """)
         sessions = cursor.fetchall()
         
         # Format datetime objects for display
         for session in sessions:
-            import datetime
+            # Format course
+            if session['course'] == '1':
+                session['course_name'] = 'BSIT'
+            elif session['course'] == '2':
+                session['course_name'] = 'BSCS'
+            elif session['course'] == '3':
+                session['course_name'] = 'BSCE'
+            else:
+                session['course_name'] = session['course']
+                
+            # Format lab room
+            session['lab_room_name'] = format_lab_room(session['lab_room'])
+            
+            # Format date and times
             if 'date_time' in session and session['date_time']:
-                if isinstance(session['date_time'], datetime.datetime):
+                if isinstance(session['date_time'], datetime):
                     session['date_time_formatted'] = session['date_time'].strftime('%Y-%m-%d %H:%M')
                 else:
                     session['date_time_formatted'] = session['date_time']
+                    
+            if 'check_in_time' in session and session['check_in_time']:
+                if isinstance(session['check_in_time'], datetime):
+                    session['check_in_formatted'] = session['check_in_time'].strftime('%I:%M %p')
+                else:
+                    session['check_in_formatted'] = session['check_in_time']
+                    
+            if 'check_out_time' in session and session['check_out_time']:
+                if isinstance(session['check_out_time'], datetime):
+                    session['check_out_formatted'] = session['check_out_time'].strftime('%I:%M %p')
+                else:
+                    session['check_out_formatted'] = session['check_out_time']
+                    
             if 'created_at' in session and session['created_at']:
-                if isinstance(session['created_at'], datetime.datetime):
+                if isinstance(session['created_at'], datetime):
                     session['created_at_formatted'] = session['created_at'].strftime('%Y-%m-%d %H:%M')
                 else:
                     session['created_at_formatted'] = session['created_at']
@@ -2290,17 +2317,26 @@ def export_sit_in_history_pdf():
         }
         
         # Generate PDF from HTML
-        pdf = pdfkit.from_string(html, False, options=options)
-        
-        # Create response
-        response = make_response(pdf)
-        response.headers['Content-Type'] = 'application/pdf'
-        response.headers['Content-Disposition'] = f'attachment; filename=sit_in_history_{datetime.now().strftime("%Y%m%d%H%M%S")}.pdf'
-        
-        return response
+        try:
+            pdf = pdfkit.from_string(html, False, options=options)
+            
+            # Create response
+            response = make_response(pdf)
+            response.headers['Content-Type'] = 'application/pdf'
+            response.headers['Content-Disposition'] = f'attachment; filename={filename}.pdf'
+            
+            return response
+        except OSError as e:
+            if "No wkhtmltopdf executable found" in str(e):
+                flash('PDF export requires wkhtmltopdf to be installed. Please install it from https://github.com/JazzCore/python-pdfkit/wiki/Installing-wkhtmltopdf', 'error')
+                logging.error(f"wkhtmltopdf not installed: {str(e)}")
+            else:
+                flash(f'Failed to export report to PDF: {str(e)}', 'error')
+                logging.error(f"PDF generation error: {str(e)}")
+            return redirect(url_for('admin_dashboard'))
         
     except ImportError:
-        flash('PDF generation requires pdfkit. Please install it with pip install pdfkit.', 'error')
+        flash('PDF generation requires pdfkit. Please install it with pip install pdfkit and ensure wkhtmltopdf is installed.', 'error')
         return redirect(url_for('sit_in_history'))
     except Exception as e:
         logging.error(f"Error exporting sit-in history to PDF: {str(e)}")
@@ -2451,23 +2487,32 @@ def student_lab_schedules():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     
-    # Get all lab schedules
-    cursor.execute("""
-    SELECT * FROM lab_schedules
-    ORDER BY day_of_week, start_time
-    """)
-    schedules = cursor.fetchall()
-    
-    # Get student information
-    cursor.execute("SELECT * FROM students WHERE id = %s", (session['user_id'],))
-    student = cursor.fetchone()
-    
-    cursor.close()
-    conn.close()
-    
-    return render_template('student_lab_schedules.html', 
-                          schedules=schedules,
-                          student=student)
+    try:
+        # Get all lab schedules
+        cursor.execute("""
+        SELECT * FROM lab_schedules
+        ORDER BY day_of_week, start_time
+        """)
+        schedules = cursor.fetchall()
+        
+        # Get student information
+        cursor.execute("SELECT * FROM students WHERE id = %s", (session['user_id'],))
+        student = cursor.fetchone()
+        
+        cursor.close()
+        conn.close()
+        
+        return render_template('student_lab_schedules.html', 
+                            schedules=schedules,
+                            student=student)
+                            
+    except Exception as e:
+        flash(f"Error loading lab schedules: {str(e)}", 'error')
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+        return redirect(url_for('student_dashboard'))
 
 @app.route('/admin/check_out_student/<int:session_id>', methods=['POST'])
 @admin_required
@@ -2509,10 +2554,10 @@ def approve_session(session_id):
         conn = get_db_connection()
         cursor = conn.cursor()
         
-        # Update session status to approved
+        # Update session approval status to approved but keep status as pending
         cursor.execute("""
             UPDATE sessions 
-            SET approval_status = 'approved', status = 'active' 
+            SET approval_status = 'approved'
             WHERE id = %s AND approval_status = 'pending'
         """, (session_id,))
         
@@ -2521,14 +2566,6 @@ def approve_session(session_id):
             flash('Session not found or already approved/rejected', 'error')
             conn.close()
             return redirect(url_for('admin_dashboard'))
-        
-        # Set check-in time to current time
-        current_time = datetime.now().strftime('%H:%M:%S')
-        cursor.execute("""
-            UPDATE sessions 
-            SET check_in_time = %s 
-            WHERE id = %s
-        """, (current_time, session_id))
         
         conn.commit()
         flash('Session approved successfully', 'success')
@@ -2613,8 +2650,8 @@ def check_in_student(session_id):
         # Update session status to active and set check_in_time
         cursor.execute("""
             UPDATE sessions 
-            SET status = 'active', check_in_time = ? 
-            WHERE id = ? AND status = 'pending' AND approval_status = 'approved'
+            SET status = 'active', check_in_time = %s 
+            WHERE id = %s AND status = 'pending' AND approval_status = 'approved'
         """, (check_in_time, session_id))
         
         # Check if any row was affected
@@ -2685,6 +2722,511 @@ def _jinja2_filter_datetime(date_str, fmt=None):
     if fmt:
         return date.strftime(fmt)
     return date.strftime('%Y-%m-%d %H:%M:%S')
+
+@app.route('/submit_feedback/<int:session_id>', methods=['POST'])
+@login_required
+def submit_feedback(session_id):
+    if session.get('user_type') != 'student':
+        flash('Access denied', 'error')
+        return redirect(url_for('index'))
+    
+    rating = request.form.get('rating')
+    comments = request.form.get('comments', '')
+    
+    if not rating:
+        flash('Rating is required', 'error')
+        return redirect(url_for('student_dashboard'))
+    
+    try:
+        rating = int(rating)
+        if rating < 1 or rating > 5:
+            flash('Rating must be between 1 and 5', 'error')
+            return redirect(url_for('student_dashboard'))
+    except ValueError:
+        flash('Invalid rating value', 'error')
+        return redirect(url_for('student_dashboard'))
+    
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    
+    try:
+        # Check if session exists and belongs to the current user
+        cursor.execute("""
+        SELECT * FROM sessions 
+        WHERE id = %s AND student_id = %s
+        """, (session_id, session['user_id']))
+        
+        session_data = cursor.fetchone()
+        if not session_data:
+            flash('Session not found or you are not authorized to submit feedback for this session', 'error')
+            return redirect(url_for('student_dashboard'))
+        
+        # Check if feedback already exists
+        cursor.execute("""
+        SELECT * FROM feedback 
+        WHERE session_id = %s AND student_id = %s
+        """, (session_id, session['user_id']))
+        
+        existing_feedback = cursor.fetchone()
+        if existing_feedback:
+            # Update existing feedback
+            cursor.execute("""
+            UPDATE feedback 
+            SET rating = %s, comments = %s
+            WHERE session_id = %s AND student_id = %s
+            """, (rating, comments, session_id, session['user_id']))
+            
+            conn.commit()
+            flash('Feedback updated successfully', 'success')
+        else:
+            # Insert new feedback
+            cursor.execute("""
+            INSERT INTO feedback (session_id, student_id, rating, comments)
+            VALUES (%s, %s, %s, %s)
+            """, (session_id, session['user_id'], rating, comments))
+            
+            conn.commit()
+            flash('Thank you for your feedback!', 'success')
+        
+    except Exception as e:
+        conn.rollback()
+        flash(f'Failed to submit feedback: {str(e)}', 'error')
+        logging.error(f"Error submitting feedback: {str(e)}")
+    
+    finally:
+        cursor.close()
+        conn.close()
+    
+    return redirect(url_for('student_dashboard'))
+
+@app.route('/admin/export-report/<format>')
+@admin_required
+def export_report(format):
+    try:
+        from io import BytesIO
+        from datetime import datetime
+        import xlsxwriter
+        import csv
+        import pdfkit
+        from flask import make_response
+        
+        # Get data for report
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        
+        # Get sessions data
+        cursor.execute("""
+        SELECT s.*, st.firstname, st.lastname, st.idno, st.course
+        FROM sessions s
+        JOIN students st ON s.student_id = st.id
+        WHERE (s.status = 'completed' OR s.status = 'cancelled')
+          AND s.approval_status = 'approved'
+        ORDER BY s.created_at DESC
+        """)
+        sessions = cursor.fetchall()
+        
+        # Get student data
+        cursor.execute("SELECT * FROM students ORDER BY lastname, firstname")
+        students = cursor.fetchall()
+        
+        # Get lab usage statistics
+        cursor.execute("""
+        SELECT 
+            lab_room,
+            COUNT(*) as count
+        FROM sessions
+        GROUP BY lab_room
+        ORDER BY count DESC
+        """)
+        lab_stats = cursor.fetchall()
+        
+        cursor.close()
+        conn.close()
+        
+        # Create report filename with timestamp
+        filename = f'lab_report_{datetime.now().strftime("%Y%m%d%H%M%S")}'
+        
+        # Export based on format
+        if format == 'excel':
+            # Create Excel file
+            output = BytesIO()
+            workbook = xlsxwriter.Workbook(output)
+            
+            # Add header styles
+            title_format = workbook.add_format({
+                'bold': True,
+                'font_size': 16,
+                'align': 'center',
+                'valign': 'vcenter'
+            })
+            
+            subtitle_format = workbook.add_format({
+                'bold': True,
+                'font_size': 14,
+                'align': 'center',
+                'valign': 'vcenter'
+            })
+            
+            header_format = workbook.add_format({
+                'bold': True,
+                'bg_color': '#003366',
+                'color': 'white',
+                'align': 'center',
+                'valign': 'vcenter',
+                'border': 1
+            })
+            
+            # Create Sessions worksheet
+            sessions_sheet = workbook.add_worksheet('Session History')
+            
+            # Add institutional header
+            sessions_sheet.merge_range('A1:I1', 'UNIVERSITY OF CEBU MAIN CAMPUS', title_format)
+            sessions_sheet.merge_range('A2:I2', 'COLLEGE OF COMPUTER STUDIES', subtitle_format)
+            sessions_sheet.merge_range('A3:I3', 'COMPUTER LABORATORY SIT IN MONITORING SYSTEM', subtitle_format)
+            sessions_sheet.merge_range('A4:I4', f'Report generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}', workbook.add_format({'align': 'center'}))
+            
+            # Add blank row
+            row_offset = 5
+            
+            # Add column headers for sessions
+            headers = ['Student ID', 'Name', 'Course', 'Lab Room', 'Date & Time', 
+                    'Check-In Time', 'Check-Out Time', 'Status', 'Purpose']
+            
+            for col, header in enumerate(headers):
+                sessions_sheet.write(row_offset, col, header, header_format)
+            
+            # Write sessions data
+            row = row_offset + 1
+            for session in sessions:
+                # Format course name
+                course_name = session['course']
+                if session['course'] == '1':
+                    course_name = 'BSIT'
+                elif session['course'] == '2':
+                    course_name = 'BSCS'
+                elif session['course'] == '3':
+                    course_name = 'BSCE'
+                
+                # Format dates
+                date_time_str = session['date_time'].strftime('%Y-%m-%d %H:%M') if session['date_time'] else 'N/A'
+                check_in_str = session['check_in_time'].strftime('%I:%M %p') if session['check_in_time'] else 'N/A'
+                check_out_str = session['check_out_time'].strftime('%I:%M %p') if session['check_out_time'] else 'N/A'
+                
+                # Get lab room name
+                lab_room_name = format_lab_room(session['lab_room'])
+                
+                # Write data row
+                sessions_sheet.write(row, 0, session['idno'])
+                sessions_sheet.write(row, 1, f"{session['lastname']}, {session['firstname']}")
+                sessions_sheet.write(row, 2, course_name)
+                sessions_sheet.write(row, 3, lab_room_name)
+                sessions_sheet.write(row, 4, date_time_str)
+                sessions_sheet.write(row, 5, check_in_str)
+                sessions_sheet.write(row, 6, check_out_str)
+                sessions_sheet.write(row, 7, session['status'].capitalize())
+                sessions_sheet.write(row, 8, session['purpose'] if session['purpose'] else 'N/A')
+                
+                row += 1
+            
+            # Create Lab Statistics worksheet
+            stats_sheet = workbook.add_worksheet('Lab Statistics')
+            
+            # Add institutional header
+            stats_sheet.merge_range('A1:C1', 'UNIVERSITY OF CEBU MAIN CAMPUS', title_format)
+            stats_sheet.merge_range('A2:C2', 'COLLEGE OF COMPUTER STUDIES', subtitle_format)
+            stats_sheet.merge_range('A3:C3', 'COMPUTER LABORATORY SIT IN MONITORING SYSTEM', subtitle_format)
+            stats_sheet.merge_range('A4:C4', 'Lab Usage Statistics', subtitle_format)
+            
+            # Add column headers for lab stats
+            stats_headers = ['Lab Room', 'Usage Count', 'Percentage']
+            for col, header in enumerate(stats_headers):
+                stats_sheet.write(6, col, header, header_format)
+            
+            # Calculate total usage
+            total_usage = sum(lab['count'] for lab in lab_stats) if lab_stats else 0
+            
+            # Write lab stats data
+            for i, lab in enumerate(lab_stats):
+                lab_room_name = format_lab_room(lab['lab_room'])
+                percentage = (lab['count'] / total_usage * 100) if total_usage > 0 else 0
+                
+                stats_sheet.write(7 + i, 0, lab_room_name)
+                stats_sheet.write(7 + i, 1, lab['count'])
+                stats_sheet.write(7 + i, 2, f"{percentage:.2f}%")
+            
+            # Adjust column widths
+            sessions_sheet.set_column(0, 0, 12)  # Student ID
+            sessions_sheet.set_column(1, 1, 25)  # Name
+            sessions_sheet.set_column(2, 2, 10)  # Course
+            sessions_sheet.set_column(3, 3, 15)  # Lab Room
+            sessions_sheet.set_column(4, 4, 18)  # Date & Time
+            sessions_sheet.set_column(5, 5, 15)  # Check-In Time
+            sessions_sheet.set_column(6, 6, 15)  # Check-Out Time
+            sessions_sheet.set_column(7, 7, 12)  # Status
+            sessions_sheet.set_column(8, 8, 35)  # Purpose
+            
+            stats_sheet.set_column(0, 0, 20)  # Lab Room
+            stats_sheet.set_column(1, 1, 15)  # Usage Count
+            stats_sheet.set_column(2, 2, 15)  # Percentage
+            
+            # Close workbook and get output
+            workbook.close()
+            output.seek(0)
+            
+            # Create response
+            return send_file(
+                output,
+                mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                as_attachment=True,
+                download_name=f'{filename}.xlsx'
+            )
+            
+        elif format == 'csv':
+            # Create CSV file
+            output = BytesIO()
+            output.write(b'UNIVERSITY OF CEBU MAIN CAMPUS\r\n')
+            output.write(b'COLLEGE OF COMPUTER STUDIES\r\n')
+            output.write(b'COMPUTER LABORATORY SIT IN MONITORING SYSTEM\r\n')
+            output.write(f'Report generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\r\n\r\n'.encode('utf-8'))
+            
+            # Create CSV writer
+            output.seek(0, 2)  # Move to the end of the file
+            writer = csv.writer(output)
+            
+            # Write headers
+            writer.writerow(['Student ID', 'Name', 'Course', 'Lab Room', 'Date & Time', 
+                           'Check-In Time', 'Check-Out Time', 'Status', 'Purpose'])
+            
+            # Write data
+            for session in sessions:
+                # Format course
+                course_name = session['course']
+                if session['course'] == '1':
+                    course_name = 'BSIT'
+                elif session['course'] == '2':
+                    course_name = 'BSCS'
+                elif session['course'] == '3':
+                    course_name = 'BSCE'
+                
+                # Format dates
+                date_time_str = session['date_time'].strftime('%Y-%m-%d %H:%M') if session['date_time'] else 'N/A'
+                check_in_str = session['check_in_time'].strftime('%I:%M %p') if session['check_in_time'] else 'N/A'
+                check_out_str = session['check_out_time'].strftime('%I:%M %p') if session['check_out_time'] else 'N/A'
+                
+                # Get lab room name
+                lab_room_name = format_lab_room(session['lab_room'])
+                
+                # Write row
+                writer.writerow([
+                    session['idno'],
+                    f"{session['lastname']}, {session['firstname']}",
+                    course_name,
+                    lab_room_name,
+                    date_time_str,
+                    check_in_str,
+                    check_out_str,
+                    session['status'].capitalize(),
+                    session['purpose'] if session['purpose'] else 'N/A'
+                ])
+            
+            # Add lab statistics to the CSV
+            writer.writerow([])
+            writer.writerow(['Lab Statistics'])
+            writer.writerow(['Lab Room', 'Usage Count', 'Percentage'])
+            
+            # Calculate total usage
+            total_usage = sum(lab['count'] for lab in lab_stats) if lab_stats else 0
+            
+            # Write lab stats
+            for lab in lab_stats:
+                lab_room_name = format_lab_room(lab['lab_room'])
+                percentage = (lab['count'] / total_usage * 100) if total_usage > 0 else 0
+                writer.writerow([lab_room_name, lab['count'], f"{percentage:.2f}%"])
+            
+            # Prepare response
+            output.seek(0)
+            response = make_response(output.getvalue())
+            response.headers["Content-Disposition"] = f"attachment; filename={filename}.csv"
+            response.headers["Content-type"] = "text/csv"
+            
+            return response
+            
+        elif format == 'pdf':
+            # Format data for the PDF template
+            for session in sessions:
+                # Format course
+                if session['course'] == '1':
+                    session['course_name'] = 'BSIT'
+                elif session['course'] == '2':
+                    session['course_name'] = 'BSCS'
+                elif session['course'] == '3':
+                    session['course_name'] = 'BSCE'
+                else:
+                    session['course_name'] = session['course']
+                    
+                # Format lab room
+                session['lab_room_name'] = format_lab_room(session['lab_room'])
+                
+                # Format date and times
+                if 'date_time' in session and session['date_time']:
+                    session['date_time_formatted'] = session['date_time'].strftime('%Y-%m-%d %H:%M')
+                
+                if 'check_in_time' in session and session['check_in_time']:
+                    session['check_in_formatted'] = session['check_in_time'].strftime('%I:%M %p')
+                
+                if 'check_out_time' in session and session['check_out_time']:
+                    session['check_out_formatted'] = session['check_out_time'].strftime('%I:%M %p')
+            
+            # Calculate lab statistics percentages for the chart
+            total_usage = sum(lab['count'] for lab in lab_stats) if lab_stats else 0
+            for lab in lab_stats:
+                lab['percentage'] = (lab['count'] / total_usage * 100) if total_usage > 0 else 0
+                lab['lab_room_name'] = format_lab_room(lab['lab_room'])
+            
+            # Generate HTML content for the PDF
+            html = render_template('pdf_report.html', 
+                                   sessions=sessions, 
+                                   lab_stats=lab_stats,
+                                   report_date=datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+            
+            # Configure PDF options
+            options = {
+                'page-size': 'A4',
+                'margin-top': '0.75in',
+                'margin-right': '0.75in',
+                'margin-bottom': '0.75in',
+                'margin-left': '0.75in',
+                'encoding': "UTF-8",
+                'no-outline': None
+            }
+            
+            # Generate PDF from HTML
+            try:
+                pdf = pdfkit.from_string(html, False, options=options)
+                
+                # Create response
+                response = make_response(pdf)
+                response.headers['Content-Type'] = 'application/pdf'
+                response.headers['Content-Disposition'] = f'attachment; filename={filename}.pdf'
+                
+                return response
+            except OSError as e:
+                if "No wkhtmltopdf executable found" in str(e):
+                    flash('PDF export requires wkhtmltopdf to be installed. Please install it from https://github.com/JazzCore/python-pdfkit/wiki/Installing-wkhtmltopdf', 'error')
+                    logging.error(f"wkhtmltopdf not installed: {str(e)}")
+                else:
+                    flash(f'Failed to export report to PDF: {str(e)}', 'error')
+                    logging.error(f"PDF generation error: {str(e)}")
+                return redirect(url_for('admin_dashboard'))
+        
+        else:
+            flash(f'Unsupported export format: {format}', 'error')
+            return redirect(url_for('admin_dashboard'))
+            
+    except ImportError as e:
+        logging.error(f"Missing module for report export: {str(e)}")
+        flash(f'Report export requires additional modules. Please install them with pip.', 'error')
+        return redirect(url_for('admin_dashboard'))
+    except Exception as e:
+        logging.error(f"Error exporting report: {str(e)}")
+        flash(f'Failed to export report: {str(e)}', 'error')
+        return redirect(url_for('admin_dashboard'))
+
+@app.route('/cancel_session/<int:session_id>', methods=['POST'])
+@login_required
+def cancel_session(session_id):
+    try:
+        # Connect to db
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        
+        # Get current user ID
+        user_id = session.get('user_id')
+        
+        # Check if the session exists and belongs to the current user
+        cursor.execute("""
+            SELECT * FROM sessions 
+            WHERE id = %s AND student_id = %s
+        """, (session_id, user_id))
+        
+        session_record = cursor.fetchone()
+        
+        if not session_record:
+            flash('Session not found or you do not have permission to cancel it.', 'error')
+            return redirect(url_for('student_dashboard'))
+        
+        # Only active or pending sessions can be cancelled
+        if session_record['status'] not in ['active', 'pending']:
+            flash('Only active or pending sessions can be cancelled.', 'error')
+            return redirect(url_for('student_dashboard'))
+        
+        # Update session status to cancelled
+        cursor.execute("""
+            UPDATE sessions 
+            SET status = 'cancelled' 
+            WHERE id = %s
+        """, (session_id,))
+        
+        conn.commit()
+        flash('Session cancelled successfully.', 'success')
+        
+        cursor.close()
+        conn.close()
+        return redirect(url_for('student_dashboard'))
+    
+    except Exception as e:
+        logging.error(f"Error cancelling session: {str(e)}")
+        flash(f"Error cancelling session: {str(e)}", 'error')
+        return redirect(url_for('student_dashboard'))
+
+@app.template_filter('format_schedule_time')
+def format_schedule_time(time_value):
+    """Format timedelta or string time as HH:MM AM/PM for lab schedules"""
+    import datetime
+    
+    if not time_value:
+        return ""
+    
+    # Handle timedelta objects
+    if isinstance(time_value, datetime.timedelta):
+        total_seconds = int(time_value.total_seconds())
+        hours = total_seconds // 3600
+        minutes = (total_seconds % 3600) // 60
+        
+        period = "AM" if hours < 12 else "PM"
+        display_hours = hours if hours <= 12 else hours - 12
+        # Handle midnight/noon special cases
+        if hours == 0:
+            display_hours = 12
+        if hours == 12:
+            display_hours = 12
+            
+        return f"{display_hours}:{minutes:02d} {period}"
+    
+    # Handle string times (assume HH:MM:SS format)
+    elif isinstance(time_value, str):
+        try:
+            # Try to parse the time string
+            time_parts = time_value.split(':')
+            if len(time_parts) >= 2:
+                hours = int(time_parts[0])
+                minutes = int(time_parts[1])
+                
+                period = "AM" if hours < 12 else "PM"
+                display_hours = hours if hours <= 12 else hours - 12
+                # Handle midnight/noon special cases
+                if hours == 0:
+                    display_hours = 12
+                if hours == 12:
+                    display_hours = 12
+                    
+                return f"{display_hours}:{minutes:02d} {period}"
+        except (ValueError, IndexError):
+            # If parsing fails, return the original string
+            return time_value
+    
+    # Return the original value for other types
+    return str(time_value)
 
 if __name__ == '__main__':
     print("Starting Student Lab Session Management System...")

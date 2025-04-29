@@ -1395,6 +1395,235 @@
             margin-right: 8px;
             color: #3498db;
         }
+
+        .reject-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .reward-btn {
+            background-color: #9b59b6;
+            color: white;
+        }
+        
+        .reward-btn:hover {
+            background-color: #8e44ad;
+        }
+
+        /* Enhanced styles for admin cards, search boxes, and data tables */
+        .admin-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background-color: #f8f9fa;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header h2 {
+            margin: 0;
+            color: #003366;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-input {
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+            min-width: 250px;
+        }
+
+        .search-btn {
+            background-color: #003366;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .search-btn:hover {
+            background-color: #002244;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            margin-bottom: 1rem;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .data-table th {
+            background-color: #003366;
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 2px solid #e9ecef;
+            font-weight: 600;
+        }
+
+        .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .data-table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 30px;
+            color: #6c757d;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 10px;
+            color: #adb5bd;
+        }
+
+        .btn-action {
+            background-color: transparent;
+            border: none;
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            color: #495057;
+            margin-right: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .view-btn {
+            color: #007bff;
+        }
+
+        .view-btn:hover {
+            background-color: rgba(0, 123, 255, 0.1);
+        }
+
+        .approve-btn {
+            color: #28a745;
+        }
+
+        .approve-btn:hover {
+            background-color: rgba(40, 167, 69, 0.1);
+        }
+
+        .reject-btn {
+            color: #dc3545;
+        }
+
+        .reject-btn:hover {
+            background-color: rgba(220, 53, 69, 0.1);
+        }
+
+        .check-in-btn {
+            color: #17a2b8;
+        }
+
+        .check-in-btn:hover {
+            background-color: rgba(23, 162, 184, 0.1);
+        }
+
+        /* Status badges */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .status-badge.rejected {
+            background-color: #ffebee;
+            color: #d32f2f;
+            border: 1px solid #ffcdd2;
+        }
+
+        .status-badge.completed {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+
+        .status-badge.cancelled {
+            background-color: #ffe0b2;
+            color: #ef6c00;
+            border: 1px solid #ffcc80;
+        }
+
+        .status-badge.pending {
+            background-color: #fff8e1;
+            color: #ff8f00;
+            border: 1px solid #ffecb3;
+        }
+
+        .status-badge.active {
+            background-color: #e3f2fd;
+            color: #1565c0;
+            border: 1px solid #bbdefb;
+        }
+
+        /* Course badges */
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-primary {
+            background-color: #cfe2ff;
+            color: #0a58ca;
+        }
+
+        .badge-success {
+            background-color: #d1e7dd;
+            color: #146c43;
+        }
+
+        .badge-info {
+            background-color: #cff4fc;
+            color: #087990;
+        }
+
+        .badge-secondary {
+            background-color: #e2e3e5;
+            color: #41464b;
+        }
     </style>
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -1435,13 +1664,13 @@
                     <i class="fas fa-calendar-check"></i>
                     <span>Current Sessions</span>
                 </div>
-                <div class="nav-item" onclick="showTab('pending');">
-                    <i class="fas fa-clock"></i>
+                <div class="nav-item" onclick="showTab('pendingRequestsTab');">
+                    <i class="fas fa-hourglass-half"></i>
                     <span>Pending Requests</span>
                 </div>
                 <div class="nav-item" onclick="showTab('forms');">
-                    <i class="fas fa-file-alt"></i>
-                    <span>Reservations</span>
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Reservation Forms</span>
                 </div>
                 <div class="nav-item" onclick="showTab('students');">
                     <i class="fas fa-user-graduate"></i>
@@ -1459,23 +1688,23 @@
                     <i class="fas fa-chart-bar"></i>
                     <span>Reports</span>
                 </div>
-                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_leaderboard') }}'">
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_leaderboard') }}';">
                     <i class="fas fa-trophy"></i>
                     <span>Leaderboard</span>
                 </div>
-                <div class="nav-item" onclick="showTab('computer_control')">
+                <div class="nav-item" onclick="showTab('computer-control');">
                     <i class="fas fa-desktop"></i>
                     <span>Computer Control</span>
                 </div>
-                <div class="nav-item" onclick="window.location.href='{{ url_for('lab_resources') }}'">
+                <div class="nav-item" onclick="window.location.href='{{ url_for('lab_resources') }}';">
                     <i class="fas fa-book"></i>
                     <span>Lab Resources</span>
                 </div>
-                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_lab_schedules') }}'">
+                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_lab_schedules') }}';">
                     <i class="fas fa-calendar-alt"></i>
                     <span>Lab Schedules</span>
                 </div>
-                <div class="nav-item" onclick="window.location.href='{{ url_for('sit_in_history') }}'">
+                <div class="nav-item" onclick="window.location.href='{{ url_for('sit_in_history') }}';">
                     <i class="fas fa-history"></i>
                     <span>Sit-In History</span>
                 </div>
@@ -1515,7 +1744,7 @@
                 <div class="stat-card">
                     <i class="fas fa-calendar-check"></i>
                     <h3>{{ active_sessions|length }}</h3>
-                    <p>Active Forms</p>
+                    <p>Active Sessions</p>
                 </div>
                 
                 <div class="stat-card">
@@ -1620,6 +1849,12 @@
                                     <form action="{{ url_for('check_out_student', session_id=session.id) }}" method="POST" style="display:inline;">
                                         <button type="submit" class="action-btn delete-btn">Check Out</button>
                                     </form>
+                                    <form action="{{ url_for('add_reward_points') }}" method="POST" style="display:inline;">
+                                        <input type="hidden" name="student_id" value="{{ session.student_id }}">
+                                        <input type="hidden" name="points" value="3">
+                                        <input type="hidden" name="reason" value="Exceptional performance during lab session">
+                                        <button type="submit" class="action-btn reward-btn">End with Reward</button>
+                                    </form>
                                 </td>
                                 </tr>
                             {% endfor %}
@@ -1633,70 +1868,149 @@
         </div>
 
         <!-- Pending Requests Tab -->
-        <div id="pending" class="tab-content">
-            <h2>Pending Requests</h2>
-                
-            <div class="search-bar">
-                <input type="text" id="pendingSearchInput" class="search-input" placeholder="Search by name, ID, or lab room...">
-                <button class="search-btn" onclick="searchPending()">Search</button>
+        <div id="pendingRequestsTab" class="tab-content">
+            <div class="admin-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-clock"></i> Pending Requests</h2>
+                </div>
+                <div class="card-body">
+                    {% if pending_sessions|length > 0 %}
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Student ID</th>
+                                    <th>Name</th>
+                                    <th>Course</th>
+                                    <th>Lab Room</th>
+                                    <th>Date & Time</th>
+                                    <th>Duration</th>
+                                    <th>Purpose</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for session in pending_sessions %}
+                                <tr>
+                                    <td>{{ session.idno }}</td>
+                                    <td>{{ session.lastname }}, {{ session.firstname }}</td>
+                                    <td>
+                                        {% if session.course == '1' %}
+                                        BSIT
+                                        {% elif session.course == '2' %}
+                                        BSCS
+                                        {% elif session.course == '3' %}
+                                        BSCE
+                                        {% else %}
+                                        {{ session.course }}
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ session.lab_room|lab_room }}</td>
+                                    <td>{{ session.date_time_formatted }}</td>
+                                    <td>{{ session.duration }} hour(s)</td>
+                                    <td>{{ session.purpose }}</td>
+                                    <td>
+                                        <button class="btn-action view-btn" 
+                                                onclick="viewPendingRequest({{ session.id }}, '{{ session.firstname }} {{ session.lastname }}', '{{ session.idno }}', '{{ session.course }}', '{{ session.pc_number }}', '{{ session.purpose }}', {{ session.student_id }})">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        
+                                        <form action="{{ url_for('approve_session', session_id=session.id) }}" method="POST" style="display: inline;">
+                                            <button type="submit" class="btn-action approve-btn" title="Approve Request">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                        </form>
+                                        
+                                        <form action="{{ url_for('reject_session', session_id=session.id) }}" method="POST" style="display: inline;">
+                                            <button type="submit" class="btn-action reject-btn" title="Reject Request"
+                                                    onclick="return confirm('Are you sure you want to reject this request?')">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-calendar-xmark"></i>
+                        <p>No pending requests at the moment.</p>
+                    </div>
+                    {% endif %}
+                </div>
             </div>
             
-            <table class="student-table">
-                <thead>
-                    <tr>
-                        <th>Student ID</th>
-                        <th>Name</th>
-                        <th>Course</th>
-                        <th>Lab Room</th>
-                        <th>Date & Time</th>
-                        <th>Purpose</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% if pending_sessions|length > 0 %}
-                        {% for session in pending_sessions %}
-                            <tr>
-                                <td>{{ session.idno }}</td>
-                                <td>{{ session.lastname }}, {{ session.firstname }}</td>
-                                <td>
-                                    {% if session.course == '1' %}
-                                        BSIT
-                                    {% elif session.course == '2' %}
-                                        BSCS
-                                    {% elif session.course == '3' %}
-                                        BSCE
-                                    {% else %}
-                                        {{ session.course }}
-                                    {% endif %}
-                                </td>
-                                <td>{{ session.lab_room|lab_room }}</td>
-                                <td>{{ session.date_time_formatted }}</td>
-                                <td>{{ session.purpose|default('N/A')|truncate(30) }}</td>
-                                <td><span class="status-pending">Pending</span></td>
-                                <td class="action-buttons">
-                                    <button class="action-btn view-btn" onclick="viewPendingRequest('{{ session.student_id }}', '{{ session.id }}')">View SIT IN FORM</button>
-                                </td>
-                            </tr>
-                        {% endfor %}
+            <!-- Approved Reservations Waiting for Check-in replaced with Reservation Logs -->
+            <div class="admin-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-history"></i> Reservation Logs</h2>
+                    
+                    <!-- Add search functionality -->
+                    <div class="search-box">
+                        <input type="text" id="logsSearchInput" placeholder="Search logs..." class="search-input">
+                        <button onclick="searchLogs()" class="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% if reservation_logs|length > 0 %}
+                    <div class="table-responsive">
+                        <table class="data-table" id="logsTable">
+                            <thead>
+                                <tr>
+                                    <th>Student ID</th>
+                                    <th>Name</th>
+                                    <th>Course</th>
+                                    <th>Lab Room</th>
+                                    <th>Date & Time</th>
+                                    <th>Duration</th>
+                                    <th>Purpose</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for session in reservation_logs %}
+                                <tr>
+                                    <td>{{ session.idno }}</td>
+                                    <td>{{ session.lastname }}, {{ session.firstname }}</td>
+                                    <td>
+                                        {% if session.course == '1' %}
+                                        <span class="badge badge-primary">BSIT</span>
+                                        {% elif session.course == '2' %}
+                                        <span class="badge badge-success">BSCS</span>
+                                        {% elif session.course == '3' %}
+                                        <span class="badge badge-info">BSCE</span>
+                                        {% else %}
+                                        <span class="badge badge-secondary">{{ session.course }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ session.lab_room|lab_room }}</td>
+                                    <td>{{ session.date_time_formatted }}</td>
+                                    <td>{{ session.duration }} hour(s)</td>
+                                    <td>{{ session.purpose.split(' - PC #')[0]|default(session.purpose)|truncate(30) }}</td>
+                                    <td>
+                                        {% if session.approval_status == 'rejected' %}
+                                            <span class="status-badge rejected">Rejected</span>
+                                        {% elif session.status == 'completed' %}
+                                            <span class="status-badge completed">Completed</span>
+                                        {% elif session.status == 'cancelled' %}
+                                            <span class="status-badge cancelled">Cancelled</span>
+                                        {% else %}
+                                            <span class="status-badge {{ session.status }}">{{ session.status|capitalize }}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                     {% else %}
-                        <tr>
-                            <td colspan="8" style="text-align: center;">No pending requests</td>
-                        </tr>
+                    <div class="empty-state">
+                        <i class="fas fa-history"></i>
+                        <p>No reservation logs available.</p>
+                    </div>
                     {% endif %}
-                </tbody>
-            </table>
-
-            <!-- Student Request Modal Content -->
-            <div id="pendingRequestButtons" style="display: none; margin-top: 20px;">
-                <div style="display: flex; gap: 10px; justify-content: center;">
-                    <form id="approveForm" method="POST" style="display: inline;">
-                        <button type="submit" class="btn btn-success">Approve Request</button>
-                    </form>
-                    <form id="rejectForm" method="POST" style="display: inline;">
-                        <button type="submit" class="btn btn-danger">Reject Request</button>
-                    </form>
                 </div>
             </div>
         </div>
@@ -1717,6 +2031,7 @@
                         <th>Name</th>
                         <th>Course</th>
                         <th>Lab Room</th>
+                        <th>PC #</th>
                         <th>Date & Time</th>
                         <th>Purpose</th>
                         <th>Status</th>
@@ -1725,84 +2040,38 @@
                 </thead>
                 <tbody>
                     {% set has_approved = false %}
-                    {% for session in active_sessions %}
-                        {% if session.approval_status == 'approved' and not session.check_in_time %}
-                            {% set has_approved = true %}
-                            <tr>
-                                <td>{{ session.idno }}</td>
-                                <td>{{ session.lastname }}, {{ session.firstname }}</td>
-                                <td>
-                                    {% if session.course == '1' %}
-                                        BSIT
-                                    {% elif session.course == '2' %}
-                                        BSCS
-                                    {% elif session.course == '3' %}
-                                        BSCE
-                                    {% else %}
-                                        {{ session.course }}
-                                    {% endif %}
-                                </td>
-                                <td>{{ session.lab_room|lab_room }}</td>
-                                <td>{{ session.date_time_formatted }}</td>
-                                <td>{{ session.purpose|default('N/A')|truncate(30) }}</td>
-                                <td><span class="status-active">Approved</span></td>
-                                <td class="action-buttons">
-                                    <form action="{{ url_for('check_in_student', session_id=session.id) }}" method="POST" style="display:inline;">
-                                        <button type="submit" class="action-btn view-btn">Check In</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        {% endif %}
+                    {% for session in approved_reservations %}
+                        {% set pc_number = session.purpose.split('PC #')[1]|default('N/A') if 'PC #' in session.purpose|default('') else 'N/A' %}
+                        {% set has_approved = true %}
+                        <tr>
+                            <td>{{ session.idno }}</td>
+                            <td>{{ session.lastname }}, {{ session.firstname }}</td>
+                            <td>
+                                {% if session.course == '1' %}
+                                    BSIT
+                                {% elif session.course == '2' %}
+                                    BSCS
+                                {% elif session.course == '3' %}
+                                    BSCE
+                                {% else %}
+                                    {{ session.course }}
+                                {% endif %}
+                            </td>
+                            <td>{{ session.lab_room|lab_room }}</td>
+                            <td>{{ pc_number }}</td>
+                            <td>{{ session.date_time_formatted }}</td>
+                            <td>{{ session.purpose.split(' - PC #')[0]|default(session.purpose)|truncate(30) }}</td>
+                            <td><span class="status-active">Approved</span></td>
+                            <td class="action-buttons">
+                                <form action="{{ url_for('check_in_student', session_id=session.id) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="action-btn view-btn">Check In</button>
+                                </form>
+                            </td>
+                        </tr>
                     {% endfor %}
                     {% if not has_approved %}
                         <tr>
-                            <td colspan="8" style="text-align: center;">No approved forms waiting for check-in</td>
-                        </tr>
-                    {% endif %}
-                </tbody>
-            </table>
-
-            <h3 style="margin-top: 30px;">Reservation Logs</h3>
-            <div class="search-bar">
-                <input type="text" id="logsSearchInput" class="search-input" placeholder="Search logs by name, ID, or date...">
-                <button class="search-btn" onclick="searchLogs()">Search</button>
-            </div>
-            
-            <table class="student-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Student ID</th>
-                        <th>Name</th>
-                        <th>Lab Room</th>
-                        <th>Date & Time</th>
-                        <th>Purpose</th>
-                        <th>Status</th>
-                        <th>Created At</th>
-                    </tr>
-                </thead>
-                <tbody id="logsTableBody">
-                    {% set has_logs = false %}
-                    {% for session in completed_sessions %}
-                        {% set has_logs = true %}
-                        <tr>
-                            <td>{{ session.id }}</td>
-                            <td>{{ session.idno }}</td>
-                            <td>{{ session.lastname }}, {{ session.firstname }}</td>
-                            <td>{{ session.lab_room|lab_room }}</td>
-                            <td>{{ session.date_time_formatted }}</td>
-                            <td>{{ session.purpose|default('N/A')|truncate(30) }}</td>
-                            <td>
-                                <span class="status-{% if session.status == 'completed' %}completed{% elif session.status == 'cancelled' %}cancelled{% else %}{{ session.status }}{% endif %}">
-                                    {{ session.status|capitalize }}
-                                </span>
-                            </td>
-                            <td>{{ session.created_at_formatted }}</td>
-                        </tr>
-                    {% endfor %}
-                    {% if not has_logs %}
-                        <tr>
-                            <td colspan="8" style="text-align: center;">No reservation logs available</td>
+                            <td colspan="9" style="text-align: center;">No approved forms waiting for check-in</td>
                         </tr>
                     {% endif %}
                 </tbody>
@@ -2622,6 +2891,14 @@
                             <i class="fas fa-calendar-check"></i>
                             <span id="modalSessionsUsed">Sessions Used: </span>
                         </div>
+                        <div class="detail-item">
+                            <i class="fas fa-desktop"></i>
+                            <span id="modalPcNumber">PC #: </span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-tasks"></i>
+                            <span id="modalPurpose">Purpose: </span>
+                        </div>
                     </div>
                 </div>
                 
@@ -2838,6 +3115,11 @@
             tabContents.forEach(content => {
                 content.style.display = 'none';
             });
+            
+            // Map old tab IDs to new ones if needed
+            if (tabId === 'pending') {
+                tabId = 'pendingRequestsTab';
+            }
             
             // Show the selected tab content
             const selectedTab = document.getElementById(tabId);
@@ -3645,24 +3927,28 @@
         }
 
         // Add this to your existing JavaScript code
-        function viewPendingRequest(studentId, sessionId) {
+        function viewPendingRequest(sessionId, name, idno, course, pcNumber, purpose, studentId) {
             fetch(`/admin/get-student-info/${studentId}`)
                 .then(response => response.json())
                 .then(data => {
                     // Populate student info
                     const studentData = data.student || {};
-                    document.getElementById('modalStudentName').textContent = `${studentData.firstname || ''} ${studentData.lastname || ''}`;
-                    document.getElementById('modalStudentID').textContent = `ID: ${studentData.idno || 'N/A'}`;
+                    document.getElementById('modalStudentName').textContent = name || `${studentData.firstname || ''} ${studentData.lastname || ''}`;
+                    document.getElementById('modalStudentID').textContent = `ID: ${idno || studentData.idno || 'N/A'}`;
                     
                     let courseName = '';
-                    if (studentData.course === '1') courseName = 'BSIT';
-                    else if (studentData.course === '2') courseName = 'BSCS';
-                    else if (studentData.course === '3') courseName = 'BSCE';
-                    else courseName = studentData.course || 'N/A';
+                    if (course === '1') courseName = 'BSIT';
+                    else if (course === '2') courseName = 'BSCS';
+                    else if (course === '3') courseName = 'BSCE';
+                    else courseName = course || studentData.course || 'N/A';
                     
                     document.getElementById('modalStudentCourse').textContent = `Course: ${courseName}`;
                     document.getElementById('modalStudentYear').textContent = `Year: ${studentData.year_level || 'N/A'}`;
                     document.getElementById('modalSessionsUsed').textContent = `Sessions Used: ${studentData.sessions_used || 0}/${studentData.max_sessions || 0}`;
+                    
+                    // Add PC number and purpose
+                    document.getElementById('modalPcNumber').textContent = `PC #: ${pcNumber || 'N/A'}`;
+                    document.getElementById('modalPurpose').textContent = `Purpose: ${purpose || 'N/A'}`;
                     
                     if (studentData.profile_picture) {
                         document.getElementById('modalProfilePic').src = `/static/profile_pictures/${studentData.profile_picture}`;
@@ -3884,6 +4170,73 @@
             }
         }
     </script>
+
+    <!-- Reservation Logs Tab for displaying completed, cancelled and rejected sessions -->
+    <div id="reservationLogs" class="tab-content">
+        <h2>Reservation Logs</h2>
+        
+        <div class="search-bar">
+            <input type="text" id="logsSearchInput" class="search-input" placeholder="Search logs by name, ID, or status...">
+            <button class="search-btn" onclick="searchLogs()">Search</button>
+        </div>
+        
+        <table class="student-table">
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Course</th>
+                    <th>Lab Room</th>
+                    <th>Date & Time</th>
+                    <th>Purpose</th>
+                    <th>Status</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if reservation_logs|length > 0 %}
+                    {% for session in reservation_logs %}
+                        <tr>
+                            <td>{{ session.idno }}</td>
+                            <td>{{ session.lastname }}, {{ session.firstname }}</td>
+                            <td>
+                                {% if session.course == '1' %}
+                                    BSIT
+                                {% elif session.course == '2' %}
+                                    BSCS
+                                {% elif session.course == '3' %}
+                                    BSCE
+                                {% else %}
+                                    {{ session.course }}
+                                {% endif %}
+                            </td>
+                            <td>{{ session.lab_room|lab_room }}</td>
+                            <td>{{ session.date_time_formatted }}</td>
+                            <td>{{ session.purpose.split(' - PC #')[0]|default(session.purpose)|truncate(30) }}</td>
+                            <td>
+                                {% if session.approval_status == 'rejected' %}
+                                    <span class="status-rejected">Rejected</span>
+                                {% elif session.status == 'completed' %}
+                                    <span class="status-completed">Completed</span>
+                                {% elif session.status == 'cancelled' %}
+                                    <span class="status-cancelled">Cancelled</span>
+                                {% else %}
+                                    <span class="status-{{ session.status }}">{{ session.status|capitalize }}</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ session.created_at.strftime('%Y-%m-%d %H:%M') if session.created_at else 'N/A' }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="8" style="text-align: center;">No reservation logs found</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Reports Tab -->
 </body>
 <script src="/static/js/admin.js"></script>
 <script>

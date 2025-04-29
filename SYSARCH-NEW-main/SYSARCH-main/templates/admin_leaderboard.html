@@ -523,9 +523,6 @@
                         <th>Year</th>
                         <th>Points</th>
                         <th>Sessions</th>
-                        {% if not is_student_view %}
-                        <th>Action</th>
-                        {% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -560,13 +557,6 @@
                             </td>
                             <td class="points-cell">{{ student.points }}</td>
                             <td class="points-cell">{{ student.completed_sessions }}</td>
-                            {% if not is_student_view %}
-                            <td>
-                                <button class="btn btn-success" onclick="showRewardForm('{{ student.id }}', '{{ student.firstname }} {{ student.lastname }}')">
-                                    Add Points
-                                </button>
-                            </td>
-                            {% endif %}
                         </tr>
                     {% endfor %}
                 </tbody>

@@ -5937,3 +5937,9 @@
 2025-04-30 01:02:45,648 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 2025-04-30 01:03:42,319 - werkzeug - INFO -  * Detected change in 'C:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
 2025-04-30 01:03:42,623 - werkzeug - INFO -  * Restarting with stat
+2025-04-30 01:52:25,800 - werkzeug - INFO -  * Restarting with stat
+2025-04-30 01:52:27,147 - werkzeug - WARNING -  * Debugger is active!
+2025-04-30 01:52:27,151 - werkzeug - INFO -  * Debugger PIN: 121-958-938
+2025-04-30 01:52:27,183 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-04-30 02:00:11,105 - werkzeug - INFO -  * Detected change in 'C:\\Users\\jecu2\\OneDrive\\Desktop\\SYARCH-BAG-O-NEW\\SYSARCH-NEW-main\\SYSARCH-main\\app.py', reloading
+2025-04-30 02:00:11,353 - werkzeug - INFO -  * Restarting with stat

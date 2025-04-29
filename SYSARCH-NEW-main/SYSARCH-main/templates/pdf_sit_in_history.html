@@ -66,11 +66,31 @@
             border-top: 1px solid #ddd;
             padding-top: 10px;
         }
+        .university-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #003366;
+            margin: 0;
+        }
+        .college-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #003366;
+            margin: 5px 0;
+        }
+        .system-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #003366;
+            margin: 5px 0 15px;
+        }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1 class="report-title">Computer Science Laboratory</h1>
+        <h1 class="university-title">UNIVERSITY OF CEBU MAIN CAMPUS</h1>
+        <h2 class="college-title">COLLEGE OF COMPUTER STUDIES</h2>
+        <h3 class="system-title">COMPUTER LABORATORY SIT IN MONITORING SYSTEM</h3>
         <p class="subtitle">Sit-In History Report</p>
         <p class="date">Generated on: {{ '%Y-%m-%d %H:%M:%S'|strftime }}</p>
     </div>
@@ -93,17 +113,21 @@
                 <td>{{ session.idno }}</td>
                 <td>{{ session.lastname }}, {{ session.firstname }}</td>
                 <td>
-                    {% if session.course == '1' %}
-                        BSIT
-                    {% elif session.course == '2' %}
-                        BSCS
-                    {% elif session.course == '3' %}
-                        BSCE
+                    {% if session.course_name is defined %}
+                        {{ session.course_name }}
                     {% else %}
-                        {{ session.course }}
+                        {% if session.course == '1' %}
+                            BSIT
+                        {% elif session.course == '2' %}
+                            BSCS
+                        {% elif session.course == '3' %}
+                            BSCE
+                        {% else %}
+                            {{ session.course }}
+                        {% endif %}
                     {% endif %}
                 </td>
-                <td>{{ session.lab_room }}</td>
+                <td>{{ session.lab_room_name|default(session.lab_room) }}</td>
                 <td>{{ session.date_time_formatted }}</td>
                 <td>{{ session.purpose or 'N/A' }}</td>
                 <td class="status-{{ session.status }}">

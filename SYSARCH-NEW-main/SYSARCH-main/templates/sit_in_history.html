@@ -166,6 +166,24 @@
             gap: 5px;
         }
 
+        .excel-btn {
+            background-color: #217346;
+        }
+
+        .pdf-btn {
+            background-color: #f40f02;
+        }
+
+        .csv-btn {
+            background-color: #1d6f42;
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
         /* Flash message styles */
         .flash-container {
             position: fixed;
@@ -369,18 +387,18 @@
         <div class="page-header">
             <h1>Sit-In History</h1>
             <div class="admin-controls">
-                <a href="{{ url_for('export_sit_in_history') }}">
-                    <button class="export-btn">
-                        <i class="fas fa-file-excel"></i>
-                        Export to Excel
-                    </button>
-                </a>
-                <a href="{{ url_for('export_sit_in_history_pdf') }}">
-                    <button class="export-btn">
-                        <i class="fas fa-file-pdf"></i>
-                        Export to PDF
-                    </button>
-                </a>
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-primary">Back to Dashboard</a>
+                <div class="export-buttons">
+                    <a href="{{ url_for('export_sit_in_history') }}" class="export-btn excel-btn">
+                        <i class="fas fa-file-excel"></i> Export Excel
+                    </a>
+                    <a href="{{ url_for('export_sit_in_history_pdf') }}" class="export-btn pdf-btn">
+                        <i class="fas fa-file-pdf"></i> Export PDF
+                    </a>
+                    <a href="{{ url_for('export_sit_in_history_csv') }}" class="export-btn csv-btn">
+                        <i class="fas fa-file-csv"></i> Export CSV
+                    </a>
+                </div>
             </div>
         </div>
 

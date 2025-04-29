@@ -299,6 +299,80 @@
             text-align: center;
             color: inherit;
         }
+
+        /* Modal styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-container {
+            background-color: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: #003366;
+            font-size: 1.5rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+
+        .close-modal:hover {
+            color: #343a40;
+        }
+
+        .modal-body {
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -395,7 +469,7 @@
         <div class="page-header">
             <h1>Lab Schedules</h1>
             <div class="admin-controls">
-                <button class="btn btn-primary" onclick="toggleAddScheduleForm()">Add New Schedule</button>
+                <button class="btn btn-primary" onclick="openAddScheduleModal()">Add New Schedule</button>
             </div>
         </div>
 
@@ -409,7 +483,6 @@
                         <th>Lab Room</th>
                         <th>Time</th>
                         <th>Subject</th>
-                        <th>Section</th>
                         <th>Instructor</th>
                         <th>Actions</th>
                     </tr>
@@ -422,7 +495,6 @@
                                 <td>{{ schedule.lab_room|lab_room }}</td>
                                 <td>{{ schedule.start_time|format_time }} - {{ schedule.end_time|format_time }}</td>
                                 <td>{{ schedule.subject }}</td>
-                                <td>{{ schedule.section }}</td>
                                 <td>{{ schedule.instructor }}</td>
                                 <td>
                                     <button class="action-btn edit-btn" onclick="editSchedule({{ schedule.id }})">Edit</button>
@@ -434,85 +506,76 @@
                         {% endfor %}
                     {% else %}
                         <tr>
-                            <td colspan="7" style="text-align: center;">No schedules available</td>
+                            <td colspan="6" style="text-align: center;">No schedules available</td>
                         </tr>
                     {% endif %}
                 </tbody>
             </table>
         </div>
+    </div>
 
-        <!-- Add Schedule Form (Hidden by default) -->
-        <div id="addScheduleForm" class="schedules-section" style="display: none;">
-            <h2>Add New Lab Schedule</h2>
-            <form action="{{ url_for('add_lab_schedule') }}" method="POST" class="add-schedule-form">
-                <div class="form-row">
-                    <div class="form-col">
-                        <div class="form-group">
-                            <label for="day_of_week">Day of Week</label>
-                            <select id="day_of_week" name="day_of_week" class="form-control" required>
-                                <option value="">Select Day</option>
-                                <option value="Monday">Monday</option>
-                                <option value="Tuesday">Tuesday</option>
-                                <option value="Wednesday">Wednesday</option>
-                                <option value="Thursday">Thursday</option>
-                                <option value="Friday">Friday</option>
-                                <option value="Saturday">Saturday</option>
-                            </select>
+    <!-- Add Schedule Modal -->
+    <div id="scheduleModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2><i class="fas fa-calendar-plus"></i> Add New Lab Schedule</h2>
+                <button class="close-modal" onclick="closeAddScheduleModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addScheduleForm" action="{{ url_for('add_lab_schedule') }}" method="POST" class="add-schedule-form">
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="day_of_week">Day of Week</label>
+                                <select id="day_of_week" name="day_of_week" class="form-control" required>
+                                    <option value="">Select Day</option>
+                                    <option value="Monday">Monday</option>
+                                    <option value="Tuesday">Tuesday</option>
+                                    <option value="Wednesday">Wednesday</option>
+                                    <option value="Thursday">Thursday</option>
+                                    <option value="Friday">Friday</option>
+                                    <option value="Saturday">Saturday</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="lab_room">Lab Room</label>
+                                <select id="lab_room" name="lab_room" class="form-control" required>
+                                    <option value="">Select Lab Room</option>
+                                    {% for lab in lab_rooms %}
+                                        <option value="{{ lab.code }}">{{ lab.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-col">
-                        <div class="form-group">
-                            <label for="lab_room">Lab Room</label>
-                            <select id="lab_room" name="lab_room" class="form-control" required>
-                                <option value="">Select Lab Room</option>
-                                {% for lab in lab_rooms %}
-                                    <option value="{{ lab.code }}">{{ lab.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="form-row">
-                    <div class="form-col">
-                        <div class="form-group">
-                            <label for="start_time">Start Time</label>
-                            <input type="time" id="start_time" name="start_time" class="form-control" required>
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="start_time">Start Time</label>
+                                <input type="time" id="start_time" name="start_time" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="end_time">End Time</label>
+                                <input type="time" id="end_time" name="end_time" class="form-control" required>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-col">
-                        <div class="form-group">
-                            <label for="end_time">End Time</label>
-                            <input type="time" id="end_time" name="end_time" class="form-control" required>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="form-row">
-                    <div class="form-col">
-                        <div class="form-group">
-                            <label for="subject">Subject</label>
-                            <input type="text" id="subject" name="subject" class="form-control" placeholder="Subject Code" required>
-                        </div>
+                    <div class="form-group">
+                        <label for="instructor">Instructor</label>
+                        <input type="text" id="instructor" name="instructor" class="form-control" placeholder="Instructor Name" required>
                     </div>
-                    <div class="form-col">
-                        <div class="form-group">
-                            <label for="section">Section</label>
-                            <input type="text" id="section" name="section" class="form-control" placeholder="Section (e.g. BSIT 3A)" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="instructor">Instructor</label>
-                    <input type="text" id="instructor" name="instructor" class="form-control" placeholder="Instructor Name" required>
-                </div>
-
-                <div class="form-group" style="text-align: right;">
-                    <button type="submit" class="btn btn-primary">Add Schedule</button>
-                    <button type="button" class="btn btn-secondary" onclick="toggleAddScheduleForm()">Cancel</button>
-                </div>
-            </form>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeAddScheduleModal()">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="submitScheduleForm()">Add Schedule</button>
+            </div>
         </div>
     </div>
 
@@ -528,17 +591,35 @@
             });
         }, 5000);
 
-        // Toggle the add schedule form
-        function toggleAddScheduleForm() {
-            var form = document.getElementById('addScheduleForm');
-            if (form.style.display === 'none') {
-                form.style.display = 'block';
-                // Scroll to form
-                form.scrollIntoView({ behavior: 'smooth' });
+        // Modal functions for adding a schedule
+        function openAddScheduleModal() {
+            document.getElementById('scheduleModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Prevent scrolling behind modal
+        }
+
+        function closeAddScheduleModal() {
+            document.getElementById('scheduleModal').style.display = 'none';
+            document.body.style.overflow = 'auto'; // Re-enable scrolling
+        }
+
+        function submitScheduleForm() {
+            const form = document.getElementById('addScheduleForm');
+            // Validate form before submitting
+            if (form.checkValidity()) {
+                form.submit();
             } else {
-                form.style.display = 'none';
+                // Trigger browser's built-in validation
+                form.reportValidity();
             }
         }
+
+        // Close modal if user clicks outside the modal content
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('scheduleModal');
+            if (event.target === modal) {
+                closeAddScheduleModal();
+            }
+        });
 
         // Edit schedule function (to be implemented)
         function editSchedule(scheduleId) {
