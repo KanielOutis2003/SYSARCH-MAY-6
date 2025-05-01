@@ -290,6 +290,69 @@
                 overflow-x: auto;
             }
         }
+
+        .curriculum-schedule {
+            margin-top: 20px;
+        }
+
+        .curriculum-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .curriculum-table th, 
+        .curriculum-table td {
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .curriculum-table th {
+            background-color: #003366;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .time-header {
+            width: 120px;
+        }
+        
+        .time-cell {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        
+        .schedule-cell {
+            height: 80px;
+            vertical-align: top;
+            padding: 5px;
+        }
+        
+        .schedule-item {
+            background-color: #e6f7ff;
+            border-left: 4px solid #1890ff;
+            padding: 5px;
+            margin: 2px 0;
+            text-align: left;
+            font-size: 12px;
+            border-radius: 3px;
+        }
+        
+        .schedule-lab {
+            font-weight: bold;
+            color: #003366;
+        }
+        
+        .schedule-time {
+            font-size: 11px;
+            color: #666;
+        }
+        
+        .schedule-instructor {
+            font-style: italic;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -345,102 +408,149 @@
                         <option value="Lab 5">Lab 532</option>
                     </select>
                 </div>
-                
-                <div class="day-filter">
-                    <button class="day-btn active" data-day="all" onclick="filterByDay('all')">All Days</button>
-                    <button class="day-btn" data-day="Monday" onclick="filterByDay('Monday')">Monday</button>
-                    <button class="day-btn" data-day="Tuesday" onclick="filterByDay('Tuesday')">Tuesday</button>
-                    <button class="day-btn" data-day="Wednesday" onclick="filterByDay('Wednesday')">Wednesday</button>
-                    <button class="day-btn" data-day="Thursday" onclick="filterByDay('Thursday')">Thursday</button>
-                    <button class="day-btn" data-day="Friday" onclick="filterByDay('Friday')">Friday</button>
-                    <button class="day-btn" data-day="Saturday" onclick="filterByDay('Saturday')">Saturday</button>
-                </div>
             </div>
             
-            <table class="schedules-table">
-                <thead>
-                    <tr>
-                        <th>Day</th>
-                        <th>Lab Room</th>
-                        <th>Time</th>
-                        <th>Instructor</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% if schedules %}
-                        {% for schedule in schedules %}
-                            <tr class="schedule-row" data-day="{{ schedule.day_of_week }}" data-lab="{{ schedule.lab_room }}">
-                                <td>{{ schedule.day_of_week }}</td>
-                                <td>{{ schedule.lab_room|lab_room }}</td>
-                                <td>{{ schedule.start_time|format_schedule_time }} - {{ schedule.end_time|format_schedule_time }}</td>
-                                <td>{{ schedule.instructor }}</td>
-                            </tr>
-                        {% endfor %}
-                    {% else %}
+            <!-- Curriculum-style Schedule Table -->
+            <div class="curriculum-schedule">
+                <table class="curriculum-table">
+                    <thead>
                         <tr>
-                            <td colspan="4" class="no-schedules">No lab schedules available</td>
+                            <th class="time-header">Time / Day</th>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                            <th>Saturday</th>
                         </tr>
-                    {% endif %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {% set time_slots = ['07:00 - 08:00', '08:00 - 09:00', '09:00 - 10:00', '10:00 - 11:00', '11:00 - 12:00', 
+                                            '12:00 - 13:00', '13:00 - 14:00', '14:00 - 15:00', '15:00 - 16:00', '16:00 - 17:00', 
+                                            '17:00 - 18:00', '18:00 - 19:00', '19:00 - 20:00'] %}
+                        
+                        {% for time_slot in time_slots %}
+                        <tr class="time-row">
+                            <td class="time-cell">{{ time_slot }}</td>
+                            
+                            {% for day in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] %}
+                            <td class="schedule-cell" data-day="{{ day }}" data-time="{{ time_slot }}">
+                                {% for schedule in schedules %}
+                                    {% if schedule.day_of_week == day %}
+                                        {% set start_time = schedule.start_time|format_schedule_time %}
+                                        {% set end_time = schedule.end_time|format_schedule_time %}
+                                        {% set slot_start = time_slot.split(' - ')[0] %}
+                                        {% set slot_end = time_slot.split(' - ')[1] %}
+                                        
+                                        {% if (start_time <= slot_start and end_time > slot_start) or 
+                                              (start_time >= slot_start and start_time < slot_end) %}
+                                            <div class="schedule-item" data-lab="{{ schedule.lab_room }}">
+                                                <div class="schedule-lab">{{ schedule.lab_room|lab_room }}</div>
+                                                <div class="schedule-time">{{ start_time }} - {{ end_time }}</div>
+                                                <div class="schedule-instructor">{{ schedule.instructor }}</div>
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
             
-            {% if not schedules %}
-                <div class="no-schedules">
-                    <i class="fas fa-calendar-times"></i>
-                    <h3>No Lab Schedules</h3>
-                    <p>There are no lab schedules available at this time.</p>
-                </div>
-            {% endif %}
+            <style>
+                .curriculum-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 20px;
+                    border: 1px solid #dee2e6;
+                }
+                
+                .curriculum-table th, 
+                .curriculum-table td {
+                    border: 1px solid #dee2e6;
+                    padding: 10px;
+                    text-align: center;
+                }
+                
+                .curriculum-table th {
+                    background-color: #003366;
+                    color: white;
+                    font-weight: bold;
+                }
+                
+                .time-header {
+                    width: 120px;
+                }
+                
+                .time-cell {
+                    background-color: #f8f9fa;
+                    font-weight: bold;
+                }
+                
+                .schedule-cell {
+                    height: 80px;
+                    vertical-align: top;
+                    padding: 5px;
+                }
+                
+                .schedule-item {
+                    background-color: #e6f7ff;
+                    border-left: 4px solid #1890ff;
+                    padding: 5px;
+                    margin: 2px 0;
+                    text-align: left;
+                    font-size: 12px;
+                    border-radius: 3px;
+                }
+                
+                .schedule-lab {
+                    font-weight: bold;
+                    color: #003366;
+                }
+                
+                .schedule-time {
+                    font-size: 11px;
+                    color: #666;
+                }
+                
+                .schedule-instructor {
+                    font-style: italic;
+                }
+            </style>
+            
+            <script>
+                // Auto-hide flash messages after 5 seconds
+                setTimeout(function() {
+                    var flashMessages = document.querySelectorAll('.flash-message');
+                    flashMessages.forEach(function(message) {
+                        message.style.opacity = '0';
+                        setTimeout(function() {
+                            message.style.display = 'none';
+                        }, 500);
+                    });
+                }, 5000);
+                
+                // Filter schedules by lab
+                function filterSchedules() {
+                    const selectedLab = document.getElementById('labRoomFilter').value;
+                    
+                    const scheduleItems = document.querySelectorAll('.schedule-item');
+                    
+                    scheduleItems.forEach(item => {
+                        const itemLab = item.getAttribute('data-lab');
+                        
+                        if (selectedLab === 'all' || itemLab === selectedLab) {
+                            item.style.display = '';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                }
+            </script>
         </div>
     </div>
-    
-    <script>
-        // Auto-hide flash messages after 5 seconds
-        setTimeout(function() {
-            var flashMessages = document.querySelectorAll('.flash-message');
-            flashMessages.forEach(function(message) {
-                message.style.opacity = '0';
-                setTimeout(function() {
-                    message.style.display = 'none';
-                }, 500);
-            });
-        }, 5000);
-        
-        // Filter schedules by day and lab
-        function filterSchedules() {
-            const selectedDay = document.querySelector('.day-btn.active').getAttribute('data-day');
-            const selectedLab = document.getElementById('labRoomFilter').value;
-            
-            const rows = document.querySelectorAll('.schedule-row');
-            
-            rows.forEach(row => {
-                const rowDay = row.getAttribute('data-day');
-                const rowLab = row.getAttribute('data-lab');
-                
-                const dayMatch = selectedDay === 'all' || rowDay === selectedDay;
-                const labMatch = selectedLab === 'all' || rowLab === selectedLab;
-                
-                if (dayMatch && labMatch) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        }
-        
-        // Filter by day
-        function filterByDay(day) {
-            // Update active button
-            document.querySelectorAll('.day-btn').forEach(btn => {
-                if (btn.getAttribute('data-day') === day) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
-            });
-            
-            filterSchedules();
-        }
-    </script>
 </body>
 </html> 

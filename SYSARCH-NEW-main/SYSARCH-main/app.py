@@ -816,7 +816,7 @@ def admin_dashboard():
     return render_template('admin_dashboard.html', 
                           pending_sessions=pending_sessions,
                           approved_reservations=approved_reservations,
-                          active_sessions=active_sessions,
+                          active_sessions=active_sessions, 
                           reservation_logs=reservation_logs, 
                           students=students,
                           recent_activity=recent_activity,
@@ -1763,6 +1763,132 @@ def admin_announcements():
     
     return render_template('admin_announcements.html', announcements=announcements)
 
+@app.route('/admin/add_announcement', methods=['POST'])
+@admin_required
+def add_announcement():
+    title = request.form.get('title')
+    content = request.form.get('content')
+    
+    if not title or not content:
+        flash('Title and content are required', 'error')
+        return redirect(url_for('admin_announcements'))
+    
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        # Add the announcement
+        cursor.execute("""
+        INSERT INTO announcements (title, content, is_active, created_at)
+        VALUES (%s, %s, TRUE, NOW())
+        """, (title, content))
+        
+        conn.commit()
+        flash('Announcement has been added successfully', 'success')
+        
+    except Exception as e:
+        conn.rollback()
+        flash(f'Failed to add announcement: {str(e)}', 'error')
+        
+    finally:
+        cursor.close()
+        conn.close()
+        
+    return redirect(url_for('admin_announcements'))
+
+@app.route('/admin/edit_announcement', methods=['POST'])
+@admin_required
+def edit_announcement():
+    announcement_id = request.form.get('announcement_id')
+    title = request.form.get('title')
+    content = request.form.get('content')
+    
+    if not announcement_id or not title or not content:
+        flash('Announcement ID, title, and content are required', 'error')
+        return redirect(url_for('admin_announcements'))
+    
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        # Update the announcement
+        cursor.execute("""
+        UPDATE announcements 
+        SET title = %s, content = %s
+        WHERE id = %s
+        """, (title, content, announcement_id))
+        
+        conn.commit()
+        flash('Announcement has been updated successfully', 'success')
+        
+    except Exception as e:
+        conn.rollback()
+        flash(f'Failed to update announcement: {str(e)}', 'error')
+        
+    finally:
+        cursor.close()
+        conn.close()
+        
+    return redirect(url_for('admin_announcements'))
+
+@app.route('/admin/toggle-announcement/<int:announcement_id>', methods=['POST'])
+@admin_required
+def toggle_announcement(announcement_id):
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        
+        # Get the current status
+        cursor.execute("SELECT is_active FROM announcements WHERE id = %s", (announcement_id,))
+        announcement = cursor.fetchone()
+        
+        if not announcement:
+            flash('Announcement not found', 'error')
+            return redirect(url_for('admin_announcements'))
+        
+        # Toggle the status
+        new_status = not announcement['is_active']
+        cursor.execute("UPDATE announcements SET is_active = %s WHERE id = %s", 
+                      (new_status, announcement_id))
+        
+        conn.commit()
+        
+        status_text = "activated" if new_status else "deactivated"
+        flash(f'Announcement has been {status_text}', 'success')
+        
+    except Exception as e:
+        conn.rollback()
+        flash(f'Failed to update announcement: {str(e)}', 'error')
+        
+    finally:
+        cursor.close()
+        conn.close()
+        
+    return redirect(url_for('admin_announcements'))
+
+@app.route('/admin/delete-announcement/<int:announcement_id>', methods=['POST'])
+@admin_required
+def delete_announcement(announcement_id):
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        # Delete the announcement
+        cursor.execute("DELETE FROM announcements WHERE id = %s", (announcement_id,))
+        
+        conn.commit()
+        flash('Announcement has been deleted successfully', 'success')
+        
+    except Exception as e:
+        conn.rollback()
+        flash(f'Failed to delete announcement: {str(e)}', 'error')
+        
+    finally:
+        cursor.close()
+        conn.close()
+        
+    return redirect(url_for('admin_announcements'))
+
 @app.route('/admin/lab_schedules')
 @admin_required
 def admin_lab_schedules():
@@ -1899,96 +2025,50 @@ def format_time(time_value):
 @admin_required
 def sit_in_history():
     conn = get_db_connection()
-def edit_announcement():
-    announcement_id = request.form.get('announcement_id')
-    title = request.form.get('title')
-    content = request.form.get('content')
+    cursor = conn.cursor(dictionary=True)
     
-    if not announcement_id or not title or not content:
-        flash('Announcement ID, title, and content are required', 'error')
-        return redirect(url_for('admin_announcements'))
+    # Get today's sit-in sessions, including all completed ones
+    cursor.execute("""
+    SELECT s.*, st.firstname, st.lastname, st.idno, st.course
+    FROM sessions s
+    JOIN students st ON s.student_id = st.id
+    WHERE (DATE(s.date_time) = CURDATE() OR 
+          DATE(s.check_in_time) = CURDATE() OR
+          DATE(s.check_out_time) = CURDATE())
+          AND (s.status = 'active' OR s.status = 'completed')
+          AND s.approval_status = 'approved'
+    ORDER BY 
+        CASE 
+            WHEN s.check_out_time IS NULL AND s.check_in_time IS NOT NULL THEN 1
+            WHEN s.status = 'active' THEN 2
+            WHEN s.status = 'completed' THEN 3
+            ELSE 4
+        END,
+        COALESCE(s.check_in_time, s.date_time) DESC
+    """)
+    todays_sessions = cursor.fetchall()
     
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
+    # Format datetime objects for display
+    for session in todays_sessions:
+        # Format date_time
+        if 'date_time' in session and session['date_time']:
+            if isinstance(session['date_time'], datetime.datetime):
+                session['date_time'] = session['date_time'].strftime('%I:%M %p')
         
-        # Update the announcement
-        cursor.execute("""
-        UPDATE announcements 
-        SET title = %s, content = %s
-        WHERE id = %s
-        """, (title, content, announcement_id))
+        # Format check_in_time
+        if 'check_in_time' in session and session['check_in_time']:
+            if isinstance(session['check_in_time'], datetime.datetime):
+                session['check_in_time'] = session['check_in_time'].strftime('%I:%M %p')
         
-        conn.commit()
-        flash('Announcement has been updated successfully', 'success')
-        
-    except Exception as e:
-        conn.rollback()
-        flash(f'Failed to update announcement: {str(e)}', 'error')
-        
-    finally:
-        cursor.close()
-        conn.close()
-        
-    return redirect(url_for('admin_announcements'))
-
-@app.route('/admin/toggle-announcement/<int:announcement_id>', methods=['POST'])
-@admin_required
-def toggle_announcement(announcement_id):
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
-        
-        # Get the current status
-        cursor.execute("SELECT is_active FROM announcements WHERE id = %s", (announcement_id,))
-        announcement = cursor.fetchone()
-        
-        if not announcement:
-            flash('Announcement not found', 'error')
-            return redirect(url_for('admin_announcements'))
-        
-        # Toggle the status
-        new_status = not announcement['is_active']
-        cursor.execute("UPDATE announcements SET is_active = %s WHERE id = %s", 
-                      (new_status, announcement_id))
-        
-        conn.commit()
-        
-        status_text = "activated" if new_status else "deactivated"
-        flash(f'Announcement has been {status_text}', 'success')
-        
-    except Exception as e:
-        conn.rollback()
-        flash(f'Failed to update announcement: {str(e)}', 'error')
-        
-    finally:
-        cursor.close()
-        conn.close()
-        
-    return redirect(url_for('admin_announcements'))
-
-@app.route('/admin/delete-announcement/<int:announcement_id>', methods=['POST'])
-@admin_required
-def delete_announcement(announcement_id):
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        
-        # Delete the announcement
-        cursor.execute("DELETE FROM announcements WHERE id = %s", (announcement_id,))
-        
-        conn.commit()
-        flash('Announcement has been deleted successfully', 'success')
-        
-    except Exception as e:
-        conn.rollback()
-        flash(f'Failed to delete announcement: {str(e)}', 'error')
-        
-    finally:
-        cursor.close()
-        conn.close()
-        
-    return redirect(url_for('admin_announcements'))
+        # Format check_out_time
+        if 'check_out_time' in session and session['check_out_time']:
+            if isinstance(session['check_out_time'], datetime.datetime):
+                session['check_out_time'] = session['check_out_time'].strftime('%I:%M %p')
+    
+    cursor.close()
+    conn.close()
+    
+    return render_template('todays_sit_ins.html', todays_sessions=todays_sessions)
 
 @app.route('/admin/export-sit-in-history-csv')
 @admin_required
