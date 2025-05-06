@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Lab Schedule - CSS SIT-IN MONITORING SYSTEM</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-image: url('/static/uc.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: rgba(0, 0, 0, 0.5);
+            background-blend-mode: overlay;
+            min-height: 100vh;
+        }
+
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #003366;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #003366;
+        }
+
+        .page-header h1 {
+            color: #003366;
+            margin: 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #003366;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            font-size: 14px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-col {
+            flex: 1;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background-color: #003366;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #004d99;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .action-buttons {
+            margin-top: 20px;
+            display: flex;
+        }
+
+        /* Flash message styles */
+        .flash-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .flash-message {
+            background-color: #ffffff;
+            border-left: 4px solid;
+            padding: 15px 25px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: opacity 0.3s ease;
+        }
+
+        .flash-success {
+            border-left-color: #28a745;
+        }
+
+        .flash-error {
+            border-left-color: #dc3545;
+        }
+
+        .flash-warning {
+            border-left-color: #ffc107;
+        }
+
+        .flash-info {
+            border-left-color: #17a2b8;
+        }
+    </style>
+</head>
+<body>
+    <!-- Flash Messages -->
+    <div class="flash-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            <div class="flash-message flash-{{ category }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <div class="content-wrapper">
+        <div class="header">
+            <div class="logo-section">
+                <img src="{{ url_for('static', filename='CSS.png') }}" alt="CSS Logo" class="logo">
+                <div>
+                    <h1 style="margin: 0; color: #003366;">CSS SIT-IN MONITORING SYSTEM</h1>
+                    <p style="margin: 0; color: #6c757d;">College of Computer Studies</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-header">
+            <h1>Edit Lab Schedule</h1>
+        </div>
+
+        <form action="{{ url_for('edit_lab_schedule', schedule_id=schedule.id) }}" method="POST">
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="day_of_week">Day of Week</label>
+                        <select id="day_of_week" name="day_of_week" class="form-control" required>
+                            <option value="Monday" {% if schedule.day_of_week == 'Monday' %}selected{% endif %}>Monday</option>
+                            <option value="Tuesday" {% if schedule.day_of_week == 'Tuesday' %}selected{% endif %}>Tuesday</option>
+                            <option value="Wednesday" {% if schedule.day_of_week == 'Wednesday' %}selected{% endif %}>Wednesday</option>
+                            <option value="Thursday" {% if schedule.day_of_week == 'Thursday' %}selected{% endif %}>Thursday</option>
+                            <option value="Friday" {% if schedule.day_of_week == 'Friday' %}selected{% endif %}>Friday</option>
+                            <option value="Saturday" {% if schedule.day_of_week == 'Saturday' %}selected{% endif %}>Saturday</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="lab_room">Lab Room</label>
+                        <select id="lab_room" name="lab_room" class="form-control" required>
+                            {% for lab in lab_rooms %}
+                            <option value="{{ lab.code }}" {% if schedule.lab_room == lab.code %}selected{% endif %}>{{ lab.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="start_time">Start Time</label>
+                        <input type="time" id="start_time" name="start_time" class="form-control" value="{{ schedule.start_time|string if schedule.start_time is string else schedule.start_time|format_schedule_time|replace(' AM', '')|replace(' PM', '') if schedule.start_time is not none else '' }}" required>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="end_time">End Time</label>
+                        <input type="time" id="end_time" name="end_time" class="form-control" value="{{ schedule.end_time|string if schedule.end_time is string else schedule.end_time|format_schedule_time|replace(' AM', '')|replace(' PM', '') if schedule.end_time is not none else '' }}" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="instructor">Instructor</label>
+                <input type="text" id="instructor" name="instructor" class="form-control" value="{{ schedule.instructor }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" name="subject" class="form-control" value="{{ schedule.subject }}">
+            </div>
+
+            <div class="action-buttons">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a href="{{ url_for('admin_lab_schedules') }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Auto-hide flash messages after 5 seconds
+        setTimeout(function() {
+            var flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(function(message) {
+                message.style.opacity = '0';
+                setTimeout(function() {
+                    message.style.display = 'none';
+                }, 500);
+            });
+        }, 5000);
+    </script>
+</body>
+</html> 

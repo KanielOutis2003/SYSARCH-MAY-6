@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% if is_student_view %}Student{% else %}Admin{% endif %} Leaderboard - CSS SIT-IN MONITORING SYSTEM</title>
+    <title>Lab Schedules - CSS SIT-IN MONITORING SYSTEM</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -17,10 +17,13 @@
             min-height: 100vh;
         }
 
-        .container {
+        .content-wrapper {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         .header {
@@ -48,16 +51,6 @@
             border: 2px solid #003366;
         }
 
-        .content-wrapper {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        
-        /* Student view styles */
         .page-header {
             display: flex;
             justify-content: space-between;
@@ -113,7 +106,7 @@
             background-color: #5a6268;
         }
 
-        .leaderboard-section {
+        .schedules-section {
             background-color: white;
             padding: 20px;
             border-radius: 10px;
@@ -121,54 +114,30 @@
             margin-bottom: 20px;
         }
 
-        .leaderboard-table {
+        .schedule-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
 
-        .leaderboard-table th,
-        .leaderboard-table td {
+        .schedule-table th,
+        .schedule-table td {
             padding: 12px 15px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
 
-        .leaderboard-table th {
+        .schedule-table th {
             background-color: #003366;
             color: white;
             font-weight: 600;
         }
 
-        .leaderboard-table tr:hover {
+        .schedule-table tr:hover {
             background-color: rgba(0, 51, 102, 0.05);
         }
 
-        .rank-cell {
-            text-align: center;
-            font-weight: bold;
-            font-size: 1.2em;
-        }
-
-        .rank-1 {
-            color: gold;
-        }
-
-        .rank-2 {
-            color: silver;
-        }
-
-        .rank-3 {
-            color: #cd7f32; /* bronze */
-        }
-
-        .points-cell {
-            text-align: center;
-            font-weight: bold;
-            color: #003366;
-        }
-
-        .reward-form {
+        .add-schedule-form {
             margin-top: 20px;
             padding: 20px;
             background-color: #f8f9fa;
@@ -192,6 +161,16 @@
             border-radius: 5px;
             border: 1px solid #ced4da;
             font-size: 14px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-col {
+            flex: 1;
         }
 
         /* Flash message styles */
@@ -227,21 +206,24 @@
         .flash-info {
             border-left-color: #17a2b8;
         }
-        
-        /* Student view additions */
-        .back-btn {
-            background-color: #003366;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 5px;
+
+        .action-btn {
+            padding: 5px 10px;
+            border-radius: 4px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin-right: 10px;
+            font-size: 14px;
+            border: none;
+            margin-right: 5px;
         }
 
-        .back-btn:hover {
-            background-color: #002244;
+        .edit-btn {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
         }
 
         .logout-btn {
@@ -257,57 +239,7 @@
         .logout-btn:hover {
             background-color: #c82333;
         }
-        
-        /* Your stats card styles */
-        .your-stats-card {
-            background-color: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 30px;
-            border-left: 5px solid #003366;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
 
-        .your-stats-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #003366;
-            margin-bottom: 15px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .stat-item {
-            background-color: #fff;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .stat-value {
-            font-size: 24px;
-            font-weight: bold;
-            color: #003366;
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            color: #6c757d;
-            font-size: 14px;
-        }
-        
-        .highlight-row {
-            background-color: rgba(0, 51, 102, 0.1) !important;
-            border-left: 3px solid #003366;
-            font-weight: bold;
-        }
-        
         /* Admin Header Styles */
         .admin-header {
             background: #ffffff;
@@ -367,6 +299,80 @@
             text-align: center;
             color: inherit;
         }
+
+        /* Modal styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-container {
+            background-color: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: #003366;
+            font-size: 1.5rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+
+        .close-modal:hover {
+            color: #343a40;
+        }
+
+        .modal-body {
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -386,19 +392,6 @@
 
     <!-- Content Wrapper -->
     <div class="content-wrapper">
-        {% if is_student_view %}
-        <!-- Student view header -->
-        <div class="header">
-            <div class="logo-section">
-                <img src="/static/CSS.png" alt="CSS Logo" class="logo">
-                <h1>Sit-In Leaderboard</h1>
-            </div>
-            <div>
-                <a href="{{ url_for('student_dashboard') }}"><button class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</button></a>
-                <a href="{{ url_for('logout') }}"><button class="logout-btn">Logout</button></a>
-            </div>
-        </div>
-        {% else %}
         <!-- Admin Header with logo -->
         <div class="header">
             <div class="logo-section">
@@ -445,7 +438,7 @@
                     <i class="fas fa-chart-bar"></i>
                     <span>Reports</span>
                 </a>
-                <a href="{{ url_for('admin_leaderboard') }}" class="nav-item active">
+                <a href="{{ url_for('admin_leaderboard') }}" class="nav-item">
                     <i class="fas fa-trophy"></i>
                     <span>Leaderboard</span>
                 </a>
@@ -453,7 +446,7 @@
                     <i class="fas fa-book"></i>
                     <span>Lab Resources</span>
                 </a>
-                <a href="{{ url_for('admin_lab_schedules') }}" class="nav-item">
+                <a href="{{ url_for('admin_lab_schedules') }}" class="nav-item active">
                     <i class="fas fa-calendar-alt"></i>
                     <span>Lab Schedules</span>
                 </a>
@@ -472,124 +465,123 @@
             </div>
         </div>
 
-        <!-- Admin view header -->
+        <!-- Page Header -->
         <div class="page-header">
-            <h1>Student Leaderboard</h1>
+            <h1>Lab Schedules</h1>
             <div class="admin-controls">
-                <button class="btn btn-primary" onclick="toggleRewardForm()">Add Reward Points</button>
+                <button class="btn btn-primary" onclick="openAddScheduleModal()">Add New Schedule</button>
             </div>
         </div>
-        {% endif %}
 
-        {% if is_student_view and your_stats %}
-        <!-- Your Stats Section for Student View -->
-        <div class="your-stats-card">
-            <div class="your-stats-title">
-                <i class="fas fa-user" style="font-size: 24px;"></i>
-                <h2 style="margin: 0;">Your Statistics</h2>
-            </div>
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-value">{{ your_stats.rank }}</div>
-                    <div class="stat-label">Current Rank</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">{{ your_stats.points }}</div>
-                    <div class="stat-label">Total Points</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">{{ your_stats.completed_sessions }}</div>
-                    <div class="stat-label">Completed Sessions</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">{{ your_stats.points_to_next_rank }}</div>
-                    <div class="stat-label">Points to Next Rank</div>
-                </div>
-            </div>
-        </div>
-        {% endif %}
-
-        <!-- Leaderboard Section -->
-        <div class="leaderboard-section">
-            <h2>Top 5 Students</h2>
-            
-            <table class="leaderboard-table">
+        <!-- Lab Schedules Section -->
+        <div class="schedules-section">
+            <h2>Current Lab Schedules</h2>
+            <table class="schedule-table">
                 <thead>
                     <tr>
-                        <th>Rank</th>
-                        <th>Student ID</th>
-                        <th>Name</th>
-                        <th>Course</th>
-                        <th>Year</th>
-                        <th>Points</th>
-                        <th>Sessions</th>
+                        <th>Day</th>
+                        <th>Lab Room</th>
+                        <th>Time</th>
+                        <th>Subject</th>
+                        <th>Instructor</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for student in leaderboard %}
-                        <tr class="{% if is_student_view and student.id == current_user.id %}highlight-row{% endif %}">
-                            <td class="rank-cell rank-{{ loop.index }}">{{ loop.index }}</td>
-                            <td>{{ student.idno }}</td>
-                            <td>{{ student.lastname }}, {{ student.firstname }}</td>
-                            <td>
-                                {% if student.course == '1' %}
-                                    BSIT
-                                {% elif student.course == '2' %}
-                                    BSCS
-                                {% elif student.course == '3' %}
-                                    BSCE
-                                {% else %}
-                                    {{ student.course }}
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% if student.year_level == '1' %}
-                                    1st Year
-                                {% elif student.year_level == '2' %}
-                                    2nd Year
-                                {% elif student.year_level == '3' %}
-                                    3rd Year
-                                {% elif student.year_level == '4' %}
-                                    4th Year
-                                {% else %}
-                                    {{ student.year_level }}
-                                {% endif %}
-                            </td>
-                            <td class="points-cell">{{ student.points }}</td>
-                            <td class="points-cell">{{ student.completed_sessions }}</td>
+                    {% if schedules|length > 0 %}
+                        {% for schedule in schedules %}
+                            <tr>
+                                <td>{{ schedule.day_of_week }}</td>
+                                <td>{{ schedule.lab_room|lab_room }}</td>
+                                <td>{{ schedule.start_time|format_time }} - {{ schedule.end_time|format_time }}</td>
+                                <td>{{ schedule.subject }}</td>
+                                <td>{{ schedule.instructor }}</td>
+                                <td>
+                                    <a href="{{ url_for('edit_lab_schedule', schedule_id=schedule.id) }}" class="action-btn edit-btn">Edit</a>
+                                    <form action="{{ url_for('delete_lab_schedule', schedule_id=schedule.id) }}" method="POST" style="display: inline-block;">
+                                        <button type="submit" class="action-btn delete-btn" onclick="return confirm('Are you sure you want to delete this schedule?')">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="6" style="text-align: center;">No schedules available</td>
                         </tr>
-                    {% endfor %}
+                    {% endif %}
                 </tbody>
             </table>
         </div>
+    </div>
 
-        {% if not is_student_view %}
-        <!-- Reward Form (Hidden by default) -->
-        <div id="rewardForm" class="leaderboard-section" style="display: none;">
-            <h2>Add Reward Points</h2>
-            <form action="{{ url_for('add_reward_points') }}" method="POST" class="reward-form">
-                <input type="hidden" id="student_id" name="student_id">
-                
-                <div class="form-group">
-                    <label for="student_name">Student</label>
-                    <input type="text" id="student_name" class="form-control" readonly>
-                </div>
-                
-                <div class="form-group">
-                    <label for="points">Points to Add</label>
-                    <input type="number" id="points" name="points" class="form-control" min="1" max="100" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="reason">Reason</label>
-                    <textarea id="reason" name="reason" class="form-control" rows="3" placeholder="Reason for adding points..."></textarea>
-                </div>
-                
-                <button type="submit" class="btn btn-primary">Add Points</button>
-                <button type="button" class="btn btn-secondary" onclick="toggleRewardForm()">Cancel</button>
-            </form>
+    <!-- Add Schedule Modal -->
+    <div id="scheduleModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2><i class="fas fa-calendar-plus"></i> Add New Lab Schedule</h2>
+                <button class="close-modal" onclick="closeAddScheduleModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addScheduleForm" action="{{ url_for('add_lab_schedule') }}" method="POST" class="add-schedule-form">
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="day_of_week">Day of Week</label>
+                                <select id="day_of_week" name="day_of_week" class="form-control" required>
+                                    <option value="">Select Day</option>
+                                    <option value="Monday">Monday</option>
+                                    <option value="Tuesday">Tuesday</option>
+                                    <option value="Wednesday">Wednesday</option>
+                                    <option value="Thursday">Thursday</option>
+                                    <option value="Friday">Friday</option>
+                                    <option value="Saturday">Saturday</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="lab_room">Lab Room</label>
+                                <select id="lab_room" name="lab_room" class="form-control" required>
+                                    <option value="">Select Lab Room</option>
+                                    {% for lab in lab_rooms %}
+                                        <option value="{{ lab.code }}">{{ lab.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="start_time">Start Time</label>
+                                <input type="time" id="start_time" name="start_time" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="end_time">End Time</label>
+                                <input type="time" id="end_time" name="end_time" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="instructor">Instructor</label>
+                        <input type="text" id="instructor" name="instructor" class="form-control" placeholder="Instructor Name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" class="form-control" placeholder="Subject Name">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeAddScheduleModal()">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="submitScheduleForm()">Add Schedule</button>
+            </div>
         </div>
-        {% endif %}
     </div>
 
     <script>
@@ -603,28 +595,41 @@
                 }, 500);
             });
         }, 5000);
-        
-        // Toggle reward form visibility
-        function toggleRewardForm() {
-            var form = document.getElementById('rewardForm');
-            if (form.style.display === 'none') {
-                form.style.display = 'block';
+
+        // Modal functions for adding a schedule
+        function openAddScheduleModal() {
+            document.getElementById('scheduleModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Prevent scrolling behind modal
+        }
+
+        function closeAddScheduleModal() {
+            document.getElementById('scheduleModal').style.display = 'none';
+            document.body.style.overflow = 'auto'; // Re-enable scrolling
+        }
+
+        function submitScheduleForm() {
+            const form = document.getElementById('addScheduleForm');
+            // Validate form before submitting
+            if (form.checkValidity()) {
+                form.submit();
             } else {
-                form.style.display = 'none';
+                // Trigger browser's built-in validation
+                form.reportValidity();
             }
         }
-        
-        // Show reward form for specific student
-        function showRewardForm(studentId, studentName) {
-            var form = document.getElementById('rewardForm');
-            var studentIdInput = document.getElementById('student_id');
-            var studentNameInput = document.getElementById('student_name');
-            
-            studentIdInput.value = studentId;
-            studentNameInput.value = studentName;
-            
-            form.style.display = 'block';
-            form.scrollIntoView({ behavior: 'smooth' });
+
+        // Close modal if user clicks outside the modal content
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('scheduleModal');
+            if (event.target === modal) {
+                closeAddScheduleModal();
+            }
+        });
+
+        // Edit schedule function (to be implemented)
+        function editSchedule(scheduleId) {
+            // Redirect to the edit page
+            window.location.href = '/admin/edit_lab_schedule/' + scheduleId;
         }
     </script>
 </body>

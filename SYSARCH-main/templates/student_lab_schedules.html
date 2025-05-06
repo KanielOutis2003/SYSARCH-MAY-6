@@ -401,11 +401,9 @@
                     <label for="labRoomFilter">Lab Room:</label>
                     <select id="labRoomFilter" class="lab-select" onchange="filterSchedules()">
                         <option value="all">All Lab Rooms</option>
-                        <option value="Lab 1">Lab 524</option>
-                        <option value="Lab 2">Lab 526</option>
-                        <option value="Lab 3">Lab 528</option>
-                        <option value="Lab 4">Lab 530</option>
-                        <option value="Lab 5">Lab 532</option>
+                        {% for lab in lab_rooms %}
+                            <option value="{{ lab.code }}">{{ lab.name }}</option>
+                        {% endfor %}
                     </select>
                 </div>
             </div>
@@ -437,16 +435,17 @@
                             <td class="schedule-cell" data-day="{{ day }}" data-time="{{ time_slot }}">
                                 {% for schedule in schedules %}
                                     {% if schedule.day_of_week == day %}
-                                        {% set start_time = schedule.start_time|format_schedule_time %}
-                                        {% set end_time = schedule.end_time|format_schedule_time %}
-                                        {% set slot_start = time_slot.split(' - ')[0] %}
-                                        {% set slot_end = time_slot.split(' - ')[1] %}
+                                        {% set start_hour = schedule.start_time.hour|int if schedule.start_time.hour is defined else (schedule.start_time|string).split(':')[0]|int if schedule.start_time is string else schedule.start_time.seconds // 3600 %}
+                                        {% set end_hour = schedule.end_time.hour|int if schedule.end_time.hour is defined else (schedule.end_time|string).split(':')[0]|int if schedule.end_time is string else schedule.end_time.seconds // 3600 %}
                                         
-                                        {% if (start_time <= slot_start and end_time > slot_start) or 
-                                              (start_time >= slot_start and start_time < slot_end) %}
+                                        {% set slot_start_hour = time_slot.split(' - ')[0].split(':')[0]|int %}
+                                        {% set slot_end_hour = time_slot.split(' - ')[1].split(':')[0]|int %}
+                                        
+                                        {% if (start_hour <= slot_start_hour and end_hour > slot_start_hour) or 
+                                             (start_hour >= slot_start_hour and start_hour < slot_end_hour) %}
                                             <div class="schedule-item" data-lab="{{ schedule.lab_room }}">
                                                 <div class="schedule-lab">{{ schedule.lab_room|lab_room }}</div>
-                                                <div class="schedule-time">{{ start_time }} - {{ end_time }}</div>
+                                                <div class="schedule-time">{{ schedule.start_time|format_schedule_time }} - {{ schedule.end_time|format_schedule_time }}</div>
                                                 <div class="schedule-instructor">{{ schedule.instructor }}</div>
                                             </div>
                                         {% endif %}
@@ -456,6 +455,45 @@
                             {% endfor %}
                         </tr>
                         {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Tabular Lab Schedules Display -->
+            <div class="tabular-schedule" style="margin-top: 40px;">
+                <h2 style="color: #003366; border-bottom: 2px solid #003366; padding-bottom: 10px;">Lab Schedules List</h2>
+                
+                <table class="schedules-table">
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Lab Room</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Instructor</th>
+                            <th>Subject</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if schedules %}
+                            {% for schedule in schedules %}
+                                <tr class="schedule-row" data-lab="{{ schedule.lab_room }}">
+                                    <td>{{ schedule.day_of_week }}</td>
+                                    <td>{{ schedule.lab_room|lab_room }}</td>
+                                    <td>{{ schedule.start_time|format_schedule_time }}</td>
+                                    <td>{{ schedule.end_time|format_schedule_time }}</td>
+                                    <td>{{ schedule.instructor }}</td>
+                                    <td>{{ schedule.subject|default('N/A') }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="6" class="no-schedules">
+                                    <i class="fas fa-calendar-times"></i>
+                                    <p>No lab schedules available</p>
+                                </td>
+                            </tr>
+                        {% endif %}
                     </tbody>
                 </table>
             </div>
@@ -537,8 +575,8 @@
                 function filterSchedules() {
                     const selectedLab = document.getElementById('labRoomFilter').value;
                     
+                    // Filter calendar view items
                     const scheduleItems = document.querySelectorAll('.schedule-item');
-                    
                     scheduleItems.forEach(item => {
                         const itemLab = item.getAttribute('data-lab');
                         
@@ -546,6 +584,18 @@
                             item.style.display = '';
                         } else {
                             item.style.display = 'none';
+                        }
+                    });
+                    
+                    // Filter tabular view rows
+                    const scheduleRows = document.querySelectorAll('.schedule-row');
+                    scheduleRows.forEach(row => {
+                        const rowLab = row.getAttribute('data-lab');
+                        
+                        if (selectedLab === 'all' || rowLab === selectedLab) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
                         }
                     });
                 }

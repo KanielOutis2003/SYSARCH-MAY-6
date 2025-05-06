@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            line-height: 1.5;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #003366;
+            color: white;
+            font-weight: bold;
+            text-align: left;
+            padding: 8px;
+        }
+        td {
+            padding: 8px;
+        }
+        h1, h2, h3 {
+            color: #003366;
+        }
+        h1 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        h2 {
+            font-size: 16px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .timestamp {
+            text-align: right;
+            font-size: 10px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lab Usage Report</h1>
+    <p class="timestamp">Generated: {{ report_date }}</p>
+    
+    <h2>Lab Room Statistics</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Lab Room</th>
+                <th>Usage Count</th>
+                <th>Percentage</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if lab_stats %}
+                {% for lab in lab_stats %}
+                    <tr>
+                        <td>{{ lab.lab_room_name }}</td>
+                        <td>{{ lab.count }}</td>
+                        <td>{{ "%.2f"|format(lab.percentage) }}%</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="3" style="text-align: center;">No lab usage data available</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+    
+    <h2>Session History</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>Name</th>
+                <th>Course</th>
+                <th>Lab Room</th>
+                <th>Date & Time</th>
+                <th>Check-In</th>
+                <th>Check-Out</th>
+                <th>Status</th>
+                <th>Purpose</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if sessions %}
+                {% for session in sessions %}
+                    <tr>
+                        <td>{{ session.idno }}</td>
+                        <td>{{ session.lastname }}, {{ session.firstname }}</td>
+                        <td>{{ session.course_name }}</td>
+                        <td>{{ session.lab_room_name }}</td>
+                        <td>{{ session.date_time_formatted }}</td>
+                        <td>{{ session.check_in_formatted if session.check_in_time else '-' }}</td>
+                        <td>{{ session.check_out_formatted if session.check_out_time else '-' }}</td>
+                        <td>{{ session.status|capitalize }}</td>
+                        <td>{{ session.purpose if session.purpose else 'N/A' }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="9" style="text-align: center;">No session data available</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</body>
+</html> 

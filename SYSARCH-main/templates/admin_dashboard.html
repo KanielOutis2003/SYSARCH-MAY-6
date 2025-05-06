@@ -1624,7 +1624,336 @@
             background-color: #e2e3e5;
             color: #41464b;
         }
-    </style>
+
+        /* Computer Control styles */
+        .computer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .computer-item {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #dee2e6;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .computer-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .computer-item.vacant {
+            border-left: 5px solid #28a745;
+        }
+        
+        .computer-item.occupied, .computer-item.in-use {
+            border-left: 5px solid #dc3545;
+        }
+        
+        .computer-item.maintenance {
+            border-left: 5px solid #6c757d;
+        }
+        
+        .computer-icon {
+            font-size: 36px;
+            color: #495057;
+            margin-bottom: 10px;
+        }
+        
+        .computer-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .computer-status {
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+        
+        .computer-item.vacant .computer-status {
+            color: #28a745;
+        }
+        
+        .lab-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #003366;
+            text-align: center;
+            padding: 10px;
+            border-bottom: 2px solid #003366;
+        }
+        
+        .loading-spinner {
+            text-align: center;
+            padding: 40px;
+            font-size: 24px;
+            color: #6c757d;
+        }
+        
+        .loading-spinner i {
+            margin-right: 10px;
+        }
+        
+        .computer-details {
+            padding: 15px;
+        }
+        
+        .detail-item {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .detail-label {
+            font-weight: bold;
+            width: 120px;
+        }
+        
+        .detail-value {
+            flex: 1;
+        }
+        
+        .detail-value.vacant {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .detail-value.occupied {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        .detail-value.maintenance {
+            color: #6c757d;
+            font-weight: bold;
+        }
+        
+        .detail-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* Status Summary styles */
+        .status-summary {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .status-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 20px;
+        }
+        
+        .status-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .status-label.vacant {
+            color: #28a745;
+        }
+        
+        .status-label.occupied {
+            color: #dc3545;
+        }
+        
+        .status-label.maintenance {
+            color: #6c757d;
+        }
+        
+        .status-count {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* Status indicators for PC Control */
+        .vacant {
+            color: #28a745;
+        }
+        
+        .occupied {
+            color: #dc3545;
+        }
+        
+        .maintenance {
+            color: #6c757d;
+        }
+        
+        /* Status summary in PC Control */
+        .status-summary {
+            display: flex;
+            justify-content: space-between;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .status-item {
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .status-label {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .status-count {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        /* Action buttons */
+        .reward-btn {
+            background-color: #fd7e14;
+            color: white;
+        }
+        
+        .reward-btn:hover {
+            background-color: #e67211;
+        }
+        
+        .bulk-actions {
+            display: inline-flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        /* Quick navigation links */
+        .quick-nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .quick-nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            color: #003366;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .quick-nav-btn:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            color: #0056b3;
+        }
+        
+        .quick-nav-btn i {
+            font-size: 14px;
+        }
+
+        /* Add styles for date filter container */
+        .date-filter-container {
+            margin-bottom: 20px;
+        }
+        
+        .date-filter {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        
+        .date-input {
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .filter-btn {
+            background-color: #003366;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .filter-btn:hover {
+            background-color: #002244;
+        }
+        
+        /* Make sure export buttons are properly spaced */
+        .export-btn {
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .computer-item.occupied, .computer-item.in-use {
+            border-left: 5px solid #dc3545;
+        }
+        
+        .computer-item.maintenance {
+            border-left: 5px solid #6c757d;
+        }
+        
+        .computer-icon {
+            font-size: 36px;
+            color: #495057;
+            margin-bottom: 10px;
+        }
+
+        .computer-item.occupied .computer-status, .computer-item.in-use .computer-status {
+            color: #dc3545;
+        }
+        
+        .computer-item.maintenance .computer-status {
+            color: #6c757d;
+        }
+
+        .detail-value.occupied, .detail-value.in-use {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        .detail-value.maintenance {
+            color: #6c757d;
+            font-weight: bold;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -1660,13 +1989,13 @@
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </div>
+                <div class="nav-item" onclick="showTab('computer_control');">
+                    <i class="fas fa-desktop"></i>
+                    <span>Computer Control</span>
+                </div>
                 <div class="nav-item" onclick="showTab('sessions');">
                     <i class="fas fa-calendar-check"></i>
                     <span>Current Sessions</span>
-                </div>
-                <div class="nav-item" onclick="showTab('pendingRequestsTab');">
-                    <i class="fas fa-hourglass-half"></i>
-                    <span>Pending Requests</span>
                 </div>
                 <div class="nav-item" onclick="showTab('forms');">
                     <i class="fas fa-clipboard-list"></i>
@@ -1691,10 +2020,6 @@
                 <div class="nav-item" onclick="window.location.href='{{ url_for('admin_leaderboard') }}';">
                     <i class="fas fa-trophy"></i>
                     <span>Leaderboard</span>
-                </div>
-                <div class="nav-item" onclick="showTab('computer-control');">
-                    <i class="fas fa-desktop"></i>
-                    <span>Computer Control</span>
                 </div>
                 <div class="nav-item" onclick="window.location.href='{{ url_for('lab_resources') }}';">
                     <i class="fas fa-book"></i>
@@ -1744,7 +2069,7 @@
                 <div class="stat-card">
                     <i class="fas fa-calendar-check"></i>
                     <h3>{{ active_sessions|length }}</h3>
-                    <p>Active Sessions</p>
+                    <p>PCs in Use</p>
                 </div>
                 
                 <div class="stat-card">
@@ -1849,10 +2174,7 @@
                                     <form action="{{ url_for('check_out_student', session_id=session.id) }}" method="POST" style="display:inline;">
                                         <button type="submit" class="action-btn delete-btn">Check Out</button>
                                     </form>
-                                    <form action="{{ url_for('add_reward_points') }}" method="POST" style="display:inline;">
-                                        <input type="hidden" name="student_id" value="{{ session.student_id }}">
-                                        <input type="hidden" name="points" value="3">
-                                        <input type="hidden" name="reason" value="Exceptional performance during lab session">
+                                    <form action="{{ url_for('check_out_student_with_reward', session_id=session.id) }}" method="POST" style="display:inline;">
                                         <button type="submit" class="action-btn reward-btn">End with Reward</button>
                                     </form>
                                 </td>
@@ -1868,7 +2190,7 @@
         </div>
 
         <!-- Pending Requests Tab -->
-        <div id="pendingRequestsTab" class="tab-content">
+        <div id="forms" class="tab-content">
             <div class="admin-card">
                 <div class="card-header">
                     <h2><i class="fas fa-clock"></i> Pending Requests</h2>
@@ -1907,26 +2229,18 @@
                                     </td>
                                     <td>{{ session.lab_room|lab_room }}</td>
                                     <td>{{ session.date_time_formatted }}</td>
-                                    <td>{{ session.duration }} hour(s)</td>
-                                    <td>{{ session.purpose }}</td>
+                                    <td>{{ session.duration }} hr</td>
+                                    <td title="{{ session.purpose }}">{{ session.purpose[:30] }}{% if session.purpose|length > 30 %}...{% endif %}</td>
                                     <td>
-                                        <button class="btn-action view-btn" 
-                                                onclick="viewPendingRequest({{ session.id }}, '{{ session.firstname }} {{ session.lastname }}', '{{ session.idno }}', '{{ session.course }}', '{{ session.pc_number }}', '{{ session.purpose }}', {{ session.student_id }})">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        
-                                        <form action="{{ url_for('approve_session', session_id=session.id) }}" method="POST" style="display: inline;">
-                                            <button type="submit" class="btn-action approve-btn" title="Approve Request">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        </form>
-                                        
-                                        <form action="{{ url_for('reject_session', session_id=session.id) }}" method="POST" style="display: inline;">
-                                            <button type="submit" class="btn-action reject-btn" title="Reject Request"
-                                                    onclick="return confirm('Are you sure you want to reject this request?')">
-                                                <i class="fas fa-times"></i>
-                                            </button>
-                                        </form>
+                                        <div class="action-buttons">
+                                            <form action="{{ url_for('approve_session', session_id=session.id) }}" method="post" style="display: inline;">
+                                                <button type="submit" class="approve-btn">Approve</button>
+                                            </form>
+                                            <form action="{{ url_for('reject_session', session_id=session.id) }}" method="post" style="display: inline;">
+                                                <button type="submit" class="reject-btn">Reject</button>
+                                            </form>
+                                            <button type="button" class="edit-btn" onclick="editSession('{{ session.id }}', '{{ session.lab_room }}', '{{ session.programming_language }}', '{{ session.purpose|replace("'", "\\'") }}')">Edit</button>
+                                        </div>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -1942,7 +2256,7 @@
                 </div>
             </div>
             
-            <!-- Approved Reservations Waiting for Check-in replaced with Reservation Logs -->
+            <!-- Approved Reservations Section removed - now approved requests go directly to Current Sessions -->
             <div class="admin-card">
                 <div class="card-header">
                     <h2><i class="fas fa-history"></i> Reservation Logs</h2>
@@ -1976,19 +2290,95 @@
                                     <td>{{ session.lastname }}, {{ session.firstname }}</td>
                                     <td>
                                         {% if session.course == '1' %}
-                                        <span class="badge badge-primary">BSIT</span>
+                                            BSIT
                                         {% elif session.course == '2' %}
-                                        <span class="badge badge-success">BSCS</span>
+                                            BSCS
                                         {% elif session.course == '3' %}
-                                        <span class="badge badge-info">BSCE</span>
+                                            BSCE
                                         {% else %}
-                                        <span class="badge badge-secondary">{{ session.course }}</span>
+                                            {{ session.course }}
                                         {% endif %}
                                     </td>
                                     <td>{{ session.lab_room|lab_room }}</td>
                                     <td>{{ session.date_time_formatted }}</td>
-                                    <td>{{ session.duration }} hour(s)</td>
-                                    <td>{{ session.purpose.split(' - PC #')[0]|default(session.purpose)|truncate(30) }}</td>
+                                    <td>{{ session.duration }} hr</td>
+                                    <td title="{{ session.purpose }}">{{ session.purpose[:30] }}{% if session.purpose|length > 30 %}...{% endif %}</td>
+                                    <td>
+                                        {% if session.approval_status == 'rejected' %}
+                                            <span class="status-badge rejected">Rejected</span>
+                                        {% elif session.status == 'completed' %}
+                                            <span class="status-badge completed">Completed</span>
+                                        {% elif session.status == 'cancelled' %}
+                                            <span class="status-badge cancelled">Cancelled</span>
+                                        {% elif session.approval_status == 'approved' and session.status == 'pending' %}
+                                            <span class="status-badge approved">Approved (Awaiting Check-in)</span>
+                                        {% elif session.approval_status == 'approved' and session.status == 'active' %}
+                                            <span class="status-badge active">Active</span>
+                                        {% else %}
+                                            <span class="status-badge {{ session.status }}">{{ session.status|capitalize }}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-history"></i>
+                        <p>No reservation logs available.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Reservation Logs Section -->
+            <div class="admin-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-history"></i> Reservation Logs</h2>
+                    
+                    <!-- Add search functionality -->
+                    <div class="search-box">
+                        <input type="text" id="formsLogsSearchInput" placeholder="Search logs..." class="search-input">
+                        <button onclick="searchFormsLogs()" class="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% if reservation_logs|length > 0 %}
+                    <div class="table-responsive">
+                        <table class="data-table" id="formsLogsTable">
+                            <thead>
+                                <tr>
+                                    <th>Student ID</th>
+                                    <th>Name</th>
+                                    <th>Course</th>
+                                    <th>Lab Room</th>
+                                    <th>Date & Time</th>
+                                    <th>Duration</th>
+                                    <th>Purpose</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for session in reservation_logs %}
+                                <tr>
+                                    <td>{{ session.idno }}</td>
+                                    <td>{{ session.lastname }}, {{ session.firstname }}</td>
+                                    <td>
+                                        {% if session.course == '1' %}
+                                            BSIT
+                                        {% elif session.course == '2' %}
+                                            BSCS
+                                        {% elif session.course == '3' %}
+                                            BSCE
+                                        {% else %}
+                                            {{ session.course }}
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ session.lab_room|lab_room }}</td>
+                                    <td>{{ session.date_time_formatted }}</td>
+                                    <td>{{ session.duration }} hr</td>
+                                    <td title="{{ session.purpose }}">{{ session.purpose[:30] }}{% if session.purpose|length > 30 %}...{% endif %}</td>
                                     <td>
                                         {% if session.approval_status == 'rejected' %}
                                             <span class="status-badge rejected">Rejected</span>
@@ -2015,210 +2405,66 @@
             </div>
         </div>
 
-        <!-- Forms Tab for managing pending/approved forms -->
-        <div id="forms" class="tab-content">
-            <h2>Reservation Management</h2>
-                
-            <div class="search-bar">
-                <input type="text" id="formsSearchInput" class="search-input" placeholder="Search by name, ID, or status...">
-                <button class="search-btn" onclick="searchForms()">Search</button>
-            </div>
-            
-            <table class="student-table">
-                <thead>
-                    <tr>
-                        <th>Student ID</th>
-                        <th>Name</th>
-                        <th>Course</th>
-                        <th>Lab Room</th>
-                        <th>PC #</th>
-                        <th>Date & Time</th>
-                        <th>Purpose</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% set has_approved = false %}
-                    {% for session in approved_reservations %}
-                        {% set pc_number = session.purpose.split('PC #')[1]|default('N/A') if 'PC #' in session.purpose|default('') else 'N/A' %}
-                        {% set has_approved = true %}
-                        <tr>
-                            <td>{{ session.idno }}</td>
-                            <td>{{ session.lastname }}, {{ session.firstname }}</td>
-                            <td>
-                                {% if session.course == '1' %}
-                                    BSIT
-                                {% elif session.course == '2' %}
-                                    BSCS
-                                {% elif session.course == '3' %}
-                                    BSCE
-                                {% else %}
-                                    {{ session.course }}
-                                {% endif %}
-                            </td>
-                            <td>{{ session.lab_room|lab_room }}</td>
-                            <td>{{ pc_number }}</td>
-                            <td>{{ session.date_time_formatted }}</td>
-                            <td>{{ session.purpose.split(' - PC #')[0]|default(session.purpose)|truncate(30) }}</td>
-                            <td><span class="status-active">Approved</span></td>
-                            <td class="action-buttons">
-                                <form action="{{ url_for('check_in_student', session_id=session.id) }}" method="POST" style="display:inline;">
-                                    <button type="submit" class="action-btn view-btn">Check In</button>
-                                </form>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    {% if not has_approved %}
-                        <tr>
-                            <td colspan="9" style="text-align: center;">No approved forms waiting for check-in</td>
-                        </tr>
-                    {% endif %}
-                </tbody>
-            </table>
-        </div>
-
         <!-- Reports Tab -->
         <div id="reports" class="tab-content">
-            <div class="content-section">
-                <div class="header-section" style="text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f8f9fa; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                    <img src="{{ url_for('static', filename='images/uc-logo.png') }}" alt="UC Logo" style="height: 80px; margin-bottom: 15px;">
-                    <h1 style="color: #003366; margin-bottom: 5px; font-size: 24px;">University of Cebu Main Campus</h1>
-                    <h2 style="color: #003366; margin-bottom: 5px; font-size: 20px;">College of Computer Studies</h2>
-                    <h3 style="color: #003366; margin-bottom: 5px; font-size: 18px;">Computer Laboratory Sit in Monitoring System</h3>
-                    <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #dee2e6;">
-                        <h4 style="color: #495057; font-size: 16px;">Usage Reports</h4>
-                    </div>
-                </div>
                 <h2>Usage Reports</h2>
                 
-                <div class="search-bar">
-                    <select id="reportType" class="search-input">
-                        <option value="daily">Daily Report</option>
-                        <option value="weekly">Weekly Report</option>
-                        <option value="monthly">Monthly Report</option>
-                    </select>
-                    <input type="date" id="reportDate" class="search-input" value="{{ today_date }}">
-                    <button class="search-btn" onclick="generateReport()">Generate Report</button>
-                </div>
-                
-                <!-- Export Buttons -->
-                <div class="export-buttons">
-                    <button class="export-btn csv" onclick="exportReport('csv')">
-                        <i class="fas fa-file-csv"></i> Export CSV
-                    </button>
-                    <button class="export-btn excel" onclick="exportReport('excel')">
-                        <i class="fas fa-file-excel"></i> Export Excel
-                    </button>
-                </div>
-                
-                <!-- Charts -->
-                <div class="chart-container">
-                    <div class="chart-card">
-                        <div class="chart-title">Lab Room Usage</div>
-                        <canvas id="labRoomChart" class="pie-chart"></canvas>
-                    </div>
-                    <div class="chart-card">
-                        <div class="chart-title">Reports Statistics</div>
-                        <canvas id="reportStatsChart" class="pie-chart"></canvas>
+                <div class="date-filter-container">
+                    <div class="date-filter">
+                        <label for="reportStartDate">From:</label>
+                        <input type="date" id="reportStartDate" class="date-input">
+                        
+                        <label for="reportEndDate">To:</label>
+                        <input type="date" id="reportEndDate" class="date-input">
+                        
+                        <button id="filterReportBtn" class="filter-btn" onclick="filterReportsByDate()">
+                            <i class="fas fa-filter"></i> Filter Reports
+                        </button>
                     </div>
                 </div>
+            
+                <a href="{{ url_for('export_report', format='excel') }}" class="export-btn excel" id="exportExcelBtn">
+                    <i class="fas fa-file-excel"></i> Export as Excel
+                </a>
+                <a href="{{ url_for('export_report', format='csv') }}" class="export-btn csv" id="exportCSVBtn">
+                    <i class="fas fa-file-csv"></i> Export as CSV
+                </a>
+                <a href="{{ url_for('export_report', format='pdf') }}" class="export-btn pdf" id="exportPDFBtn">
+                    <i class="fas fa-file-pdf"></i> Export as PDF
+                </a>
+                <button class="export-btn print" onclick="window.print()">
+                    <i class="fas fa-print"></i> Print Report
+                </button>
                 
-                <div class="chart-container">
-                    <div class="chart-card">
-                        <div class="chart-title">Student Course Distribution</div>
-                        <canvas id="courseChart" class="pie-chart"></canvas>
-                    </div>
-                    <div class="chart-card">
-                        <div class="chart-title">Session Status</div>
-                        <canvas id="statusChart" class="pie-chart"></canvas>
+            <div class="chart-container">
+                <div class="chart-card">
+                    <div class="chart-title">Lab Room Usage</div>
+                    <div class="pie-chart">
+                        <canvas id="labRoomChart"></canvas>
                     </div>
                 </div>
                 
-                <div id="reportContent">
-                    <h3>Laboratory Usage Statistics</h3>
-                    
-                    <table class="student-table">
-                        <thead>
-                            <tr>
-                                <th>Lab Room</th>
-                                <th>Total Sessions</th>
-                                <th>Total Hours</th>
-                                <th>Percentage</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% if lab_stats %}
-                                {% for lab in lab_stats %}
-                                    {% if lab.lab_room in ['Lab 1', 'Lab 2', 'Lab 3', 'Lab 4', 'Lab 5'] %}
-                                        <tr>
-                                            <td>
-                                                {% if lab.lab_room == 'Lab 1' %}
-                                                    Lab 524
-                                                {% elif lab.lab_room == 'Lab 2' %}
-                                                    Lab 526
-                                                {% elif lab.lab_room == 'Lab 3' %}
-                                                    Lab 528
-                                                {% elif lab.lab_room == 'Lab 4' %}
-                                                    Lab 530
-                                                {% elif lab.lab_room == 'Lab 5' %}
-                                                    Lab 532
-                                                {% endif %}
-                                            </td>
-                                            <td>{{ lab.count }}</td>
-                                            <td>{{ lab.total_hours }}</td>
-                                            <td>{{ "%.2f"|format(lab.percentage) }}%</td>
-                                        </tr>
-                                    {% endif %}
-                                {% endfor %}
-                            {% else %}
-                                <tr>
-                                    <td colspan="4" style="text-align: center;">No lab usage data available</td>
-                                </tr>
-                            {% endif %}
-                        </tbody>
-                    </table>
-                    
-                    <h3>Sit In History</h3>
-                    
-                    <table class="student-table">
-                        <thead>
-                            <tr>
-                                <th>ID Number</th>
-                                <th>Name</th>
-                                <th>Purpose</th>
-                                <th>Laboratory</th>
-                                <th>Login Time</th>
-                                <th>Logout Time</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% if active_sessions %}
-                                {% for session in active_sessions %}
-                                    <tr>
-                                        <td>{{ session.idno }}</td>
-                                        <td>{{ session.lastname }}, {{ session.firstname }}</td>
-                                        <td>
-                                            {% if session.purpose %}
-                                                {{ session.purpose }}
-                                            {% else %}
-                                                {{ session.programming_language|default('Not specified') }} Programming
-                                            {% endif %}
-                                        </td>
-                                        <td>{{ session.lab_room|lab_room }}</td>
-                                        <td>{{ session.check_in_time.strftime('%H:%M') if session.check_in_time else '-' }}</td>
-                                        <td>{{ session.check_out_time.strftime('%H:%M') if session.check_out_time else '-' }}</td>
-                                        <td>{{ session.date_time.strftime('%Y-%m-%d') }}</td>
-                                    </tr>
-                                {% endfor %}
-                            {% else %}
-                                <tr>
-                                    <td colspan="7" style="text-align: center;">No session data available</td>
-                                </tr>
-                            {% endif %}
-                        </tbody>
-                    </table>
+                <div class="chart-card">
+                    <div class="chart-title">Report Statistics</div>
+                    <div class="pie-chart">
+                        <canvas id="reportStatsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chart-container" style="margin-top: 20px;">
+                <div class="chart-card">
+                    <div class="chart-title">Course Distribution</div>
+                    <div class="pie-chart">
+                        <canvas id="courseChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-card">
+                    <div class="chart-title">Session Purpose Distribution</div>
+                    <div class="pie-chart">
+                        <canvas id="purposeChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2505,17 +2751,36 @@
                     <option value="Lab 2">Lab 526</option>
                     <option value="Lab 3">Lab 528</option>
                     <option value="Lab 4">Lab 530</option>
-                    <option value="Lab 5">Lab 517</option>
-                    <option value="Lab 10">Lab 542</option>
-                    <option value="Lab 11">Lab 544</option>
+                    <option value="Lab 5">Lab 532</option>
+                    <option value="Lab 6">Lab 540</option>
+                    <option value="Lab 7">Lab 544</option>
                 </select>
                 <button class="search-btn" onclick="filterComputersByLab()">Filter</button>
+                
+                <!-- Bulk Actions Section -->
+                <div class="bulk-actions" style="margin-left: 20px;">
+                    <select id="pcSelectionFilter" class="search-input">
+                        <option value="none">Select PCs</option>
+                        <option value="all">All PCs</option>
+                        <option value="available">Available PCs</option>
+                        <option value="occupied">Occupied PCs</option>
+                    </select>
+                    <select id="bulkActionType" class="search-input">
+                        <option value="">Bulk Action</option>
+                        <option value="vacant">Set as Available</option>
+                        <option value="occupied">Set as Occupied</option>
+                        <option value="maintenance">Set as Under Maintenance</option>
+                    </select>
+                    <button class="search-btn" onclick="applyBulkAction()">Apply</button>
+                </div>
             </div>
             
-            <div id="computerControlContent">
-                <div class="computer-grid">
-                    <!-- Computer grid will be populated dynamically -->
-                    <p>Please select a lab room to view available computers.</p>
+            <div id="computerControlContent" class="mt-4">
+                <div class="text-center p-4 bg-light rounded">
+                    <i class="fas fa-desktop fa-3x mb-3 text-muted"></i>
+                    <h4>Computer Control Panel</h4>
+                    <p>Please select a lab room to view and manage computers.</p>
+                    <p class="small text-muted">You'll be able to see the status of all PCs and manage their availability.</p>
                 </div>
             </div>
             
@@ -2539,36 +2804,127 @@
             }
             
             function displayComputers(labRoom) {
-                // Instead of random statuses, fetch actual PC status data from the server
+                if (!labRoom) {
+                    document.getElementById('computerControlContent').innerHTML = `
+                        <div class="alert alert-info">
+                            Please select a lab room to view available computers.
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Show loading indicator
+                document.getElementById('computerControlContent').innerHTML = `
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin"></i> Loading PC status...
+                    </div>
+                `;
+                
+                // Fetch actual PC status data from the server
                 fetch(`/get_pc_status?lab_room=${labRoom}`)
-                    .then(response => response.json())
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(errorData => {
+                                throw new Error(errorData.error || 'Network response was not ok');
+                            });
+                        }
+                        return response.json();
+                    })
                     .then(data => {
-                        // Format the displayed computers based on real data
-                        let html = `<div class="computer-grid">`;
+                        // Check for error in response
+                        if (data.error) {
+                            throw new Error(data.error);
+                        }
                         
-                        for (let i = 1; i <= 50; i++) {
-                            const pcData = data.pc_status[i] || { status: 'vacant' };
-                            const pcStatus = pcData.status;
+                        // Process the data
+                        if (!data.pc_status) {
+                            throw new Error('Invalid data format received from server');
+                        }
+                        
+                        // Count computers by status
+                        const statusCounts = {
+                            vacant: 0,
+                            occupied: 0,
+                            maintenance: 0
+                        };
+                        
+                        // Generate the HTML for the grid
+                        let computerGridHTML = `
+                            <div class="lab-room-title">
+                                <h3>${labRoom}</h3>
+                            </div>
                             
-                            html += `
-                                <div class="computer-item ${pcStatus}" onclick="showComputerDetails('${labRoom}', ${i}, '${pcStatus}', ${pcData.student_id}, ${pcData.session_id}, '${pcData.purpose || ''}')">
-                                    <div class="computer-icon">
-                                        <i class="fas fa-desktop"></i>
-                                    </div>
-                                    <div class="computer-name">PC ${i}</div>
-                                    <div class="computer-status">${getStatusLabel(pcStatus)}</div>
+                            <div class="status-summary">
+                                <div class="status-item">
+                                    <div class="status-label">Available</div>
+                                    <div class="status-count vacant">0</div>
+                                </div>
+                                <div class="status-item">
+                                    <div class="status-label">Occupied</div>
+                                    <div class="status-count occupied">0</div>
+                                </div>
+                                <div class="status-item">
+                                    <div class="status-label">Maintenance</div>
+                                    <div class="status-count maintenance">0</div>
+                                </div>
+                            </div>
+                            
+                            <div class="bulk-actions mb-3">
+                                <button class="btn btn-warning" onclick="bulkMaintenance('${labRoom}')">
+                                    <i class="fas fa-tools"></i> Set All PCs to Maintenance
+                                </button>
+                                <button class="btn btn-success" onclick="bulkVacant('${labRoom}')">
+                                    <i class="fas fa-check"></i> Set All PCs to Available
+                                </button>
+                            </div>
+                            
+                            <div class="computer-grid">
+                        `;
+                        
+                        // Loop through 1-50 PCs 
+                        for (let i = 1; i <= 50; i++) {
+                            const pcKey = i.toString();
+                            const pcData = data.pc_status[pcKey] || { status: 'vacant' };
+                            const status = pcData.status || 'vacant';
+                            const studentId = pcData.student_id || null;
+                            const sessionId = pcData.session_id || null;
+                            const purpose = pcData.purpose || '';
+                            
+                            // Update count for this status
+                            statusCounts[status]++;
+                            
+                            // Create computer item with proper status
+                            computerGridHTML += `
+                                <div class="computer-item" 
+                                    data-pc="${i}" 
+                                    data-status="${status}"
+                                    data-student-id="${studentId || ''}"
+                                    data-session-id="${sessionId || ''}"
+                                    data-purpose="${purpose || ''}"
+                                    onclick="showComputerDetails('${labRoom}', ${i}, '${status}', '${studentId || ''}', '${sessionId || ''}', '${purpose || ''}')">
+                                    <i class="fas fa-desktop ${status}"></i>
+                                    <div>PC ${i}</div>
+                                    <div class="status-label ${status}">${getStatusLabel(status)}</div>
                                 </div>
                             `;
                         }
                         
-                        html += '</div>';
-                        document.getElementById('computerControlContent').innerHTML = html;
+                        // Close the grid div
+                        computerGridHTML += `</div>`;
+                        
+                        // Display the grid
+                        document.getElementById('computerControlContent').innerHTML = computerGridHTML;
+                        
+                        // Update the status counts
+                        document.querySelector('.status-count.vacant').textContent = statusCounts.vacant;
+                        document.querySelector('.status-count.occupied').textContent = statusCounts.occupied;
+                        document.querySelector('.status-count.maintenance').textContent = statusCounts.maintenance;
                     })
                     .catch(error => {
                         console.error('Error fetching PC status:', error);
                         document.getElementById('computerControlContent').innerHTML = `
                             <div class="alert alert-danger">
-                                Failed to load computer status. Please try again.
+                                <i class="fas fa-exclamation-triangle"></i> Failed to load computer status: ${error.message}
                             </div>
                         `;
                     });
@@ -2576,11 +2932,14 @@
             
             function getStatusLabel(status) {
                 switch (status) {
-                    case 'vacant': return 'Vacant';
-                    case 'occupied': return 'In Use';
-                    case 'reserved': return 'Reserved';
-                    case 'maintenance': return 'Maintenance';
-                    default: return 'Unknown';
+                    case 'vacant':
+                        return 'Available';
+                    case 'occupied':
+                        return 'In Use';
+                    case 'maintenance':
+                        return 'Maintenance';
+                    default:
+                        return status.charAt(0).toUpperCase() + status.slice(1);
                 }
             }
             
@@ -2594,15 +2953,22 @@
                         </div>
                 `;
                 
-                if (status === 'occupied' || status === 'reserved') {
-                    // If occupied, fetch and show student info
-                    fetch(`/admin/get-student-info/${studentId || 0}`)
+                if (status === 'occupied') {
+                    // If occupied, fetch and show student info if studentId is valid
+                    if (studentId && studentId !== 'null' && studentId !== null) {
+                        // Show loading indicator for student info
+                        document.getElementById('computerDetailsContent').innerHTML = content + `
+                            <div class="text-center mt-3">
+                                <i class="fas fa-spinner fa-spin"></i> Loading student information...
+                            </div>
+                        `;
+                        
+                        fetch(`/admin/get-student-info/${studentId}`)
                         .then(response => response.json())
                         .then(studentData => {
                             const studentInfo = studentData.student || { firstname: 'Unknown', lastname: 'Student', idno: 'N/A' };
                             
-                            const detailsDiv = document.querySelector('.computer-details');
-                            detailsDiv.innerHTML += `
+                                content += `
                                 <div class="detail-item">
                                     <span class="detail-label">Assigned To:</span>
                                     <span class="detail-value">${studentInfo.firstname} ${studentInfo.lastname} (${studentInfo.idno})</span>
@@ -2611,26 +2977,63 @@
                                     <span class="detail-label">Purpose:</span>
                                     <span class="detail-value">${purpose || 'Not specified'}</span>
                                 </div>
+                                `;
+                                
+                                content += `
                                 <div class="detail-actions">
                                     <button class="action-btn end-btn" onclick="updatePCStatus('${labRoom}', ${pcNumber}, 'vacant')">Set as Vacant</button>
                                 </div>
                             `;
+                                
+                                content += `</div>`;
+                                document.getElementById('computerDetailsContent').innerHTML = content;
                         })
                         .catch(error => {
                             console.error('Error fetching student info:', error);
+                                
+                                content += `
+                                    <div class="alert alert-danger mt-3">
+                                        Failed to load student information.
+                                    </div>
+                                    <div class="detail-actions">
+                                        <button class="action-btn end-btn" onclick="updatePCStatus('${labRoom}', ${pcNumber}, 'vacant')">Set as Vacant</button>
+                                    </div>
+                                `;
+                                
+                                content += `</div>`;
+                                document.getElementById('computerDetailsContent').innerHTML = content;
                         });
+                    } else {
+                        // No student ID available
+                        content += `
+                            <div class="detail-item">
+                                <span class="detail-label">Assigned To:</span>
+                                <span class="detail-value">System assignment</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Purpose:</span>
+                                <span class="detail-value">${purpose || 'Not specified'}</span>
+                            </div>
+                            <div class="detail-actions">
+                                <button class="action-btn end-btn" onclick="updatePCStatus('${labRoom}', ${pcNumber}, 'vacant')">Set as Vacant</button>
+                            </div>
+                        `;
+                        
+                        content += `</div>`;
+                        document.getElementById('computerDetailsContent').innerHTML = content;
+                    }
                 } else {
                     content += `
                         <div class="detail-actions">
                             <button class="action-btn mark-btn" onclick="updatePCStatus('${labRoom}', ${pcNumber}, 'occupied')">Set as Occupied</button>
-                            <button class="action-btn mark-btn" onclick="updatePCStatus('${labRoom}', ${pcNumber}, 'reserved')">Set as Reserved</button>
                             <button class="action-btn mark-btn" onclick="updatePCStatus('${labRoom}', ${pcNumber}, 'maintenance')">Mark for Maintenance</button>
                         </div>
                     `;
-                }
                 
                 content += `</div>`;
                 document.getElementById('computerDetailsContent').innerHTML = content;
+                }
+                
                 document.getElementById('computerDetailsModal').style.display = 'block';
             }
             
@@ -2639,30 +3042,149 @@
             }
             
             function updatePCStatus(labRoom, pcNumber, status) {
-                // Send request to update PC status
-                const formData = new FormData();
-                formData.append('lab_room', labRoom);
-                formData.append('pc_number', pcNumber);
-                formData.append('status', status);
-                
                 fetch('/admin/update_pc_status', {
                     method: 'POST',
-                    body: formData
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `lab_room=${encodeURIComponent(labRoom)}&pc_number=${encodeURIComponent(pcNumber)}&status=${encodeURIComponent(status)}`
                 })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
                         closeComputerModal();
-                        filterComputersByLab(); // Refresh the view
-                        showToast(data.message, 'success');
+                        displayComputers(labRoom); // Refresh the grid
                     } else {
-                        showToast(data.error || 'Failed to update PC status', 'error');
+                        alert('Failed to update PC status: ' + data.error);
                     }
                 })
                 .catch(error => {
-                    console.error('Error updating PC status:', error);
-                    showToast('Failed to update PC status', 'error');
+                    console.error('Error:', error);
+                    alert('Failed to update PC status: ' + error);
                 });
+            }
+            
+            // Function to set all PCs in a lab to maintenance mode
+            function bulkMaintenance(labRoom) {
+                if (confirm("Are you sure you want to set all PCs in " + labRoom + " to maintenance mode? This will end any active sessions.")) {
+                    fetch('/admin/update_pc_status', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `lab_room=${encodeURIComponent(labRoom)}&status=maintenance&is_bulk=true`
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            displayComputers(labRoom); // Refresh the grid
+                        } else {
+                            alert('Failed to update PC status: ' + (data.error || 'Unknown error'));
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred. Please try again.');
+                    });
+                }
+            }
+            
+            // Function to set all PCs in a lab to vacant mode
+            function bulkVacant(labRoom) {
+                if (confirm("Are you sure you want to set all PCs in " + labRoom + " to available? This will end any active sessions.")) {
+                    fetch('/admin/update_pc_status', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `lab_room=${encodeURIComponent(labRoom)}&status=vacant&is_bulk=true`
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            displayComputers(labRoom); // Refresh the grid
+                        } else {
+                            alert('Failed to update PC status: ' + (data.error || 'Unknown error'));
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred. Please try again.');
+                    });
+                }
+            }
+            
+            // Bulk PC Management Functions
+            function applyBulkAction() {
+                const labRoom = document.getElementById('labRoomFilter').value;
+                const pcSelectionFilter = document.getElementById('pcSelectionFilter').value;
+                const actionType = document.getElementById('bulkActionType').value;
+                
+                if (!labRoom) {
+                    alert('Please select a lab room first');
+                    return;
+                }
+                
+                if (pcSelectionFilter === 'none' || pcSelectionFilter === '') {
+                    alert('Please select which PCs to update');
+                    return;
+                }
+                
+                if (!actionType) {
+                    alert('Please select an action to perform');
+                    return;
+                }
+                
+                // If setting all to maintenance, use the dedicated function
+                if (pcSelectionFilter === 'all' && actionType === 'maintenance') {
+                    bulkMaintenance(labRoom);
+                    return;
+                }
+                
+                // If setting all to occupied, use the dedicated function
+                if (pcSelectionFilter === 'all' && actionType === 'occupied') {
+                    bulkOccupied(labRoom);
+                    return;
+                }
+                
+                // Otherwise fetch current status and apply action to selected PCs
+                fetch(`/get_pc_status?lab_room=${labRoom}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        let updatePromises = [];
+                        
+                        for (let pcNumber in data.pc_status) {
+                            const pcData = data.pc_status[pcNumber];
+                            
+                            // Filter PCs based on selection
+                            if (
+                                (pcSelectionFilter === 'all') ||
+                                (pcSelectionFilter === 'available' && pcData.status === 'vacant') ||
+                                (pcSelectionFilter === 'occupied' && pcData.status === 'occupied')
+                            ) {
+                                // Create a request to update each PC
+                                const updatePromise = fetch('/admin/update_pc_status', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/x-www-form-urlencoded',
+                                    },
+                                    body: `lab_room=${encodeURIComponent(labRoom)}&pc_number=${encodeURIComponent(pcNumber)}&status=${encodeURIComponent(actionType)}`
+                                }).then(response => response.json());
+                                
+                                updatePromises.push(updatePromise);
+                            }
+                        }
+                        
+                        // Wait for all updates to complete
+                        return Promise.all(updatePromises);
+                    })
+                    .then(() => {
+                        displayComputers(labRoom); // Refresh the grid
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while updating PCs. Please try again.');
+                    });
             }
             
             function showToast(message, type = 'info') {
@@ -2721,10 +3243,6 @@
                 border-left: 5px solid #dc3545;
             }
             
-            .computer-item.reserved {
-                border-left: 5px solid #ffc107;
-            }
-            
             .computer-item.maintenance {
                 border-left: 5px solid #6c757d;
             }
@@ -2751,10 +3269,6 @@
             
             .computer-item.occupied .computer-status, .computer-item.in-use .computer-status {
                 color: #dc3545;
-            }
-            
-            .computer-item.reserved .computer-status {
-                color: #ffc107;
             }
             
             .computer-item.maintenance .computer-status {
@@ -2792,11 +3306,6 @@
                 font-weight: bold;
             }
             
-            .detail-value.reserved {
-                color: #ffc107;
-                font-weight: bold;
-            }
-            
             .detail-value.maintenance {
                 color: #6c757d;
                 font-weight: bold;
@@ -2805,9 +3314,8 @@
             .detail-actions {
                 margin-top: 20px;
                 display: flex;
-                flex-wrap: wrap;
                 gap: 10px;
-                justify-content: center;
+                flex-wrap: wrap;
             }
             
             .end-btn {
@@ -2915,9 +3423,9 @@
                                 <option value="Lab 2">Lab 526</option>
                                 <option value="Lab 3">Lab 528</option>
                                 <option value="Lab 4">Lab 530</option>
-                                <option value="Lab 5">Lab 517</option>
-                                <option value="Lab 10">Lab 542</option>
-                                <option value="Lab 11">Lab 544</option>
+                                <option value="Lab 5">Lab 532</option>
+                                <option value="Lab 6">Lab 540</option>
+                                <option value="Lab 7">Lab 544</option>
                             </select>
                     </div>
                         
@@ -2961,12 +3469,12 @@
                 <div id="pendingRequestButtons" class="approval-buttons-container" style="display: none;">
                     <form id="approveForm" action="" method="POST" style="display: inline;">
                         <button type="submit" class="action-btn approve-btn">
-                            <i class="fas fa-check-circle"></i> Approve Request
+                            <i class="fas fa-sign-in-alt"></i> Check In
                         </button>
                     </form>
                     <form id="rejectForm" action="" method="POST" style="display: inline;">
                         <button type="submit" class="action-btn reject-btn">
-                            <i class="fas fa-times-circle"></i> Reject Request
+                            <i class="fas fa-times-circle"></i> Disapprove
                         </button>
                     </form>
                 </div>
@@ -2997,9 +3505,9 @@
                         <option value="Lab 2">Lab 526</option>
                         <option value="Lab 3">Lab 528</option>
                         <option value="Lab 4">Lab 530</option>
-                        <option value="Lab 5">Lab 517</option>
-                        <option value="Lab 10">Lab 542</option>
-                        <option value="Lab 11">Lab 544</option>
+                        <option value="Lab 5">Lab 532</option>
+                        <option value="Lab 6">Lab 540</option>
+                        <option value="Lab 7">Lab 544</option>
                     </select>
                 </div>
                 
@@ -3117,8 +3625,16 @@
             });
             
             // Map old tab IDs to new ones if needed
-            if (tabId === 'pending') {
-                tabId = 'pendingRequestsTab';
+            if (tabId === 'pending' || tabId === 'pendingRequestsTab') {
+                tabId = 'forms';
+                
+                // Scroll to pending requests section after tab changes
+                setTimeout(() => {
+                    const pendingSection = document.querySelector('#forms .admin-card:first-child');
+                    if (pendingSection) {
+                        pendingSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }, 100);
             }
             
             // Show the selected tab content
@@ -3128,9 +3644,10 @@
             }
             
             // Update active state on tab buttons
-            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabButtons = document.querySelectorAll('.nav-item');
             tabButtons.forEach(button => {
-                if (button.getAttribute('data-tab') === tabId) {
+                if (button.getAttribute('onclick').includes(`showTab('${tabId}')`) || 
+                    button.getAttribute('onclick').includes(`showTab("${tabId}")`)) {
                     button.classList.add('active');
                 } else {
                     button.classList.remove('active');
@@ -3962,7 +4479,7 @@
                     document.getElementById('pendingRequestButtons').style.display = 'block';
                     
                     // Set the form actions for approve/reject buttons
-                    document.getElementById('approveForm').action = `/admin/approve-session/${sessionId}`;
+                    document.getElementById('approveForm').action = `/admin/check-in-student/${sessionId}`;
                     document.getElementById('rejectForm').action = `/admin/reject-session/${sessionId}`;
                     
                     // Show modal
@@ -4246,6 +4763,31 @@ window.onclick = function(event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
+}
+</script>
+<script>
+// Function to filter reports by date range
+function filterReportsByDate() {
+    const startDate = document.getElementById('reportStartDate').value;
+    const endDate = document.getElementById('reportEndDate').value;
+    
+    if (!startDate || !endDate) {
+        alert('Please select both start and end dates');
+        return;
+    }
+    
+    // Update export buttons with date parameters
+    const excelBtn = document.getElementById('exportExcelBtn');
+    const csvBtn = document.getElementById('exportCSVBtn');
+    const pdfBtn = document.getElementById('exportPDFBtn');
+    
+    // Update URLs with date parameters
+    excelBtn.href = `{{ url_for('export_report', format='excel') }}?start_date=${startDate}&end_date=${endDate}`;
+    csvBtn.href = `{{ url_for('export_report', format='csv') }}?start_date=${startDate}&end_date=${endDate}`;
+    pdfBtn.href = `{{ url_for('export_report', format='pdf') }}?start_date=${startDate}&end_date=${endDate}`;
+    
+    // Show feedback to user
+    alert(`Reports filtered from ${startDate} to ${endDate}. Click on export buttons to download filtered reports.`);
 }
 </script>
 </html> 

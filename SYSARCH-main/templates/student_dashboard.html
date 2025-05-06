@@ -411,45 +411,118 @@
 
         /* Computer grid styles */
         .computer-grid {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
             gap: 10px;
+            margin-top: 10px;
         }
-
-        .computer-item {
-            width: calc(33.33% - 10px);
-            padding: 10px;
-            border: 1px solid #ddd;
+        
+        /* PC Selection Styles */
+        .pc-item {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
             border-radius: 5px;
+            padding: 10px;
             text-align: center;
             cursor: pointer;
+            transition: all 0.2s ease;
         }
 
-        .computer-item.vacant {
-            background-color: #dff0d8;
+        .pc-item:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        .computer-item.occupied {
-            background-color: #f2dede;
+        .pc-item.available {
+            border-left: 4px solid #28a745;
         }
 
-        .computer-item:hover {
-            background-color: #f0f0f0;
+        .pc-item.in-use {
+            border-left: 4px solid #dc3545;
+            opacity: 0.7;
+            cursor: not-allowed;
         }
 
-        .computer-icon {
-            font-size: 2em;
+        .pc-item.selected {
+            background-color: #e6f3ff;
+            border: 2px solid #007bff;
+        }
+
+        .pc-number {
+            font-weight: bold;
             margin-bottom: 5px;
         }
 
-        .computer-name {
-            font-size: 14px;
-            font-weight: 600;
+        .pc-status {
+            font-size: 0.85em;
         }
 
+        .status-available {
+            color: #28a745;
+        }
+
+        .status-in-use {
+            color: #dc3545;
+        }
+        
+        .computer-item {
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid #dee2e6;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .computer-item:hover:not([disabled]) {
+            transform: translateY(-3px);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+        
+        .computer-item.vacant {
+            border-left: 5px solid #28a745;
+        }
+        
+        .computer-item.occupied {
+            border-left: 5px solid #dc3545;
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .computer-item.selected {
+            border: 2px solid #007bff;
+            background-color: #e9f0ff;
+        }
+        
+        .computer-icon {
+            font-size: 24px;
+            color: #495057;
+            margin-bottom: 5px;
+        }
+        
+        .computer-name {
+            font-weight: bold;
+            margin-bottom: 3px;
+            font-size: 0.9rem;
+        }
+        
         .computer-status {
-            font-size: 12px;
-            color: #666;
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        
+        .computer-item.vacant .computer-status {
+            color: #28a745;
+        }
+        
+        .computer-item.occupied .computer-status {
+            color: #dc3545;
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -637,54 +710,46 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="purpose">Purpose</label>
-                        <select id="purpose" name="purpose" class="form-control" onchange="togglePurposeField()" required>
-                            <option value="PHP Programming">PHP Programming</option>
-                            <option value="Java Programming">Java Programming</option>
-                            <option value="Python Programming">Python Programming</option>
-                            <option value="JavaScript Programming">JavaScript Programming</option>
-                            <option value="C++ Programming">C++ Programming</option>
-                            <option value="C# Programming">C# Programming</option>
-                            <option value="Ruby Programming">Ruby Programming</option>
-                            <option value="Swift Programming">Swift Programming</option>
-                            <option value="Database">Database</option>
-                            <option value="Digital and Logic Design">Digital and Logic Design</option>
-                            <option value="Embedded System and IOT">Embedded System and IOT</option>
-                            <option value="Systems Integration and Architecture">Systems Integration and Architecture</option>
-                            <option value="Computer Application">Computer Application</option>
-                            <option value="Project Management">Project Management</option>
-                            <option value="IT Trends">IT Trends</option>
-                            <option value="Technopreneurship">Technopreneurship</option>
-                            <option value="Capstone">Capstone</option>           
-                            <option value="Other">Other Purpose</option>
-                        </select>
-                    </div>
-                    
-                    <div id="purposeFieldDiv" class="form-group" style="display: none;">
-                        <label for="other_purpose">Specify Purpose</label>
-                        <textarea id="other_purpose" name="other_purpose" class="form-control" rows="3" placeholder="Please specify your purpose..."></textarea>
-                    </div>
-                    
-                    <div class="form-group">
                         <label for="lab_room">Lab Room</label>
-                        <select id="lab_room" name="lab_room" class="form-control" onchange="loadAvailablePCs()" required>
-                            <option value="">Select a Lab Room</option>
+                        <select id="lab_room" name="lab_room" class="form-control" required onchange="fetchPCStatus()">
+                            <option value="">Select Lab Room</option>
                             <option value="Lab 1">Lab 524</option>
                             <option value="Lab 2">Lab 526</option>
                             <option value="Lab 3">Lab 528</option>
                             <option value="Lab 4">Lab 530</option>
-                            <option value="Lab 5">Lab 517</option>
-                            <option value="Lab 10">Lab 542</option>
-                            <option value="Lab 11">Lab 544</option>
+                            <option value="Lab 5">Lab 532</option>
+                            <option value="Lab 6">Lab 540</option>
+                            <option value="Lab 7">Lab 544</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label for="pc_selection">Select a PC</label>
+                        <label for="pc_number">PC Number</label>
                         <input type="hidden" id="pc_number" name="pc_number" required>
-                        <div id="pc_grid" class="computer-grid">
-                            <p>Please select a Lab Room first</p>
+                        <div id="pc-selection-container">
+                            <p class="text-muted">Please select a lab room first to see available PCs</p>
                         </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="purpose">Purpose</label>
+                        <select id="purpose" name="purpose" class="form-control" onchange="togglePurposeField()" required>
+                            <option value="">Select Purpose</option>
+                            <option value="Class Assignment">Class Assignment</option>
+                            <option value="Project">Project</option>
+                            <option value="Research">Research</option>
+                            <option value="Self-Study">Self-Study</option>
+                            <option value="Python Programming">Python Programming</option>
+                            <option value="Java Programming">Java Programming</option>
+                            <option value="C++ Programming">C++ Programming</option>
+                            <option value="Web Development">Web Development</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" id="purposeFieldDiv" style="display: none;">
+                        <label for="other_purpose">Specify Purpose</label>
+                        <textarea id="other_purpose" name="other_purpose" class="form-control" rows="3"></textarea>
                     </div>
                     
                     <div class="form-group">
@@ -706,82 +771,40 @@
                     
                     <button type="submit" class="btn-primary">Reserve Session</button>
                 </form>
-                
-                <script>
-                    function togglePurposeField() {
-                        const purposeSelect = document.getElementById('purpose');
-                        const purposeFieldDiv = document.getElementById('purposeFieldDiv');
-                        const otherPurposeField = document.getElementById('other_purpose');
-                        
-                        if (purposeSelect.value === 'Other') {
-                            purposeFieldDiv.style.display = 'block';
-                            otherPurposeField.required = true;
-                        } else {
-                            purposeFieldDiv.style.display = 'none';
-                            otherPurposeField.required = false;
-                        }
-                    }
-                    
-                    function loadAvailablePCs() {
-                        const labRoomSelect = document.getElementById('lab_room');
-                        const pcGrid = document.getElementById('pc_grid');
-                        const pcInput = document.getElementById('pc_number');
-                        
-                        // Clear the selected PC and the grid
-                        pcInput.value = '';
-                        pcGrid.innerHTML = '';
-                        
-                        if (!labRoomSelect.value) {
-                            pcGrid.innerHTML = '<p>Please select a Lab Room first</p>';
-                            return;
-                        }
-                        
-                        // In a real application, you would fetch this data from the server
-                        // For demo purposes, we'll generate 50 PCs per lab with random availability
-                        let gridHTML = '';
-                        
-                        for (let i = 1; i <= 50; i++) {
-                            // Randomly determine if PC is available (70% chance)
-                            const isAvailable = Math.random() < 0.7;
-                            const status = isAvailable ? 'vacant' : 'occupied';
-                            const buttonClass = isAvailable ? 'computer-item vacant' : 'computer-item occupied';
-                            const disabled = !isAvailable ? 'disabled' : '';
-                            
-                            gridHTML += `
-                                <div class="${buttonClass}" ${disabled} onclick="${isAvailable ? 'selectPC(' + i + ')' : ''}" id="pc-${i}">
-                                    <div class="computer-icon">
-                                        <i class="fas fa-desktop"></i>
-                                    </div>
-                                    <div class="computer-name">PC ${i}</div>
-                                    <div class="computer-status">${status === 'vacant' ? 'Available' : 'In Use'}</div>
-                                </div>
-                            `;
-                        }
-                        
-                        pcGrid.innerHTML = gridHTML;
-                    }
-                    
-                    function selectPC(pcNumber) {
-                        // Clear any previously selected PC
-                        document.querySelectorAll('.computer-item.selected').forEach(item => {
-                            item.classList.remove('selected');
-                        });
-                        
-                        // Set the hidden input value
-                        document.getElementById('pc_number').value = pcNumber;
-                        
-                        // Highlight the selected PC
-                        const pcElement = document.getElementById('pc-' + pcNumber);
-                        if (pcElement) {
-                            pcElement.classList.add('selected');
-                        }
-                    }
-                </script>
             {% else %}
-                <div class="alert alert-warning">
-                    <p>You have used all your available sessions. Please contact the administrator if you need more sessions.</p>
+                <div class="sessions-exhausted">
+                    <p>You have used all your allotted sessions for this semester.</p>
+                    <p>Please contact the administrator if you need to request additional sessions.</p>
                 </div>
             {% endif %}
+            
+            <!-- Pending Reservations Section -->
+            <div class="reservation-status" style="margin-top: 30px;">
+                <h3>Your Pending Reservations</h3>
+                {% set has_pending = false %}
+                {% for session in sessions %}
+                    {% if session.status == 'pending' and session.approval_status == 'pending' %}
+                        {% set has_pending = true %}
+                        <div class="pending-reservation">
+                            <div class="reservation-details">
+                                <p><strong>Lab Room:</strong> {{ session.lab_room|lab_room }}</p>
+                                <p><strong>Date & Time:</strong> {{ session.date_time.strftime('%Y-%m-%d %H:%M') }}</p>
+                                <p><strong>Purpose:</strong> {{ session.purpose }}</p>
+                                <p><strong>Status:</strong> <span class="status-pending">Awaiting Approval</span></p>
+                            </div>
+                            <div class="reservation-actions">
+                                <form action="{{ url_for('cancel_session', session_id=session.id) }}" method="POST">
+                                    <button type="submit" class="action-btn cancel-btn">Cancel Reservation</button>
+                                </form>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if not has_pending %}
+                    <p>You have no pending reservations.</p>
+                {% endif %}
+            </div>
         </div>
 
         <!-- Announcements Section -->
@@ -952,15 +975,24 @@
             if (progressBar && maxSessions > 0) {
                 var percentage = (sessionsUsed / maxSessions) * 100;
                 progressBar.style.width = percentage + '%';
+                
+                // Change color based on usage
+                if (percentage < 50) {
+                    progressBar.style.backgroundColor = '#28a745'; // Green
+                } else if (percentage < 75) {
+                    progressBar.style.backgroundColor = '#ffc107'; // Yellow
+                } else {
+                    progressBar.style.backgroundColor = '#dc3545'; // Red
+                }
             }
         });
         
         // Toggle add session form
         function toggleAddSessionForm() {
-            var form = document.getElementById('addSessionForm');
-            if (form.style.display === 'none') {
+            const form = document.getElementById('addSessionForm');
+            if (form.style.display === 'none' || form.style.display === '') {
                 form.style.display = 'block';
-                // Scroll to form
+                // Scroll to the form
                 form.scrollIntoView({ behavior: 'smooth' });
             } else {
                 form.style.display = 'none';
@@ -969,7 +1001,7 @@
         
         // Show feedback form
         function showFeedbackForm(sessionId) {
-            var feedbackRow = document.getElementById('feedback-row-' + sessionId);
+            const feedbackRow = document.getElementById(`feedback-row-${sessionId}`);
             if (feedbackRow.style.display === 'none') {
                 feedbackRow.style.display = 'table-row';
             } else {
@@ -1003,6 +1035,69 @@
             } else {
                 purposeFieldDiv.style.display = 'none';
             }
+        }
+        
+        // Function to fetch PC status for a lab room
+        function fetchPCStatus() {
+            const labRoom = document.getElementById('lab_room').value;
+            if (!labRoom) {
+                document.getElementById('pc-selection-container').innerHTML = '<p class="text-muted">Please select a lab room first to see available PCs</p>';
+                return;
+            }
+            
+            // Show loading indicator
+            document.getElementById('pc-selection-container').innerHTML = '<p>Loading PCs...</p>';
+            
+            // Fetch PC status from the server
+            fetch('/student/get_pc_status?lab_room=' + encodeURIComponent(labRoom))
+                .then(response => response.json())
+                .then(data => {
+                    renderPCGrid(data.pc_status);
+                })
+                .catch(error => {
+                    console.error('Error fetching PC status:', error);
+                    document.getElementById('pc-selection-container').innerHTML = '<p class="text-danger">Error loading PCs. Please try again.</p>';
+                });
+        }
+        
+        // Function to render the PC grid
+        function renderPCGrid(pcStatus) {
+            const container = document.getElementById('pc-selection-container');
+            let html = '<div class="computer-grid">';
+            
+            // Sort by PC number
+            const pcNumbers = Object.keys(pcStatus).sort((a, b) => parseInt(a) - parseInt(b));
+            
+            for (const pcNumber of pcNumbers) {
+                const pc = pcStatus[pcNumber];
+                const isAvailable = pc.status === 'vacant';
+                const pcClass = isAvailable ? 'available' : 'in-use';
+                const clickHandler = isAvailable ? 'onclick="selectPC(' + pcNumber + ')"' : '';
+                const statusText = isAvailable ? 'Available' : 'In Use';
+                const statusClass = isAvailable ? 'status-available' : 'status-in-use';
+                
+                html += '<div class="pc-item ' + pcClass + '" ' + clickHandler + ' id="pc-' + pcNumber + '">';
+                html += '<div class="pc-number">PC ' + pcNumber + '</div>';
+                html += '<div class="pc-status ' + statusClass + '">' + statusText + '</div>';
+                html += '</div>';
+            }
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+        
+        // Function to select a PC
+        function selectPC(pcNumber) {
+            // Clear any previously selected PC
+            const allPCs = document.querySelectorAll('.pc-item');
+            allPCs.forEach(pc => pc.classList.remove('selected'));
+            
+            // Select the clicked PC
+            const selectedPC = document.getElementById('pc-' + pcNumber);
+            selectedPC.classList.add('selected');
+            
+            // Update the hidden input field
+            document.getElementById('pc_number').value = pcNumber;
         }
     </script>
 </body>

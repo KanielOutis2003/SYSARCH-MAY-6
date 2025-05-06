@@ -798,8 +798,8 @@
                                     {% if resource.file_path and (resource.file_path.startswith('http://') or resource.file_path.startswith('https://')) %}
                                         <a href="{{ resource.file_path }}" target="_blank" class="btn btn-sm btn-outline-primary">Open Link</a>
                                     {% elif resource.file_path %}
-                                        <a href="{{ url_for('static', filename=resource.file_path) }}" target="_blank" class="btn btn-sm btn-outline-primary">View File</a>
-                                        <a href="{{ url_for('static', filename=resource.file_path) }}" download class="btn btn-sm btn-outline-success">Download</a>
+                                        <a href="{{ url_for('uploaded_file', filename=resource.file_path.replace('uploads/', ''), download='false') }}" target="_blank" class="btn btn-sm btn-outline-primary">Preview</a>
+                                        <a href="{{ url_for('uploaded_file', filename=resource.file_path.replace('uploads/', ''), download='true') }}" class="btn btn-sm btn-outline-success">Download</a>
                                     {% else %}
                                         <span class="no-file">No file available</span>
                                     {% endif %}
@@ -909,22 +909,43 @@
                     const confirmation = confirm('Are you sure you want to delete this resource? This action cannot be undone.');
                     
                     if (confirmation) {
+                        // Disable the button to prevent multiple clicks
+                        this.disabled = true;
+                        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deleting...';
+                        
                         fetch(`/admin/lab_resources/${resourceId}/delete`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
                             }
                         })
-                        .then(response => {
-                            if (response.ok) {
-                                window.location.reload();
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Success - remove the resource card from the page or reload
+                                const resourceCard = this.closest('.resource-card');
+                                resourceCard.style.opacity = '0';
+                                setTimeout(() => {
+                                    resourceCard.remove();
+                                    // If all resources are removed, show 'no resources' message
+                                    if (document.querySelectorAll('.resource-card').length === 0) {
+                                        const resourceGrid = document.querySelector('.resource-grid');
+                                        resourceGrid.innerHTML = '<p class="no-resources">No resources available.</p>';
+                                    }
+                                }, 300);
                             } else {
-                                alert('Failed to delete resource');
+                                // Error handling
+                                this.disabled = false;
+                                this.innerHTML = '<i class="fas fa-trash"></i> Delete';
+                                alert('Failed to delete resource: ' + (data.message || 'Unknown error'));
+                                console.error('Delete error:', data.message);
                             }
                         })
                         .catch(error => {
+                            this.disabled = false;
+                            this.innerHTML = '<i class="fas fa-trash"></i> Delete';
                             console.error('Error:', error);
-                            alert('An error occurred');
+                            alert('An error occurred while deleting the resource. Please try again.');
                         });
                     }
                 });
