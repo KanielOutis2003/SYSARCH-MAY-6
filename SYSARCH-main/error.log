@@ -9094,3 +9094,18 @@
 2025-05-07 05:07:56,458 - werkzeug - INFO - 127.0.0.1 - - [07/May/2025 05:07:56] "GET /get_pc_status?lab_room=Lab%201 HTTP/1.1" 200 -
 2025-05-07 05:07:59,778 - werkzeug - INFO - 127.0.0.1 - - [07/May/2025 05:07:59] "POST /admin/update_pc_status HTTP/1.1" 200 -
 2025-05-07 05:07:59,865 - werkzeug - INFO - 127.0.0.1 - - [07/May/2025 05:07:59] "GET /get_pc_status?lab_room=Lab%201 HTTP/1.1" 200 -
+2025-05-07 05:09:37,792 - werkzeug - INFO -  * Detected change in 'C:\\Users\\jecu2\\OneDrive\\Desktop\\may4\\SYSARCH-main\\app.py', reloading
+2025-05-07 05:09:38,016 - werkzeug - INFO -  * Detected change in 'C:\\Users\\jecu2\\OneDrive\\Desktop\\may4\\SYSARCH-main\\app.py', reloading
+2025-05-07 05:09:38,019 - werkzeug - INFO -  * Restarting with stat
+2025-05-07 05:09:38,025 - werkzeug - INFO -  * Detected change in 'C:\\Users\\jecu2\\OneDrive\\Desktop\\may4\\SYSARCH-main\\app.py', reloading
+2025-05-07 05:09:38,332 - werkzeug - INFO -  * Restarting with stat
+2025-05-07 05:09:38,344 - werkzeug - INFO -  * Restarting with stat
+2025-05-07 05:09:39,942 - werkzeug - WARNING -  * Debugger is active!
+2025-05-07 05:09:39,946 - werkzeug - INFO -  * Debugger PIN: 108-832-252
+2025-05-07 05:09:39,991 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-05-07 05:09:40,115 - werkzeug - WARNING -  * Debugger is active!
+2025-05-07 05:09:40,118 - werkzeug - INFO -  * Debugger PIN: 108-832-252
+2025-05-07 05:09:40,146 - werkzeug - WARNING -  * Debugger is active!
+2025-05-07 05:09:40,148 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2025-05-07 05:09:40,149 - werkzeug - INFO -  * Debugger PIN: 108-832-252
+2025-05-07 05:09:40,177 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
