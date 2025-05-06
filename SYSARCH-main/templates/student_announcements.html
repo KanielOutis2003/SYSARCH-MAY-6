@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Announcements - CSS SIT-IN MONITORING SYSTEM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -14,22 +15,27 @@
             background-repeat: no-repeat;
             background-color: rgba(0, 0, 0, 0.5);
             background-blend-mode: overlay;
-            color: #333;
-            display: flex;
-            flex-direction: column;
             min-height: 100vh;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
         .header {
             background-color: rgba(255, 255, 255, 0.95);
-            padding: 15px 30px;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .logo-container {
+        .logo-section {
             display: flex;
             align-items: center;
             gap: 15px;
@@ -46,94 +52,71 @@
         .user-info {
             text-align: right;
             color: #003366;
-            display: flex;
-            align-items: center;
-            gap: 15px;
         }
 
-        .user-details {
-            text-align: right;
-        }
-
-        .logout-btn {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .logout-btn:hover {
-            background-color: #c82333;
-        }
-
-        .main-content {
-            flex: 1;
-            padding: 30px;
-            max-width: 1000px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .container {
+        .content-section {
             background-color: rgba(255, 255, 255, 0.95);
+            padding: 25px;
             border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
         }
 
-        .back-link {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: #003366;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .back-link:hover {
-            text-decoration: underline;
-        }
-
-        h1 {
+        h2 {
             color: #003366;
             margin-top: 0;
-            margin-bottom: 30px;
             border-bottom: 2px solid #003366;
             padding-bottom: 10px;
         }
 
-        .announcements-list {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+        .back-btn {
+            background-color: #003366;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
         }
 
-        .announcement {
-            background-color: #f8f9fa;
+        .back-btn:hover {
+            background-color: #002244;
+        }
+
+        .announcement-list {
+            margin-top: 20px;
+        }
+
+        .announcement-card {
+            background-color: white;
             border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             padding: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .announcement:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        .announcement-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
 
         .announcement-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
         }
 
         .announcement-title {
-            color: #003366;
             font-size: 1.3rem;
+            font-weight: 600;
+            color: #003366;
             margin: 0;
         }
 
@@ -143,18 +126,11 @@
         }
 
         .announcement-content {
-            color: #444;
+            color: #343a40;
             line-height: 1.6;
             white-space: pre-line;
         }
 
-        .no-announcements {
-            text-align: center;
-            padding: 50px 0;
-            color: #6c757d;
-        }
-
-        /* Flash message styles */
         .flash-container {
             position: fixed;
             top: 20px;
@@ -163,47 +139,60 @@
         }
 
         .flash-message {
-            background-color: #ffffff;
-            border-left: 4px solid;
             padding: 15px 25px;
             margin-bottom: 10px;
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            transition: opacity 0.3s ease;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.3s ease;
+            transition: opacity 0.5s ease;
         }
 
         .flash-success {
-            border-left-color: #28a745;
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
         }
 
         .flash-error {
-            border-left-color: #dc3545;
-        }
-
-        .flash-warning {
-            border-left-color: #ffc107;
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
         }
 
         .flash-info {
-            border-left-color: #17a2b8;
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
         }
 
-        @media (max-width: 768px) {
-            .main-content {
-                padding: 15px;
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
             }
-            
-            .header {
-                flex-direction: column;
-                padding: 15px;
-            }
-            
-            .user-info {
-                margin-top: 15px;
+            to {
+                transform: translateX(0);
+                opacity: 1;
             }
         }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 0;
+            color: #6c757d;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #adb5bd;
+        }
+
+        .empty-state p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <!-- Flash Messages Container -->
@@ -211,60 +200,51 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                    <div class="flash-message flash-{{ category }}">
-                        {{ message }}
-                    </div>
+                    <div class="flash-message flash-{{ category }}">{{ message }}</div>
                 {% endfor %}
             {% endif %}
         {% endwith %}
     </div>
 
-    <div class="header">
-        <div class="logo-container">
-            <img src="/static/CSS.png" alt="CSS Logo" class="logo">
-            <h2>CSS Sit-In Monitoring System</h2>
-        </div>
-        <div class="user-info">
-            <div class="user-details">
-                <h3>{{ student.firstname }} {{ student.lastname }}</h3>
-                <p>{{ student.idno }}</p>
+    <div class="dashboard-container">
+        <div class="header">
+            <div class="logo-section">
+                <img src="/static/CSS.png" alt="CSS Logo" class="logo">
+                <h1>Announcements</h1>
             </div>
-            <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+            <div class="user-info">
+                <h3>Welcome, {{ session.get('student_info', {}).get('name', 'Student') }}</h3>
+                <a href="{{ url_for('logout') }}"><button class="logout-btn">Logout</button></a>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <a href="{{ url_for('student_dashboard') }}" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+            
+            <h2>Latest Announcements</h2>
+            
+            {% if announcements|length > 0 %}
+                <div class="announcement-list">
+                    {% for announcement in announcements %}
+                        <div class="announcement-card">
+                            <div class="announcement-header">
+                                <h3 class="announcement-title">{{ announcement.title }}</h3>
+                                <span class="announcement-date">{{ announcement.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
+                            </div>
+                            <div class="announcement-content">{{ announcement.content }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-bullhorn"></i>
+                    <p>No announcements available at this time</p>
+                    <p>Check back later for updates from the lab administrators</p>
+                </div>
+            {% endif %}
         </div>
     </div>
 
-    <div class="main-content">
-        <a href="{{ url_for('student_dashboard') }}" class="back-link">
-            <i class="fas fa-arrow-left"></i> Back to Dashboard
-        </a>
-        
-        <div class="container">
-            <h1>Announcements</h1>
-            
-            <div class="announcements-list">
-                {% if announcements %}
-                    {% for announcement in announcements %}
-                        <div class="announcement">
-                            <div class="announcement-header">
-                                <h3 class="announcement-title">{{ announcement.title }}</h3>
-                                <span class="announcement-date">{{ announcement.created_at.strftime('%B %d, %Y') }}</span>
-                            </div>
-                            <div class="announcement-content">
-                                {{ announcement.content }}
-                            </div>
-                        </div>
-                    {% endfor %}
-                {% else %}
-                    <div class="no-announcements">
-                        <i class="fas fa-bullhorn" style="font-size: 3rem; color: #6c757d; margin-bottom: 20px;"></i>
-                        <h3>No Announcements</h3>
-                        <p>There are no announcements at this time. Check back later.</p>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-    
     <script>
         // Auto-hide flash messages after 5 seconds
         setTimeout(function() {

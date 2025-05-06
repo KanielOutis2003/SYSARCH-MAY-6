@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lab Schedules - CSS SIT-IN MONITORING SYSTEM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -14,22 +15,27 @@
             background-repeat: no-repeat;
             background-color: rgba(0, 0, 0, 0.5);
             background-blend-mode: overlay;
-            color: #333;
-            display: flex;
-            flex-direction: column;
             min-height: 100vh;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
         .header {
             background-color: rgba(255, 255, 255, 0.95);
-            padding: 15px 30px;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .logo-container {
+        .logo-section {
             display: flex;
             align-items: center;
             gap: 15px;
@@ -46,198 +52,109 @@
         .user-info {
             text-align: right;
             color: #003366;
-            display: flex;
-            align-items: center;
-            gap: 15px;
         }
 
-        .user-details {
-            text-align: right;
-        }
-
-        .logout-btn {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .logout-btn:hover {
-            background-color: #c82333;
-        }
-
-        .main-content {
-            flex: 1;
-            padding: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .container {
+        .content-section {
             background-color: rgba(255, 255, 255, 0.95);
+            padding: 25px;
             border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
         }
 
-        .back-link {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: #003366;
-            text-decoration: none;
-            font-weight: 600;
-            transition: transform 0.2s ease;
-        }
-
-        .back-link:hover {
-            text-decoration: underline;
-            transform: translateX(-5px);
-        }
-
-        h1 {
+        h2 {
             color: #003366;
             margin-top: 0;
-            margin-bottom: 30px;
             border-bottom: 2px solid #003366;
             padding-bottom: 10px;
         }
 
-        .schedules-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .schedules-table th,
-        .schedules-table td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        .schedules-table th {
+        .back-btn {
             background-color: #003366;
             color: white;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 14px;
-            letter-spacing: 0.5px;
-        }
-
-        .schedules-table tr:hover {
-            background-color: rgba(0, 51, 102, 0.05);
-            transform: scale(1.01);
-            transition: all 0.2s ease;
-        }
-
-        .schedules-table tr:nth-child(even) {
-            background-color: #f8f9fa;
-        }
-
-        .schedules-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .day-filter {
-            margin-bottom: 25px;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .day-btn {
-            background-color: #e9ecef;
             border: none;
-            padding: 10px 18px;
-            border-radius: 30px;
+            padding: 10px 16px;
+            border-radius: 4px;
             cursor: pointer;
+            font-weight: 600;
             transition: all 0.3s ease;
-            font-weight: 600;
-            font-size: 14px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .day-btn:hover {
-            background-color: #ced4da;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .day-btn.active {
-            background-color: #003366;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .lab-filter {
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .lab-filter label {
-            font-weight: 600;
-            color: #003366;
-        }
-
-        .lab-select {
-            padding: 10px 15px;
-            border-radius: 30px;
-            border: 1px solid #ced4da;
-            width: 220px;
-            font-size: 14px;
-            background-color: white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .lab-select:focus {
-            outline: none;
-            border-color: #003366;
-            box-shadow: 0 0 0 2px rgba(0, 51, 102, 0.25);
-        }
-
-        .no-schedules {
-            text-align: center;
-            padding: 70px 0;
-            color: #6c757d;
-        }
-
-        .no-schedules i {
-            font-size: 60px;
-            color: #e9ecef;
+            text-decoration: none;
+            display: inline-block;
             margin-bottom: 20px;
         }
 
-        .filter-container {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e9ecef;
+        .back-btn:hover {
+            background-color: #002244;
         }
 
-        .filter-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #003366;
-            margin-bottom: 15px;
+        .schedule-container {
             display: flex;
-            align-items: center;
-            gap: 8px;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 20px;
         }
 
-        /* Flash message styles */
+        .lab-section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .lab-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .lab-title {
+            color: #003366;
+            font-size: 1.5rem;
+            margin: 0 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .schedule-table th, .schedule-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .schedule-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .schedule-table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .day-of-week {
+            font-weight: 500;
+            color: #003366;
+        }
+
+        .time-slot {
+            color: #495057;
+        }
+
+        .course-name {
+            font-weight: 500;
+            color: #343a40;
+        }
+
+        .instructor {
+            color: #6c757d;
+        }
+
         .flash-container {
             position: fixed;
             top: 20px;
@@ -246,115 +163,77 @@
         }
 
         .flash-message {
-            background-color: #ffffff;
-            border-left: 4px solid;
             padding: 15px 25px;
             margin-bottom: 10px;
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            transition: opacity 0.3s ease;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.3s ease;
+            transition: opacity 0.5s ease;
         }
 
         .flash-success {
-            border-left-color: #28a745;
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
         }
 
         .flash-error {
-            border-left-color: #dc3545;
-        }
-
-        .flash-warning {
-            border-left-color: #ffc107;
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
         }
 
         .flash-info {
-            border-left-color: #17a2b8;
-        }
-
-        @media (max-width: 768px) {
-            .main-content {
-                padding: 15px;
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
             }
             
-            .header {
-                flex-direction: column;
-                padding: 15px;
-            }
-            
-            .user-info {
-                margin-top: 15px;
-            }
-            
-            .schedules-table {
-                display: block;
-                overflow-x: auto;
-            }
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+        }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+        }
         }
 
-        .curriculum-schedule {
-            margin-top: 20px;
-        }
-
-        .curriculum-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            border: 1px solid #dee2e6;
-        }
-        
-        .curriculum-table th, 
-        .curriculum-table td {
-            border: 1px solid #dee2e6;
-            padding: 10px;
+        .empty-state {
             text-align: center;
+            padding: 50px 0;
+            color: #6c757d;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #adb5bd;
+        }
+
+        .empty-state p {
+            font-size: 18px;
+            margin-bottom: 20px;
         }
         
-        .curriculum-table th {
-            background-color: #003366;
-            color: white;
-            font-weight: bold;
+        .day-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
         }
         
-        .time-header {
-            width: 120px;
-        }
-        
-        .time-cell {
-            background-color: #f8f9fa;
-            font-weight: bold;
-        }
-        
-        .schedule-cell {
-            height: 80px;
-            vertical-align: top;
-            padding: 5px;
-        }
-        
-        .schedule-item {
-            background-color: #e6f7ff;
-            border-left: 4px solid #1890ff;
-            padding: 5px;
-            margin: 2px 0;
-            text-align: left;
-            font-size: 12px;
-            border-radius: 3px;
-        }
-        
-        .schedule-lab {
-            font-weight: bold;
-            color: #003366;
-        }
-        
-        .schedule-time {
-            font-size: 11px;
-            color: #666;
-        }
-        
-        .schedule-instructor {
-            font-style: italic;
-        }
+        .monday { background-color: #e3f2fd; color: #0d47a1; }
+        .tuesday { background-color: #e8f5e9; color: #1b5e20; }
+        .wednesday { background-color: #fff3e0; color: #e65100; }
+        .thursday { background-color: #f3e5f5; color: #4a148c; }
+        .friday { background-color: #ffebee; color: #b71c1c; }
+        .saturday { background-color: #e0f7fa; color: #006064; }
+        .sunday { background-color: #fce4ec; color: #880e4f; }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <!-- Flash Messages Container -->
@@ -362,202 +241,100 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                    <div class="flash-message flash-{{ category }}">
-                        {{ message }}
-                    </div>
+                    <div class="flash-message flash-{{ category }}">{{ message }}</div>
                 {% endfor %}
             {% endif %}
         {% endwith %}
     </div>
 
+    <div class="dashboard-container">
     <div class="header">
-        <div class="logo-container">
-            <img src="/static/CSS.png" alt="CSS Logo" class="logo">
-            <h2>CSS Sit-In Monitoring System</h2>
+            <div class="logo-section">
+                <img src="{{ url_for('static', filename='CSS.png') }}" alt="CSS Logo" class="logo">
+                <div>
+                    <h1 style="margin: 0; color: #003366;">Lab Schedules</h1>
+                    <p style="margin: 5px 0 0; color: #666;">CSS SIT-IN MONITORING SYSTEM</p>
+                </div>
         </div>
         <div class="user-info">
-            <div class="user-details">
-                <h3>{{ student.firstname }} {{ student.lastname }}</h3>
-                <p>{{ student.idno }}</p>
+                <p style="margin-bottom: 5px;">Welcome, <strong>{{ session.firstname }} {{ session.lastname }}</strong></p>
+                <a href="{{ url_for('student_dashboard') }}" style="color: #003366; text-decoration: none; margin-right: 15px;"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="{{ url_for('logout') }}" style="color: #dc3545; text-decoration: none;"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </div>
-            <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
         </div>
-    </div>
 
-    <div class="main-content">
-        <a href="{{ url_for('student_dashboard') }}" class="back-link">
-            <i class="fas fa-arrow-left"></i> Back to Dashboard
-        </a>
-        
-        <div class="container">
-            <h1>Lab Schedules</h1>
+        <div class="content-section">
+            <h2>Lab Schedules</h2>
+            <a href="{{ url_for('student_dashboard') }}" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+            <a href="{{ url_for('combined_lab_schedules') }}" class="back-btn" style="background-color: #28a745; margin-left: 10px;"><i class="fas fa-calendar-alt"></i> View Combined Calendar</a>
+            <a href="{{ url_for('export_lab_schedules_pdf') }}" class="back-btn" style="background-color: #dc3545; margin-left: 10px;"><i class="fas fa-file-pdf"></i> Export to PDF</a>
             
-            <div class="filter-container">
-                <div class="filter-title">
-                    <i class="fas fa-filter"></i> Filter Options
-                </div>
-                
-                <div class="lab-filter">
-                    <label for="labRoomFilter">Lab Room:</label>
-                    <select id="labRoomFilter" class="lab-select" onchange="filterSchedules()">
-                        <option value="all">All Lab Rooms</option>
-                        {% for lab in lab_rooms %}
-                            <option value="{{ lab.code }}">{{ lab.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-            
-            <!-- Curriculum-style Schedule Table -->
-            <div class="curriculum-schedule">
-                <table class="curriculum-table">
-                    <thead>
-                        <tr>
-                            <th class="time-header">Time / Day</th>
-                            <th>Monday</th>
-                            <th>Tuesday</th>
-                            <th>Wednesday</th>
-                            <th>Thursday</th>
-                            <th>Friday</th>
-                            <th>Saturday</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% set time_slots = ['07:00 - 08:00', '08:00 - 09:00', '09:00 - 10:00', '10:00 - 11:00', '11:00 - 12:00', 
-                                            '12:00 - 13:00', '13:00 - 14:00', '14:00 - 15:00', '15:00 - 16:00', '16:00 - 17:00', 
-                                            '17:00 - 18:00', '18:00 - 19:00', '19:00 - 20:00'] %}
-                        
-                        {% for time_slot in time_slots %}
-                        <tr class="time-row">
-                            <td class="time-cell">{{ time_slot }}</td>
+            {% if lab_schedules|length > 0 %}
+                <div class="schedule-container">
+                    {% for lab_room, schedules in lab_schedules.items() %}
+                        <div class="lab-section">
+                            <h3 class="lab-title">{{ lab_room|lab_room }}</h3>
                             
-                            {% for day in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] %}
-                            <td class="schedule-cell" data-day="{{ day }}" data-time="{{ time_slot }}">
+                            {% if schedules|length > 0 %}
+                                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                                            <th>Day</th>
+                                            <th>Time</th>
+                                            <th>Subject</th>
+                                            <th>Instructor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                                 {% for schedule in schedules %}
-                                    {% if schedule.day_of_week == day %}
-                                        {% set start_hour = schedule.start_time.hour|int if schedule.start_time.hour is defined else (schedule.start_time|string).split(':')[0]|int if schedule.start_time is string else schedule.start_time.seconds // 3600 %}
-                                        {% set end_hour = schedule.end_time.hour|int if schedule.end_time.hour is defined else (schedule.end_time|string).split(':')[0]|int if schedule.end_time is string else schedule.end_time.seconds // 3600 %}
-                                        
-                                        {% set slot_start_hour = time_slot.split(' - ')[0].split(':')[0]|int %}
-                                        {% set slot_end_hour = time_slot.split(' - ')[1].split(':')[0]|int %}
-                                        
-                                        {% if (start_hour <= slot_start_hour and end_hour > slot_start_hour) or 
-                                             (start_hour >= slot_start_hour and start_hour < slot_end_hour) %}
-                                            <div class="schedule-item" data-lab="{{ schedule.lab_room }}">
-                                                <div class="schedule-lab">{{ schedule.lab_room|lab_room }}</div>
-                                                <div class="schedule-time">{{ schedule.start_time|format_schedule_time }} - {{ schedule.end_time|format_schedule_time }}</div>
-                                                <div class="schedule-instructor">{{ schedule.instructor }}</div>
-                                            </div>
-                                        {% endif %}
-                                    {% endif %}
-                                {% endfor %}
+                                            <tr>
+                                                <td>
+                                                    {% set day_class = {
+                                                        1: 'monday',
+                                                        2: 'tuesday',
+                                                        3: 'wednesday',
+                                                        4: 'thursday',
+                                                        5: 'friday',
+                                                        6: 'saturday',
+                                                        0: 'sunday'
+                                                    } %}
+                                                    {% set day_name = {
+                                                        1: 'Monday',
+                                                        2: 'Tuesday',
+                                                        3: 'Wednesday',
+                                                        4: 'Thursday',
+                                                        5: 'Friday',
+                                                        6: 'Saturday',
+                                                        0: 'Sunday'
+                                                    } %}
+                                                    <span class="day-badge {{ day_class[schedule.day_of_week] }}">
+                                                        {{ day_name[schedule.day_of_week] }}
+                                                    </span>
+                                                </td>
+                                                <td class="time-slot">
+                                                    {{ schedule.start_time|format_schedule_time }} - {{ schedule.end_time|format_schedule_time }}
                             </td>
-                            {% endfor %}
+                                                <td class="course-name">{{ schedule.subject }}</td>
+                                                <td class="instructor">{{ schedule.instructor }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
+                            {% else %}
+                                <p>No schedules available for this lab.</p>
+                            {% endif %}
             </div>
-            
-            <!-- Tabular Lab Schedules Display -->
-            <div class="tabular-schedule" style="margin-top: 40px;">
-                <h2 style="color: #003366; border-bottom: 2px solid #003366; padding-bottom: 10px;">Lab Schedules List</h2>
-                
-                <table class="schedules-table">
-                    <thead>
-                        <tr>
-                            <th>Day</th>
-                            <th>Lab Room</th>
-                            <th>Start Time</th>
-                            <th>End Time</th>
-                            <th>Instructor</th>
-                            <th>Subject</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if schedules %}
-                            {% for schedule in schedules %}
-                                <tr class="schedule-row" data-lab="{{ schedule.lab_room }}">
-                                    <td>{{ schedule.day_of_week }}</td>
-                                    <td>{{ schedule.lab_room|lab_room }}</td>
-                                    <td>{{ schedule.start_time|format_schedule_time }}</td>
-                                    <td>{{ schedule.end_time|format_schedule_time }}</td>
-                                    <td>{{ schedule.instructor }}</td>
-                                    <td>{{ schedule.subject|default('N/A') }}</td>
-                                </tr>
                             {% endfor %}
+                </div>
                         {% else %}
-                            <tr>
-                                <td colspan="6" class="no-schedules">
-                                    <i class="fas fa-calendar-times"></i>
-                                    <p>No lab schedules available</p>
-                                </td>
-                            </tr>
+                <div class="empty-state">
+                    <i class="fas fa-calendar-alt"></i>
+                    <p>No lab schedules available at this time</p>
+                    <p>Check back later for updated lab schedules</p>
+                </div>
                         {% endif %}
-                    </tbody>
-                </table>
+        </div>
             </div>
-            
-            <style>
-                .curriculum-table {
-                    width: 100%;
-                    border-collapse: collapse;
-                    margin-top: 20px;
-                    border: 1px solid #dee2e6;
-                }
-                
-                .curriculum-table th, 
-                .curriculum-table td {
-                    border: 1px solid #dee2e6;
-                    padding: 10px;
-                    text-align: center;
-                }
-                
-                .curriculum-table th {
-                    background-color: #003366;
-                    color: white;
-                    font-weight: bold;
-                }
-                
-                .time-header {
-                    width: 120px;
-                }
-                
-                .time-cell {
-                    background-color: #f8f9fa;
-                    font-weight: bold;
-                }
-                
-                .schedule-cell {
-                    height: 80px;
-                    vertical-align: top;
-                    padding: 5px;
-                }
-                
-                .schedule-item {
-                    background-color: #e6f7ff;
-                    border-left: 4px solid #1890ff;
-                    padding: 5px;
-                    margin: 2px 0;
-                    text-align: left;
-                    font-size: 12px;
-                    border-radius: 3px;
-                }
-                
-                .schedule-lab {
-                    font-weight: bold;
-                    color: #003366;
-                }
-                
-                .schedule-time {
-                    font-size: 11px;
-                    color: #666;
-                }
-                
-                .schedule-instructor {
-                    font-style: italic;
-                }
-            </style>
             
             <script>
                 // Auto-hide flash messages after 5 seconds
@@ -570,37 +347,6 @@
                         }, 500);
                     });
                 }, 5000);
-                
-                // Filter schedules by lab
-                function filterSchedules() {
-                    const selectedLab = document.getElementById('labRoomFilter').value;
-                    
-                    // Filter calendar view items
-                    const scheduleItems = document.querySelectorAll('.schedule-item');
-                    scheduleItems.forEach(item => {
-                        const itemLab = item.getAttribute('data-lab');
-                        
-                        if (selectedLab === 'all' || itemLab === selectedLab) {
-                            item.style.display = '';
-                        } else {
-                            item.style.display = 'none';
-                        }
-                    });
-                    
-                    // Filter tabular view rows
-                    const scheduleRows = document.querySelectorAll('.schedule-row');
-                    scheduleRows.forEach(row => {
-                        const rowLab = row.getAttribute('data-lab');
-                        
-                        if (selectedLab === 'all' || rowLab === selectedLab) {
-                            row.style.display = '';
-                        } else {
-                            row.style.display = 'none';
-                        }
-                    });
-                }
             </script>
-        </div>
-    </div>
 </body>
 </html> 

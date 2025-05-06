@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combined Lab Schedules - CSS SIT-IN MONITORING SYSTEM</title>
+    <!-- Include FullCalendar CSS and JS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-image: url('/static/uc.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: rgba(0, 0, 0, 0.5);
+            background-blend-mode: overlay;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #003366;
+        }
+
+        .title-section h1 {
+            color: #003366;
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        .title-section p {
+            color: #666;
+            margin: 5px 0 0;
+            font-size: 1.1rem;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background-color: #003366;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .back-btn:hover {
+            background-color: #002244;
+        }
+
+        .logout-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+
+        .main-content {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .calendar-container {
+            margin-top: 20px;
+        }
+
+        #calendar {
+            max-width: 100%;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 3px;
+        }
+
+        .export-options {
+            margin-top: 20px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .export-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background-color 0.3s;
+            color: white;
+        }
+
+        .export-btn-pdf {
+            background-color: #dc3545;
+        }
+
+        .export-btn-pdf:hover {
+            background-color: #c82333;
+        }
+
+        .fc-event {
+            cursor: pointer;
+        }
+
+        .fc-timegrid-slot {
+            height: 40px !important;
+        }
+
+        .fc-timegrid-slot-label {
+            vertical-align: middle;
+        }
+
+        .fc-col-header-cell {
+            font-weight: bold;
+            background-color: #003366;
+            color: white;
+        }
+
+        .fc-day-today {
+            background-color: rgba(0, 51, 102, 0.1) !important;
+        }
+
+        .fc-event-title {
+            font-weight: bold;
+        }
+
+        /* Weekly view style overrides */
+        .weekly-view .schedule-container {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .weekly-view .day-column {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .weekly-view .day-header {
+            font-weight: bold;
+            text-align: center;
+            padding: 8px;
+            background-color: #003366;
+            color: white;
+            border-radius: 5px 5px 0 0;
+            margin-bottom: 10px;
+        }
+
+        .weekly-view .schedule-item {
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border-left: 4px solid #003366;
+        }
+
+        .weekly-view .schedule-time {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .weekly-view .schedule-details {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-section">
+                <img src="{{ url_for('static', filename='CSS.png') }}" alt="CSS Logo" class="logo">
+                <div class="title-section">
+                    <h1>Lab Schedules</h1>
+                    <p>CSS SIT-IN MONITORING SYSTEM</p>
+                </div>
+            </div>
+            <div>
+                <a href="{{ url_for('student_dashboard') }}" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+                <a href="{{ url_for('logout') }}"><button class="logout-btn">Logout</button></a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="export-options">
+                <a href="{{ url_for('export_lab_schedules_pdf') }}" class="export-btn export-btn-pdf">
+                    <i class="fas fa-file-pdf"></i> Export to PDF
+                </a>
+            </div>
+
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #4285F4;"></div>
+                    <span>Lab 1 (524)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #EA4335;"></div>
+                    <span>Lab 2 (526)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #FBBC05;"></div>
+                    <span>Lab 3 (528)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #34A853;"></div>
+                    <span>Lab 4 (530)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #9C27B0;"></div>
+                    <span>Lab 5 (532)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #FF9800;"></div>
+                    <span>Lab 6 (540)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #00BCD4;"></div>
+                    <span>Lab 7 (544)</span>
+                </div>
+            </div>
+
+            <div class="calendar-container">
+                <div id="calendar"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get schedule data from the server
+            const schedules = {{ schedules|tojson }};
+            
+            // Map lab rooms to colors
+            const labColors = {
+                'Lab 1': '#4285F4',  // Blue
+                'Lab 2': '#EA4335',  // Red
+                'Lab 3': '#FBBC05',  // Yellow
+                'Lab 4': '#34A853',  // Green
+                'Lab 5': '#9C27B0',  // Purple
+                'Lab 6': '#FF9800',  // Orange
+                'Lab 7': '#00BCD4'   // Cyan
+            };
+            
+            // Format events for FullCalendar
+            const events = [];
+            
+            // Add today's date as a starting point
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = today.getMonth();
+            const day = today.getDate();
+            
+            // Get the current day of the week (0 = Sunday, 1 = Monday, etc.)
+            const currentDayOfWeek = today.getDay();
+            
+            // Find the date of the most recent Monday (to set as the start of our week view)
+            const monday = new Date(year, month, day - (currentDayOfWeek === 0 ? 6 : currentDayOfWeek - 1));
+            
+            // Create events for the entire week
+            schedules.forEach(schedule => {
+                // Schedule day is 0-6 (Monday-Sunday) but JavaScript uses 0-6 (Sunday-Saturday)
+                let scheduleDay = parseInt(schedule.day);
+                
+                // Adjust to JavaScript's day numbering (0 = Sunday, 1 = Monday, etc.)
+                // Our scheduleDay is 0-6 (Monday-Sunday), need to convert to JavaScript's 0-6 (Sunday-Saturday)
+                const jsDay = scheduleDay === 6 ? 0 : scheduleDay + 1;
+                
+                // Calculate the date for this day of the week
+                const eventDate = new Date(monday);
+                eventDate.setDate(monday.getDate() + (jsDay - 1 + (jsDay === 0 ? 7 : 0)));
+                
+                // Get start and end times
+                const [startHour, startMinute] = schedule.start.split(':').map(Number);
+                const [endHour, endMinute] = schedule.end.split(':').map(Number);
+                
+                // Create start and end dates
+                const startDate = new Date(eventDate);
+                startDate.setHours(startHour, startMinute, 0);
+                
+                const endDate = new Date(eventDate);
+                endDate.setHours(endHour, endMinute, 0);
+                
+                // Create the event
+                events.push({
+                    title: schedule.title,
+                    start: startDate,
+                    end: endDate,
+                    backgroundColor: labColors[schedule.lab_room] || '#999',
+                    borderColor: labColors[schedule.lab_room] || '#999',
+                    extendedProps: {
+                        instructor: schedule.instructor,
+                        lab_room: schedule.lab_room,
+                        day_name: schedule.day_name
+                    }
+                });
+            });
+            
+            // Initialize FullCalendar
+            const calendarEl = document.getElementById('calendar');
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'timeGridWeek',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'timeGridWeek,timeGridDay'
+                },
+                slotMinTime: '07:00:00',
+                slotMaxTime: '21:00:00',
+                allDaySlot: false,
+                height: 'auto',
+                events: events,
+                eventTimeFormat: {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                },
+                slotLabelFormat: {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                },
+                eventClick: function(info) {
+                    // Show event details when clicked
+                    alert(`
+                        Class: ${info.event.title}
+                        Day: ${info.event.extendedProps.day_name}
+                        Time: ${info.event.start.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - ${info.event.end.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                        Lab Room: ${info.event.extendedProps.lab_room}
+                        Instructor: ${info.event.extendedProps.instructor || 'N/A'}
+                    `);
+                }
+            });
+            
+            calendar.render();
+        });
+    </script>
+</body>
+</html> 

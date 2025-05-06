@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile - CSS SIT-IN MONITORING SYSTEM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -14,22 +15,27 @@
             background-repeat: no-repeat;
             background-color: rgba(0, 0, 0, 0.5);
             background-blend-mode: overlay;
-            color: #333;
-            display: flex;
-            flex-direction: column;
             min-height: 100vh;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
         .header {
             background-color: rgba(255, 255, 255, 0.95);
-            padding: 15px 30px;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .logo-container {
+        .logo-section {
             display: flex;
             align-items: center;
             gap: 15px;
@@ -46,146 +52,141 @@
         .user-info {
             text-align: right;
             color: #003366;
-            display: flex;
-            align-items: center;
-            gap: 15px;
         }
 
-        .user-details {
-            text-align: right;
-        }
-
-        .logout-btn {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .logout-btn:hover {
-            background-color: #c82333;
-        }
-
-        .main-content {
-            flex: 1;
-            padding: 30px;
-            max-width: 1000px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .container {
+        .content-section {
             background-color: rgba(255, 255, 255, 0.95);
+            padding: 25px;
             border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
         }
 
-        .back-link {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: #003366;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .back-link:hover {
-            text-decoration: underline;
-        }
-
-        h1 {
+        h2 {
             color: #003366;
             margin-top: 0;
-            margin-bottom: 30px;
             border-bottom: 2px solid #003366;
             padding-bottom: 10px;
         }
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .form-section {
-            grid-column: 1 / -1;
-            margin-bottom: 20px;
-        }
-
-        .form-section h2 {
-            color: #003366;
-            margin-top: 0;
-            font-size: 1.2em;
-            margin-bottom: 15px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
+        .back-btn {
+            background-color: #003366;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 4px;
+            cursor: pointer;
             font-weight: 600;
-            color: #444;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        .form-control:focus {
-            border-color: #003366;
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(0, 51, 102, 0.2);
-        }
-
-        .profile-pic-container {
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
             margin-bottom: 20px;
+        }
+
+        .back-btn:hover {
+            background-color: #002244;
+        }
+
+        .profile-edit-form {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .profile-section {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .profile-picture-section {
+            flex: 0 0 200px;
             text-align: center;
         }
 
-        .profile-pic {
-            width: 150px;
-            height: 150px;
+        .current-profile-picture {
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid #003366;
             margin-bottom: 15px;
         }
 
-        .btn-container {
-            text-align: center;
-            margin-top: 30px;
+        .profile-info-section {
+            flex: 1;
         }
 
-        .btn-primary {
-            background-color: #003366;
+        .readonly-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            margin-bottom: 10px;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #003366;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            color: #495057;
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #003366;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .submit-btn {
+            background-color: #28a745;
             color: white;
             border: none;
-            padding: 12px 30px;
+            padding: 12px 24px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
             font-weight: 600;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            display: inline-block;
         }
 
-        .btn-primary:hover {
-            background-color: #004d99;
+        .submit-btn:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
         }
 
-        /* Flash message styles */
+        .password-section {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .password-section h3 {
+            color: #003366;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
         .flash-container {
             position: fixed;
             top: 20px;
@@ -194,47 +195,57 @@
         }
 
         .flash-message {
-            background-color: #ffffff;
-            border-left: 4px solid;
             padding: 15px 25px;
             margin-bottom: 10px;
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            transition: opacity 0.3s ease;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.3s ease;
+            transition: opacity 0.5s ease;
         }
 
         .flash-success {
-            border-left-color: #28a745;
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
         }
 
         .flash-error {
-            border-left-color: #dc3545;
-        }
-
-        .flash-warning {
-            border-left-color: #ffc107;
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
         }
 
         .flash-info {
-            border-left-color: #17a2b8;
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
         }
 
-        .readonly {
-            background-color: #f8f9fa;
-            cursor: not-allowed;
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
 
-        @media (max-width: 768px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .main-content {
-                padding: 15px;
-            }
+        .tip {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: #856404;
+        }
+
+        .tip i {
+            margin-right: 5px;
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <!-- Flash Messages Container -->
@@ -242,88 +253,81 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                    <div class="flash-message flash-{{ category }}">
-                        {{ message }}
-                    </div>
+                    <div class="flash-message flash-{{ category }}">{{ message }}</div>
                 {% endfor %}
             {% endif %}
         {% endwith %}
     </div>
 
-    <div class="header">
-        <div class="logo-container">
-            <img src="/static/CSS.png" alt="CSS Logo" class="logo">
-            <h2>CSS Sit-In Monitoring System</h2>
-        </div>
-        <div class="user-info">
-            <div class="user-details">
+    <div class="dashboard-container">
+        <div class="header">
+            <div class="logo-section">
+                <img src="/static/CSS.png" alt="CSS Logo" class="logo">
+                <h1>Edit Profile</h1>
+            </div>
+            <div class="user-info">
                 <h3>{{ student.firstname }} {{ student.lastname }}</h3>
                 <p>{{ student.idno }}</p>
             </div>
-            <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
         </div>
-    </div>
 
-    <div class="main-content">
-        <a href="{{ url_for('student_dashboard') }}" class="back-link">
-            <i class="fas fa-arrow-left"></i> Back to Dashboard
-        </a>
-        
-        <div class="container">
-            <h1>Edit Profile</h1>
+        <div class="content-section">
+            <a href="{{ url_for('student_dashboard') }}" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
             
-            <form action="{{ url_for('edit_profile') }}" method="POST" enctype="multipart/form-data">
-                <div class="profile-pic-container">
-                    <img src="/static/profile_pictures/{{ student.profile_picture }}" alt="Profile Picture" class="profile-pic" id="profilePreview">
-                    <div class="form-group">
-                        <label for="profile_picture">Update Profile Picture</label>
-                        <input type="file" id="profile_picture" name="profile_picture" class="form-control" accept="image/*" onchange="previewImage(this)">
-                    </div>
-                </div>
-                
-                <div class="form-grid">
-                    <div class="form-section">
-                        <h2>Personal Information</h2>
-                        
-                        <div class="form-group">
-                            <label for="idno">ID Number</label>
-                            <input type="text" id="idno" name="idno" class="form-control readonly" value="{{ student.idno }}" readonly>
+            <div class="profile-edit-form">
+                <form action="{{ url_for('edit_profile') }}" method="POST" enctype="multipart/form-data">
+                    <div class="profile-section">
+                        <div class="profile-picture-section">
+                            <img src="/static/profile_pictures/{{ student.profile_picture }}" alt="Profile Picture" class="current-profile-picture" id="profile-preview">
+                            <div class="form-group">
+                                <label for="profile_picture">Change Profile Picture</label>
+                                <input type="file" id="profile_picture" name="profile_picture" class="form-control" accept="image/*" onchange="previewImage()">
+                            </div>
                         </div>
                         
-                        <div class="form-group">
-                            <label for="firstname">First Name</label>
-                            <input type="text" id="firstname" name="firstname" class="form-control" value="{{ student.firstname }}" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="lastname">Last Name</label>
-                            <input type="text" id="lastname" name="lastname" class="form-control" value="{{ student.lastname }}" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="middlename">Middle Name (Optional)</label>
-                            <input type="text" id="middlename" name="middlename" class="form-control" value="{{ student.middlename }}">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" class="form-control" value="{{ student.email }}" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="course">Course</label>
-                            <input type="text" id="course" name="course" class="form-control readonly" value="{% if student.course == '1' %}BSIT{% elif student.course == '2' %}BSCS{% elif student.course == '3' %}BSCE{% else %}{{ student.course }}{% endif %}" readonly>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="year_level">Year Level</label>
-                            <input type="text" id="year_level" name="year_level" class="form-control readonly" value="{{ student.year_level }}" readonly>
+                        <div class="profile-info-section">
+                            <div class="readonly-info">
+                                <div class="info-item">
+                                    <span class="info-label">ID Number</span>
+                                    <span class="info-value">{{ student.idno }}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Name</span>
+                                    <span class="info-value">{{ student.firstname }} {% if student.middlename %}{{ student.middlename }} {% endif %}{{ student.lastname }}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Course</span>
+                                    <span class="info-value">
+                                        {% if student.course == '1' %}
+                                            BSIT
+                                        {% elif student.course == '2' %}
+                                            BSCS
+                                        {% elif student.course == '3' %}
+                                            BSCE
+                                        {% else %}
+                                            {{ student.course }}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Year Level</span>
+                                    <span class="info-value">{{ student.year_level }}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" name="email" class="form-control" value="{{ student.email }}">
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="form-section">
-                        <h2>Change Password</h2>
-                        <p>Leave these fields blank if you don't want to change your password.</p>
+                    <div class="password-section">
+                        <h3>Change Password</h3>
+                        
+                        <div class="tip">
+                            <i class="fas fa-info-circle"></i> Leave these fields blank if you don't want to change your password.
+                        </div>
                         
                         <div class="form-group">
                             <label for="current_password">Current Password</label>
@@ -340,15 +344,17 @@
                             <input type="password" id="confirm_password" name="confirm_password" class="form-control">
                         </div>
                     </div>
-                </div>
-                
-                <div class="btn-container">
-                    <button type="submit" class="btn-primary">Save Changes</button>
-                </div>
-            </form>
+                    
+                    <div style="text-align: center; margin-top: 30px;">
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-    
+
     <script>
         // Auto-hide flash messages after 5 seconds
         setTimeout(function() {
@@ -360,17 +366,20 @@
                 }, 500);
             });
         }, 5000);
-        
-        // Preview profile picture
-        function previewImage(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
+
+        // Preview profile picture before upload
+        function previewImage() {
+            const fileInput = document.getElementById('profile_picture');
+            const previewImg = document.getElementById('profile-preview');
+            
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
                 
                 reader.onload = function(e) {
-                    document.getElementById('profilePreview').src = e.target.result;
-                }
+                    previewImg.src = e.target.result;
+                };
                 
-                reader.readAsDataURL(input.files[0]);
+                reader.readAsDataURL(fileInput.files[0]);
             }
         }
     </script>

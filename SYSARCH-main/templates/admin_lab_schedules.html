@@ -396,73 +396,32 @@
         <div class="header">
             <div class="logo-section">
                 <img src="/static/CSS.png" alt="CSS Logo" class="logo">
-                <h1>Admin Dashboard</h1>
+                <h1>Lab Schedules Management</h1>
             </div>
             <div>
+                <a href="{{ url_for('admin_dashboard') }}" style="color: #003366; text-decoration: none; margin-right: 15px;"><i class="fas fa-home"></i> Dashboard</a>
                 <a href="{{ url_for('logout') }}"><button class="logout-btn">Logout</button></a>
             </div>
         </div>
 
-        <!-- Main Navigation Menu -->
-        <div class="admin-header">
-            <div class="admin-nav">
-                <a href="{{ url_for('admin_dashboard') }}" class="nav-item">
-                    <i class="fas fa-tachometer-alt"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="{{ url_for('admin_dashboard') }}#sessions" class="nav-item">
-                    <i class="fas fa-calendar-check"></i>
-                    <span>Current Sessions</span>
-                </a>
-                <a href="{{ url_for('admin_dashboard') }}#pending" class="nav-item">
-                    <i class="fas fa-clock"></i>
-                    <span>Pending Requests</span>
-                </a>
-                <a href="{{ url_for('admin_dashboard') }}#forms" class="nav-item">
-                    <i class="fas fa-file-alt"></i>
-                    <span>Reservations</span>
-                </a>
-                <a href="{{ url_for('admin_dashboard') }}#students" class="nav-item">
-                    <i class="fas fa-user-graduate"></i>
-                    <span>Students</span>
-                </a>
-                <a href="{{ url_for('admin_dashboard') }}#feedback" class="nav-item">
-                    <i class="fas fa-comment-alt"></i>
-                    <span>Feedback</span>
-                </a>
-                <a href="{{ url_for('admin_dashboard') }}#announcements" class="nav-item">
-                    <i class="fas fa-bullhorn"></i>
-                    <span>Announcements</span>
-                </a>
-                <a href="{{ url_for('admin_dashboard') }}#reports" class="nav-item">
-                    <i class="fas fa-chart-bar"></i>
-                    <span>Reports</span>
-                </a>
-                <a href="{{ url_for('admin_leaderboard') }}" class="nav-item">
-                    <i class="fas fa-trophy"></i>
-                    <span>Leaderboard</span>
-                </a>
-                <a href="{{ url_for('lab_resources') }}" class="nav-item">
-                    <i class="fas fa-book"></i>
-                    <span>Lab Resources</span>
-                </a>
-                <a href="{{ url_for('admin_lab_schedules') }}" class="nav-item active">
-                    <i class="fas fa-calendar-alt"></i>
-                    <span>Lab Schedules</span>
-                </a>
-                <a href="{{ url_for('sit_in_history') }}" class="nav-item">
-                    <i class="fas fa-history"></i>
-                    <span>Sit-In History</span>
-                </a>
-                <a href="{{ url_for('todays_sit_ins') }}" class="nav-item">
-                    <i class="fas fa-clipboard-list"></i>
-                    <span>Today's Sit-ins</span>
-                </a>
-                <a href="{{ url_for('admin_dashboard') }}#settings" class="nav-item">
-                    <i class="fas fa-cog"></i>
-                    <span>Settings</span>
-                </a>
-            </div>
+        <!-- Admin Navigation Header -->
+        <div class="admin-nav">
+            <a href="{{ url_for('admin_dashboard') }}" class="nav-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="{{ url_for('admin_leaderboard') }}" class="nav-item">
+                <i class="fas fa-trophy"></i>
+                <span>Leaderboard</span>
+            </a>
+            <a href="{{ url_for('admin_lab_resources') }}" class="nav-item">
+                <i class="fas fa-book"></i>
+                <span>Lab Resources</span>
+            </a>
+            <a href="{{ url_for('admin_lab_schedules') }}" class="nav-item active">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Lab Schedules</span>
+            </a>
         </div>
 
         <!-- Page Header -->
@@ -493,7 +452,7 @@
                             <tr>
                                 <td>{{ schedule.day_of_week }}</td>
                                 <td>{{ schedule.lab_room|lab_room }}</td>
-                                <td>{{ schedule.start_time|format_time }} - {{ schedule.end_time|format_time }}</td>
+                                <td>{{ schedule.start_time|format_schedule_time }} - {{ schedule.end_time|format_schedule_time }}</td>
                                 <td>{{ schedule.subject }}</td>
                                 <td>{{ schedule.instructor }}</td>
                                 <td>

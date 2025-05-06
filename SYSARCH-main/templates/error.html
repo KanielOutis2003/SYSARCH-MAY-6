@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - CSS SIT-IN MONITORING SYSTEM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-image: url('/static/uc.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: rgba(0, 0, 0, 0.5);
+            background-blend-mode: overlay;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .error-container {
+            max-width: 800px;
+            width: 90%;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .error-icon {
+            font-size: 60px;
+            color: #dc3545;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #dc3545;
+            margin-bottom: 15px;
+        }
+
+        .error-message {
+            font-size: 18px;
+            color: #495057;
+            margin-bottom: 30px;
+        }
+
+        .back-btn {
+            background-color: #003366;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .back-btn:hover {
+            background-color: #002244;
+            transform: translateY(-2px);
+        }
+
+        .debug-info {
+            margin-top: 30px;
+            text-align: left;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #6c757d;
+        }
+
+        .debug-info h3 {
+            margin-top: 0;
+            color: #495057;
+        }
+
+        .debug-info pre {
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 14px;
+            color: #666;
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <i class="fas fa-exclamation-triangle error-icon"></i>
+        <h1>Oops! An Error Occurred</h1>
+        <p class="error-message">{{ error_message }}</p>
+        
+        <div>
+            <a href="javascript:history.back()" class="back-btn"><i class="fas fa-arrow-left"></i> Go Back</a>
+            <a href="/" class="back-btn"><i class="fas fa-home"></i> Go to Home</a>
+        </div>
+        
+        {% if search_paths is defined and search_paths %}
+        <div class="debug-info">
+            <h3>Debug Information</h3>
+            <p>We searched the following paths but couldn't find the file:</p>
+            <pre>{% for path in search_paths %}{{ path }}
+{% endfor %}</pre>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html> 

@@ -2017,25 +2017,25 @@
                     <i class="fas fa-chart-bar"></i>
                     <span>Reports</span>
                 </div>
-                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_leaderboard') }}';">
+                <div class="nav-item" onclick="window.location.href='/admin/leaderboard';">
                     <i class="fas fa-trophy"></i>
                     <span>Leaderboard</span>
                 </div>
-                <div class="nav-item" onclick="window.location.href='{{ url_for('lab_resources') }}';">
+                <div class="nav-item" onclick="window.location.href='/admin/lab-resources';">
                     <i class="fas fa-book"></i>
                     <span>Lab Resources</span>
                 </div>
-                <div class="nav-item" onclick="window.location.href='{{ url_for('admin_lab_schedules') }}';">
+                <div class="nav-item" onclick="window.location.href='/todays-sit-ins';">
+                    <i class="fas fa-calendar-day"></i>
+                    <span>Today's Sit-ins</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='/sit_in_history';">
+                    <i class="fas fa-history"></i>
+                    <span>Sit-in History</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='/admin_lab_schedules';">
                     <i class="fas fa-calendar-alt"></i>
                     <span>Lab Schedules</span>
-                </div>
-                <div class="nav-item" onclick="window.location.href='{{ url_for('sit_in_history') }}';">
-                    <i class="fas fa-history"></i>
-                    <span>Sit-In History</span>
-                </div>
-                <div class="nav-item" onclick="window.location.href='{{ url_for('todays_sit_ins') }}';">
-                    <i class="fas fa-clipboard-list"></i>
-                    <span>Today's Sit-ins</span>
                 </div>
                 <div class="nav-item" onclick="showTab('settings');">
                     <i class="fas fa-cog"></i>
@@ -2206,7 +2206,6 @@
                                     <th>Course</th>
                                     <th>Lab Room</th>
                                     <th>Date & Time</th>
-                                    <th>Duration</th>
                                     <th>Purpose</th>
                                     <th>Actions</th>
                                 </tr>
@@ -2229,8 +2228,7 @@
                                     </td>
                                     <td>{{ session.lab_room|lab_room }}</td>
                                     <td>{{ session.date_time_formatted }}</td>
-                                    <td>{{ session.duration }} hr</td>
-                                    <td title="{{ session.purpose }}">{{ session.purpose[:30] }}{% if session.purpose|length > 30 %}...{% endif %}</td>
+                                    <td>{{ session.purpose|default('N/A')|truncate(30) }}</td>
                                     <td>
                                         <div class="action-buttons">
                                             <form action="{{ url_for('approve_session', session_id=session.id) }}" method="post" style="display: inline;">
@@ -2278,7 +2276,6 @@
                                     <th>Course</th>
                                     <th>Lab Room</th>
                                     <th>Date & Time</th>
-                                    <th>Duration</th>
                                     <th>Purpose</th>
                                     <th>Status</th>
                                 </tr>
@@ -2301,21 +2298,16 @@
                                     </td>
                                     <td>{{ session.lab_room|lab_room }}</td>
                                     <td>{{ session.date_time_formatted }}</td>
-                                    <td>{{ session.duration }} hr</td>
                                     <td title="{{ session.purpose }}">{{ session.purpose[:30] }}{% if session.purpose|length > 30 %}...{% endif %}</td>
                                     <td>
                                         {% if session.approval_status == 'rejected' %}
                                             <span class="status-badge rejected">Rejected</span>
-                                        {% elif session.status == 'completed' %}
-                                            <span class="status-badge completed">Completed</span>
-                                        {% elif session.status == 'cancelled' %}
-                                            <span class="status-badge cancelled">Cancelled</span>
-                                        {% elif session.approval_status == 'approved' and session.status == 'pending' %}
-                                            <span class="status-badge approved">Approved (Awaiting Check-in)</span>
-                                        {% elif session.approval_status == 'approved' and session.status == 'active' %}
-                                            <span class="status-badge active">Active</span>
+                                        {% elif session.approval_status == 'approved' %}
+                                            <span class="status-badge approved">Approved</span>
+                                        {% elif session.approval_status == 'pending' %}
+                                            <span class="status-badge pending">Pending</span>
                                         {% else %}
-                                            <span class="status-badge {{ session.status }}">{{ session.status|capitalize }}</span>
+                                            <span class="status-badge {{ session.approval_status }}">{{ session.approval_status|capitalize }}</span>
                                         {% endif %}
                                     </td>
                                 </tr>
@@ -2332,77 +2324,7 @@
                 </div>
             </div>
             
-            <!-- Reservation Logs Section -->
-            <div class="admin-card">
-                <div class="card-header">
-                    <h2><i class="fas fa-history"></i> Reservation Logs</h2>
-                    
-                    <!-- Add search functionality -->
-                    <div class="search-box">
-                        <input type="text" id="formsLogsSearchInput" placeholder="Search logs..." class="search-input">
-                        <button onclick="searchFormsLogs()" class="search-btn"><i class="fas fa-search"></i></button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    {% if reservation_logs|length > 0 %}
-                    <div class="table-responsive">
-                        <table class="data-table" id="formsLogsTable">
-                            <thead>
-                                <tr>
-                                    <th>Student ID</th>
-                                    <th>Name</th>
-                                    <th>Course</th>
-                                    <th>Lab Room</th>
-                                    <th>Date & Time</th>
-                                    <th>Duration</th>
-                                    <th>Purpose</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for session in reservation_logs %}
-                                <tr>
-                                    <td>{{ session.idno }}</td>
-                                    <td>{{ session.lastname }}, {{ session.firstname }}</td>
-                                    <td>
-                                        {% if session.course == '1' %}
-                                            BSIT
-                                        {% elif session.course == '2' %}
-                                            BSCS
-                                        {% elif session.course == '3' %}
-                                            BSCE
-                                        {% else %}
-                                            {{ session.course }}
-                                        {% endif %}
-                                    </td>
-                                    <td>{{ session.lab_room|lab_room }}</td>
-                                    <td>{{ session.date_time_formatted }}</td>
-                                    <td>{{ session.duration }} hr</td>
-                                    <td title="{{ session.purpose }}">{{ session.purpose[:30] }}{% if session.purpose|length > 30 %}...{% endif %}</td>
-                                    <td>
-                                        {% if session.approval_status == 'rejected' %}
-                                            <span class="status-badge rejected">Rejected</span>
-                                        {% elif session.status == 'completed' %}
-                                            <span class="status-badge completed">Completed</span>
-                                        {% elif session.status == 'cancelled' %}
-                                            <span class="status-badge cancelled">Cancelled</span>
-                                        {% else %}
-                                            <span class="status-badge {{ session.status }}">{{ session.status|capitalize }}</span>
-                                        {% endif %}
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    {% else %}
-                    <div class="empty-state">
-                        <i class="fas fa-history"></i>
-                        <p>No reservation logs available.</p>
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
+            <!-- The second Reservation Logs Section is removed to fix duplication -->
         </div>
 
         <!-- Reports Tab -->
@@ -2848,7 +2770,7 @@
                             maintenance: 0
                         };
                         
-                        // Generate the HTML for the grid
+                        // Start building the HTML for the grid
                         let computerGridHTML = `
                             <div class="lab-room-title">
                                 <h3>${labRoom}</h3>
@@ -2869,44 +2791,55 @@
                                 </div>
                             </div>
                             
-                            <div class="bulk-actions mb-3">
-                                <button class="btn btn-warning" onclick="bulkMaintenance('${labRoom}')">
-                                    <i class="fas fa-tools"></i> Set All PCs to Maintenance
-                                </button>
-                                <button class="btn btn-success" onclick="bulkVacant('${labRoom}')">
-                                    <i class="fas fa-check"></i> Set All PCs to Available
-                                </button>
-                            </div>
-                            
                             <div class="computer-grid">
                         `;
                         
-                        // Loop through 1-50 PCs 
-                        for (let i = 1; i <= 50; i++) {
+                        // Process PC status data and build the grid
+                        for (let i = 0; i <= 30; i++) { // Display PCs from 0 to 30
                             const pcKey = i.toString();
-                            const pcData = data.pc_status[pcKey] || { status: 'vacant' };
-                            const status = pcData.status || 'vacant';
-                            const studentId = pcData.student_id || null;
-                            const sessionId = pcData.session_id || null;
-                            const purpose = pcData.purpose || '';
                             
-                            // Update count for this status
-                            statusCounts[status]++;
-                            
-                            // Create computer item with proper status
-                            computerGridHTML += `
-                                <div class="computer-item" 
-                                    data-pc="${i}" 
-                                    data-status="${status}"
-                                    data-student-id="${studentId || ''}"
-                                    data-session-id="${sessionId || ''}"
-                                    data-purpose="${purpose || ''}"
-                                    onclick="showComputerDetails('${labRoom}', ${i}, '${status}', '${studentId || ''}', '${sessionId || ''}', '${purpose || ''}')">
-                                    <i class="fas fa-desktop ${status}"></i>
-                                    <div>PC ${i}</div>
-                                    <div class="status-label ${status}">${getStatusLabel(status)}</div>
-                                </div>
-                            `;
+                            // If we have data for this PC, use it; otherwise create a default vacant PC
+                            if (pcKey in data.pc_status) {
+                                const pcData = data.pc_status[pcKey];
+                                const status = pcData.status || 'vacant';
+                                const studentId = pcData.student_id || null;
+                                const sessionId = pcData.session_id || null;
+                                const purpose = pcData.purpose || '';
+                                
+                                // Update count for this status
+                                if (status in statusCounts) {
+                                    statusCounts[status]++;
+                                }
+                                
+                                // Create computer item with proper status
+                                computerGridHTML += `
+                                    <div class="computer-item ${status}" 
+                                        data-pc="${i}" 
+                                        data-status="${status}"
+                                        data-student-id="${studentId || ''}"
+                                        data-session-id="${sessionId || ''}"
+                                        data-purpose="${purpose || ''}"
+                                        onclick="showComputerDetails('${labRoom}', ${i}, '${status}', '${studentId || ''}', '${sessionId || ''}', '${purpose || ''}')">
+                                        <i class="fas fa-desktop ${status}"></i>
+                                        <div>PC ${i}</div>
+                                        <div class="status-label ${status}">${getStatusLabel(status)}</div>
+                                    </div>
+                                `;
+                            } else {
+                                // Create a default vacant PC if it's not in the data
+                                statusCounts.vacant++;
+                                
+                                computerGridHTML += `
+                                    <div class="computer-item vacant" 
+                                        data-pc="${i}" 
+                                        data-status="vacant"
+                                        onclick="showComputerDetails('${labRoom}', ${i}, 'vacant', '', '', '')">
+                                        <i class="fas fa-desktop vacant"></i>
+                                        <div>PC ${i}</div>
+                                        <div class="status-label vacant">${getStatusLabel('vacant')}</div>
+                                    </div>
+                                `;
+                            }
                         }
                         
                         // Close the grid div
@@ -3066,7 +2999,7 @@
             
             // Function to set all PCs in a lab to maintenance mode
             function bulkMaintenance(labRoom) {
-                if (confirm("Are you sure you want to set all PCs in " + labRoom + " to maintenance mode? This will end any active sessions.")) {
+                if (confirm('Are you sure you want to set ALL PCs in ' + labRoom + ' to maintenance mode? This will end any active sessions.')) {
                     fetch('/admin/update_pc_status', {
                         method: 'POST',
                         headers: {
@@ -3091,7 +3024,7 @@
             
             // Function to set all PCs in a lab to vacant mode
             function bulkVacant(labRoom) {
-                if (confirm("Are you sure you want to set all PCs in " + labRoom + " to available? This will end any active sessions.")) {
+                if (confirm('Are you sure you want to set all PCs in ' + labRoom + ' to available? This will end any active sessions.')) {
                     fetch('/admin/update_pc_status', {
                         method: 'POST',
                         headers: {
@@ -3135,33 +3068,85 @@
                     return;
                 }
                 
-                // If setting all to maintenance, use the dedicated function
-                if (pcSelectionFilter === 'all' && actionType === 'maintenance') {
-                    bulkMaintenance(labRoom);
+                // Apply the bulk action - directly call server with is_bulk=true
+                if (pcSelectionFilter === 'all') {
+                    if (confirm(`Are you sure you want to set ALL PCs in ${labRoom} to ${actionType}?`)) {
+                        // Show loading indicator
+                        document.getElementById('computerControlContent').innerHTML = `
+                            <div class="loading-spinner">
+                                <i class="fas fa-spinner fa-spin"></i> Updating all PCs...
+                            </div>
+                        `;
+                        
+                        fetch('/admin/update_pc_status', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            body: `lab_room=${encodeURIComponent(labRoom)}&status=${encodeURIComponent(actionType)}&is_bulk=true`
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                return response.json().then(errorData => {
+                                    throw new Error(errorData.error || 'Network response was not ok');
+                                });
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.success) {
+                                displayComputers(labRoom); // Refresh the grid
+                                showToast(`All PCs set to ${actionType} successfully`, 'success');
+                            } else {
+                                showToast(`Failed to update PC status: ${data.error || 'Unknown error'}`, 'error');
+                                // Also reload to be safe
+                                displayComputers(labRoom);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            showToast(`An error occurred: ${error.message}`, 'error');
+                            // Reload anyway to recover from error
+                            displayComputers(labRoom);
+                        });
+                    }
                     return;
                 }
                 
-                // If setting all to occupied, use the dedicated function
-                if (pcSelectionFilter === 'all' && actionType === 'occupied') {
-                    bulkOccupied(labRoom);
-                    return;
-                }
+                // For selective updates (only available or only occupied PCs), fetch current status first
+                // Show loading indicator
+                document.getElementById('computerControlContent').innerHTML = `
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin"></i> Updating selected PCs...
+                    </div>
+                `;
                 
-                // Otherwise fetch current status and apply action to selected PCs
                 fetch(`/get_pc_status?lab_room=${labRoom}`)
-                    .then(response => response.json())
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(errorData => {
+                                throw new Error(errorData.error || 'Network response was not ok');
+                            });
+                        }
+                        return response.json();
+                    })
                     .then(data => {
+                        if (data.error) {
+                            throw new Error(data.error);
+                        }
+                        
                         let updatePromises = [];
+                        let pcCount = 0;
                         
                         for (let pcNumber in data.pc_status) {
                             const pcData = data.pc_status[pcNumber];
                             
                             // Filter PCs based on selection
                             if (
-                                (pcSelectionFilter === 'all') ||
                                 (pcSelectionFilter === 'available' && pcData.status === 'vacant') ||
                                 (pcSelectionFilter === 'occupied' && pcData.status === 'occupied')
                             ) {
+                                pcCount++;
                                 // Create a request to update each PC
                                 const updatePromise = fetch('/admin/update_pc_status', {
                                     method: 'POST',
@@ -3175,15 +3160,26 @@
                             }
                         }
                         
+                        if (updatePromises.length === 0) {
+                            showToast(`No PCs matched the selected filter`, 'warning');
+                            displayComputers(labRoom);
+                            return;
+                        }
+                        
                         // Wait for all updates to complete
-                        return Promise.all(updatePromises);
+                        return Promise.all(updatePromises).then(() => pcCount);
                     })
-                    .then(() => {
-                        displayComputers(labRoom); // Refresh the grid
+                    .then(pcCount => {
+                        if (pcCount) {
+                            displayComputers(labRoom); // Refresh the grid
+                            showToast(`Updated ${pcCount} PCs successfully`, 'success');
+                        }
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        alert('An error occurred while updating PCs. Please try again.');
+                        showToast(`An error occurred: ${error.message}`, 'error');
+                        // Reload anyway to recover from error
+                        displayComputers(labRoom);
                     });
             }
             
@@ -4101,7 +4097,7 @@
                     const existingApproveButton = actionsCell.querySelector('.approve-btn');
                     if (!existingApproveButton) {
                         const approveForm = document.createElement('form');
-                        approveForm.action = `/admin/approve-session/${sessionId}`;
+                        approveForm.action = `/approve-session/${sessionId}`;
                         approveForm.method = 'POST';
                         approveForm.style.display = 'inline';
                         
@@ -4117,7 +4113,7 @@
                         const existingRejectButton = actionsCell.querySelector('.delete-btn');
                         if (!existingRejectButton) {
                             const rejectForm = document.createElement('form');
-                            rejectForm.action = `/admin/reject-session/${sessionId}`;
+                            rejectForm.action = `/reject-session/${sessionId}`;
                             rejectForm.method = 'POST';
                             rejectForm.style.display = 'inline';
                             
@@ -4733,12 +4729,12 @@
                             <td>
                                 {% if session.approval_status == 'rejected' %}
                                     <span class="status-rejected">Rejected</span>
-                                {% elif session.status == 'completed' %}
-                                    <span class="status-completed">Completed</span>
-                                {% elif session.status == 'cancelled' %}
-                                    <span class="status-cancelled">Cancelled</span>
+                                {% elif session.approval_status == 'approved' %}
+                                    <span class="status-approved">Approved</span>
+                                {% elif session.approval_status == 'pending' %}
+                                    <span class="status-pending">Pending</span>
                                 {% else %}
-                                    <span class="status-{{ session.status }}">{{ session.status|capitalize }}</span>
+                                    <span class="status-{{ session.approval_status }}">{{ session.approval_status|capitalize }}</span>
                                 {% endif %}
                             </td>
                             <td>{{ session.created_at.strftime('%Y-%m-%d %H:%M') if session.created_at else 'N/A' }}</td>

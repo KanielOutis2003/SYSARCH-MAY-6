@@ -811,17 +811,7 @@
         <div id="announcements-section" class="announcements-section">
             <h2>Announcements</h2>
             
-            {% if announcements %}
-                {% for announcement in announcements %}
-                    <div class="announcement">
-                        <div class="announcement-title">{{ announcement.title }}</div>
-                        <div class="announcement-date">Posted on {{ announcement.created_at.strftime('%Y-%m-%d') }}</div>
-                        <div class="announcement-content">{{ announcement.content }}</div>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <p>No announcements at this time.</p>
-            {% endif %}
+            <p>Visit the <a href="{{ url_for('student_announcements') }}" style="color: #003366; font-weight: bold;">Announcements Page</a> to view all current announcements.</p>
         </div>
 
         <!-- Sessions Section -->
