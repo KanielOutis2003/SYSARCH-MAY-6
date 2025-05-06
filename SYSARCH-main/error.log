@@ -9090,3 +9090,7 @@
 2025-05-07 05:07:45,409 - werkzeug - INFO - 127.0.0.1 - - [07/May/2025 05:07:45] "GET /get_pc_status?lab_room=Lab%206 HTTP/1.1" 200 -
 2025-05-07 05:07:49,524 - werkzeug - INFO - 127.0.0.1 - - [07/May/2025 05:07:49] "GET /get_pc_status?lab_room=Lab%202 HTTP/1.1" 200 -
 2025-05-07 05:07:50,472 - werkzeug - INFO - 127.0.0.1 - - [07/May/2025 05:07:50] "GET /get_pc_status?lab_room=Lab%201 HTTP/1.1" 200 -
+2025-05-07 05:07:56,361 - werkzeug - INFO - 127.0.0.1 - - [07/May/2025 05:07:56] "POST /admin/update_pc_status HTTP/1.1" 200 -
+2025-05-07 05:07:56,458 - werkzeug - INFO - 127.0.0.1 - - [07/May/2025 05:07:56] "GET /get_pc_status?lab_room=Lab%201 HTTP/1.1" 200 -
+2025-05-07 05:07:59,778 - werkzeug - INFO - 127.0.0.1 - - [07/May/2025 05:07:59] "POST /admin/update_pc_status HTTP/1.1" 200 -
+2025-05-07 05:07:59,865 - werkzeug - INFO - 127.0.0.1 - - [07/May/2025 05:07:59] "GET /get_pc_status?lab_room=Lab%201 HTTP/1.1" 200 -
