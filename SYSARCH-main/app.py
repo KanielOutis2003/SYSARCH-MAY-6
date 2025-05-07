@@ -511,14 +511,29 @@ def student_dashboard():
             
         cursor = conn.cursor(dictionary=True)
         
-        # Get student information
-        cursor.execute("SELECT * FROM students WHERE id = %s", (session['user_id'],))
+        # Get student information with proper session count
+        cursor.execute("""
+            SELECT s.*, 
+                   COALESCE(COUNT(DISTINCT CASE WHEN ses.status = 'completed' OR ses.status = 'active' THEN ses.id END), 0) as sessions_used
+            FROM students s
+            LEFT JOIN sessions ses ON s.id = ses.student_id
+            WHERE s.id = %s
+            GROUP BY s.id
+        """, (session['user_id'],))
         student = cursor.fetchone()
         
         if not student:
             cursor.close()
             conn.close()
             return None
+        
+        # Update the sessions_used in the database
+        cursor.execute("""
+            UPDATE students 
+            SET sessions_used = %s 
+            WHERE id = %s
+        """, (student['sessions_used'], student['id']))
+        conn.commit()
         
         # Get student's sessions
         cursor.execute("""
@@ -577,9 +592,25 @@ def admin_dashboard():
         cursor = conn.cursor(dictionary=True)
         today_date = datetime.datetime.now().strftime('%A, %B %d, %Y')
         
-        # Get all students
-        cursor.execute("SELECT * FROM students ORDER BY lastname")
+        # Get all students with proper session counts
+        cursor.execute("""
+            SELECT s.*, 
+                   COALESCE(COUNT(DISTINCT CASE WHEN ses.status = 'completed' OR ses.status = 'active' THEN ses.id END), 0) as sessions_used
+            FROM students s
+            LEFT JOIN sessions ses ON s.id = ses.student_id
+            GROUP BY s.id
+            ORDER BY s.lastname
+        """)
         students = cursor.fetchall()
+        
+        # Update sessions_used for all students
+        for student in students:
+            cursor.execute("""
+                UPDATE students 
+                SET sessions_used = %s 
+                WHERE id = %s
+            """, (student['sessions_used'], student['id']))
+        conn.commit()
         
         # Check if approval_status column exists in sessions table
         has_approval_status = False
@@ -1095,6 +1126,13 @@ def check_out_student_with_reward(session_id):
             flash('Session not found or already completed', 'error')
             return redirect(url_for('admin_dashboard'))
         
+        # Increment the sessions_used count for the student
+        cursor.execute("""
+            UPDATE students 
+            SET sessions_used = sessions_used + 1 
+            WHERE id = %s
+        """, (student_id,))
+        
         # Get PC number directly from the session data first
         pc_number = session_data.get('pc_number')
             
@@ -1176,15 +1214,16 @@ def check_out_student_with_reward(session_id):
         try:
             cursor.execute("""
                 INSERT INTO activity_logs (user_id, student_id, lab_room, action, details, timestamp)
-                SELECT %s, student_id, lab_room, 'checkout_with_reward', %s, %s FROM sessions WHERE id = %s
+                VALUES (%s, %s, %s, %s, %s, %s)
             """, (
                 session.get('user_id', 0),
+                student_id,
+                session_data['lab_room'],
+                'checkout_with_reward',
                 f"Checked out with reward (1 point). Current points: {current_points}, Total earned: {total_points}",
-                check_out_time,
-                session_id
+                check_out_time
             ))
         except Exception as e:
-            # Don't fail if logging fails
             logging.error(f"Error logging activity: {str(e)}")
         
         conn.commit()
@@ -1205,16 +1244,17 @@ def student_leaderboard():
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
         
-        # Get top students by number of sessions
+        # Get top students by number of sessions and points
         cursor.execute("""
             SELECT s.id, s.idno, s.firstname, s.lastname, s.course, s.year_level,
+                   s.points, s.total_points,
                    COUNT(ss.id) AS total_sessions,
+                   SUM(CASE WHEN ss.status = 'completed' THEN 1 ELSE 0 END) AS completed_sessions,
                    SUM(TIMESTAMPDIFF(MINUTE, ss.check_in_time, ss.check_out_time)) AS total_minutes
             FROM students s
-            JOIN sessions ss ON s.id = ss.student_id
-            WHERE ss.status = 'completed'
+            LEFT JOIN sessions ss ON s.id = ss.student_id
             GROUP BY s.id
-            ORDER BY total_sessions DESC, total_minutes DESC
+            ORDER BY s.total_points DESC, completed_sessions DESC
             LIMIT 50
         """)
         
@@ -1224,46 +1264,90 @@ def student_leaderboard():
         current_student_id = session.get('user_id')
         cursor.execute("""
             SELECT s.id, s.idno, s.firstname, s.lastname, s.course, s.year_level,
+                   s.points, s.total_points,
                    COUNT(ss.id) AS total_sessions,
+                   SUM(CASE WHEN ss.status = 'completed' THEN 1 ELSE 0 END) AS completed_sessions,
                    SUM(TIMESTAMPDIFF(MINUTE, ss.check_in_time, ss.check_out_time)) AS total_minutes,
                    (
                       SELECT COUNT(*) + 1
                       FROM (
-                          SELECT student_id, COUNT(*) AS sessions
-                          FROM sessions
-                          WHERE status = 'completed'
-                          GROUP BY student_id
-                          HAVING COUNT(*) > (
-                              SELECT COUNT(*)
-                              FROM sessions
-                              WHERE student_id = %s AND status = 'completed'
+                          SELECT st.id, st.total_points, COUNT(CASE WHEN ses.status = 'completed' THEN 1 END) as comp_sessions
+                          FROM students st
+                          LEFT JOIN sessions ses ON st.id = ses.student_id
+                          GROUP BY st.id
+                          HAVING total_points > (
+                              SELECT total_points
+                              FROM students
+                              WHERE id = %s
+                          ) OR (
+                              total_points = (
+                                  SELECT total_points
+                                  FROM students
+                                  WHERE id = %s
+                              ) AND comp_sessions > (
+                                  SELECT COUNT(*)
+                                  FROM sessions
+                                  WHERE student_id = %s AND status = 'completed'
+                              )
                           )
                       ) AS better_students
                    ) AS rank
             FROM students s
-            LEFT JOIN sessions ss ON s.id = ss.student_id AND ss.status = 'completed'
+            LEFT JOIN sessions ss ON s.id = ss.student_id
             WHERE s.id = %s
             GROUP BY s.id
-        """, (current_student_id, current_student_id))
+        """, (current_student_id, current_student_id, current_student_id, current_student_id))
         
         current_student = cursor.fetchone()
         
-        # Calculate total time for the current student
-        if current_student and current_student['total_minutes']:
-            hours = current_student['total_minutes'] // 60
-            minutes = current_student['total_minutes'] % 60
-            current_student['total_time'] = f"{hours} hr {minutes} min"
-        elif current_student:
-            current_student['total_time'] = "0 min"
-        
-        # Calculate total time spent for each student in a readable format
+        # Format data for display
         for student in leaderboard:
+            # Format course name
+            if student['course'] == '1':
+                student['course_name'] = 'BSIT'
+            elif student['course'] == '2':
+                student['course_name'] = 'BSCS'
+            elif student['course'] == '3':
+                student['course_name'] = 'BSCE'
+            else:
+                student['course_name'] = student['course']
+            
+            # Format total time
             if student['total_minutes']:
                 hours = student['total_minutes'] // 60
                 minutes = student['total_minutes'] % 60
                 student['total_time'] = f"{hours} hr {minutes} min"
             else:
                 student['total_time'] = "0 min"
+            
+            # Ensure points exist
+            if 'points' not in student or student['points'] is None:
+                student['points'] = 0
+            if 'total_points' not in student or student['total_points'] is None:
+                student['total_points'] = 0
+        
+        # Format current student data
+        if current_student:
+            if current_student['course'] == '1':
+                current_student['course_name'] = 'BSIT'
+            elif current_student['course'] == '2':
+                current_student['course_name'] = 'BSCS'
+            elif current_student['course'] == '3':
+                current_student['course_name'] = 'BSCE'
+            else:
+                current_student['course_name'] = current_student['course']
+            
+            if current_student['total_minutes']:
+                hours = current_student['total_minutes'] // 60
+                minutes = current_student['total_minutes'] % 60
+                current_student['total_time'] = f"{hours} hr {minutes} min"
+            else:
+                current_student['total_time'] = "0 min"
+            
+            if 'points' not in current_student or current_student['points'] is None:
+                current_student['points'] = 0
+            if 'total_points' not in current_student or current_student['total_points'] is None:
+                current_student['total_points'] = 0
         
         cursor.close()
         conn.close()
@@ -3663,7 +3747,7 @@ def check_out_student(session_id):
         
         # Get the session data
         cursor.execute("""
-            SELECT s.*, st.firstname, st.lastname 
+            SELECT s.*, st.firstname, st.lastname, st.id as student_id
             FROM sessions s
             JOIN students st ON s.student_id = st.id
             WHERE s.id = %s
@@ -3690,18 +3774,25 @@ def check_out_student(session_id):
         else:
             duration_minutes = 0
         
+        # Update session status and increment sessions_used
         cursor.execute("""
             UPDATE sessions 
             SET status = 'completed', check_out_time = %s, duration = %s 
             WHERE id = %s
         """, (current_time, duration_minutes, session_id))
         
-        # Get PC number directly from the session data
+        # Increment the sessions_used count for the student
+        cursor.execute("""
+            UPDATE students 
+            SET sessions_used = sessions_used + 1 
+            WHERE id = %s
+        """, (session_data['student_id'],))
+        
+        # Get PC number and handle PC status update
         pc_number = session_data.get('pc_number')
         
         # If not found, try to extract it from purpose field
         if not pc_number and session_data.get('purpose'):
-            # Try to extract PC number from purpose using regex
             import re
             pc_match = re.search(r'PC #(\d+)', session_data['purpose'])
             if pc_match:
@@ -3744,7 +3835,6 @@ def check_out_student(session_id):
                 current_time
             ))
         except Exception as e:
-            # Don't fail if logging fails
             logging.error(f"Error logging activity: {str(e)}")
         
         conn.commit()
